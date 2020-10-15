@@ -25,3 +25,4 @@ jobs:
           EXTERNAL_REPOSITORY: cloudhuang/cloudhuang.github.io
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: ./public
+          cname:  technotes.guru
