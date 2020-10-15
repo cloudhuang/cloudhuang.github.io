@@ -1,5 +1,0 @@
-<!-- Open external link for hugo -->
-<!-- https://www.elliotsachs.com/how-to-tell-hugo-to-open-links-in-new-tab/ -->
-<a href="{{ .Destination | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}{{ if strings.HasPrefix .Destination "http" }} target="_blank"{{ end }}>
-    {{ .Text }}
-</a>
