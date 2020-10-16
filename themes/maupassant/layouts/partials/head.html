@@ -33,6 +33,8 @@
 
     <link rel="stylesheet" href='{{ "css/normalize.css" | relURL}}'>
     <link rel="stylesheet" href='{{ "css/style.css" | relURL }}'>
+    <link rel="stylesheet" href='{{ "css/syntax.css" | relURL }}'>
+    
     {{ range .AlternativeOutputFormats -}}
         {{ printf `<link rel="%s" type="%s+%s" href="%s" title="%s" />` .Rel .MediaType.Type .MediaType.Suffix .Permalink $.Site.Title | safeHTML }}
     {{ end -}}

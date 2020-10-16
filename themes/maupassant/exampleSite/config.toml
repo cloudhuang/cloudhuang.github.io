@@ -77,7 +77,7 @@ disqusShortname = "yourdiscussshortname"  ## 是否开启disqus评论，不要�
 [markup]
   [markup.highlight]
     lineNos = true
-    style = "github"
+    style = "monokai"
 
 ## 配置网站菜单
 

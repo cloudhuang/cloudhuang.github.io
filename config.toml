@@ -9,6 +9,8 @@ preserveTaxonomyNames = true
 ## 是否禁止URL Path转小写
 disablePathToLower = true
 
+
+
 hasCJKLanguage = true
 summaryLength = 140
 
@@ -27,9 +29,9 @@ summaryLength = 140
   localSearch = true # 启用本地搜索
 
   # 这里我存放在了主题的static文件夹里，根目录的似乎也可以
-  customCSS = ['douban.css', 'other.css']
+  customCSS = ['syntax.css']
   # if ['custom.css'], load '/static/css/custom.css' file
-  customJS = ['douban.js']
+  # customJS = ['douban.js']
   # if ['custom.js'], load '/static/js/custom.js' file
 
   # 全局开关，你也可以在每一篇内容的 front matter 中针对单篇内容关闭或开启某些功能
@@ -50,8 +52,8 @@ summaryLength = 140
 
 ## 配置 utteranc评论,教程参考 https://utteranc.es/
 [params.utteranc]
-  enable = true
-  repo = "cloudhuang.github.io" ##换成自己得
+  enable = false
+  repo = "cloudhuang/cloudhuang.github.io" ##换成自己得
   issueTerm = "pathname"
   theme = "github-light"
 
@@ -63,8 +65,8 @@ summaryLength = 140
 ## 配置代码高亮
 [markup]
   [markup.highlight]
-    lineNos = true
-    style = "github"
+    linenos = true
+    style = "monokai"
 
 ## 配置网站菜单
 [menu]

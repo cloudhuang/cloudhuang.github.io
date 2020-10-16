@@ -70,11 +70,12 @@ public ResponseEntity<?> batchProcess(@RequestBody OpportunityBatchRequest reque
 
 	return new ResponseEntity<>(RestResponse.builder().status(HttpStatus.OK.value()).body(Boolean.TRUE).message(message).build(), HttpStatus.OK);
 }
+```
 
 `/api/opportunities` 这部分其实是放`RestController`类注解上的，这里只是为了说明。
 另外，按照REST语义，针对不同的资源的操作，是区分GET、POST、DELETE等动词的，但是在真实的项目环境下，其实很难严格按照REST语义的，所以这里针对批处理的方式，统一使用了POST。
 
-```
+
 这个是`RequestBody`的部分，作为数据(schema)，`type`表述执行什么操作，`data`则是本次操作的数据部分。
 ```
 @Data
