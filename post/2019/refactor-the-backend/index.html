@@ -1,0 +1,161 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><title>代码重构 - 后端部分代码 | TechNotes</title><meta property="og:title" content="代码重构 - 后端部分代码 - TechNotes"><meta property="og:type" content="article"><meta property="article:published_time" content="2019-02-28T00:00:00+08:00"><meta property="article:modified_time" content="2019-02-28T00:00:00+08:00"><meta name=Keywords content="Java,Spring,Spring boot,Spring cloud,Golang,微服务,Microservices,Ruby on Rails,DevOps,Agile,容器化,Docker,K8S,项目管理,软件架构"><meta name=description content="代码重构 - 后端部分代码"><meta name=author content="TechNotes"><meta property="og:url" content="http://technotes.guru/post/2019/refactor-the-backend/"><link rel="shortcut icon" href=/favicon.ico type=image/x-icon><link rel=stylesheet href=/css/normalize.css><link rel=stylesheet href=/css/style.css><link rel=stylesheet href=/css/syntax.css><script type=text/javascript src=//cdn.bootcdn.net/ajax/libs/jquery/3.4.1/jquery.min.js></script><link href=https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css rel=stylesheet><link rel=stylesheet href=/css/syntax.css></head><body><header id=header class=clearfix><div class=container><div class=col-group><div class=site-name><a id=logo href=http://technotes.guru>TechNotes</a><p class=description>All about technology......</p></div><div><nav id=nav-menu class=clearfix><a class=current href=http://technotes.guru>首页</a>
+<a href=http://technotes.guru/archives/ title=归档>归档</a>
+<a href=http://technotes.guru/about/ title=关于>关于</a></nav></div></div></div></header><div id=body><div class=container><div class=col-group><div class=col-8 id=main><div class=res-cons><style type=text/css>.post-toc{position:fixed;width:200px;margin-left:-210px;padding:5px 10px;font-family:Athelas,STHeiti,Microsoft Yahei,serif;font-size:12px;border:1px solid rgba(0,0,0,.07);border-radius:5px;background-color:rgba(255,255,255,.98);background-clip:padding-box;-webkit-box-shadow:1px 1px 2px rgba(0,0,0,.125);box-shadow:1px 1px 2px rgba(0,0,0,.125);word-wrap:break-word;white-space:nowrap;-webkit-box-sizing:border-box;box-sizing:border-box;z-index:999;cursor:pointer;max-height:70%;overflow-y:auto;overflow-x:hidden}.post-toc .post-toc-title{width:100%;margin:0 auto;font-size:20px;font-weight:400;text-transform:uppercase;text-align:center}.post-toc .post-toc-content{font-size:15px}.post-toc .post-toc-content>nav>ul{margin:10px 0}.post-toc .post-toc-content ul{padding-left:20px;list-style:square;margin:.5em;line-height:1.8em}.post-toc .post-toc-content ul ul{padding-left:15px;display:none}@media print,screen and (max-width:1057px){.post-toc{display:none}}</style><div class=post-toc style=position:absolute;top:188px><h2 class=post-toc-title>文章目录</h2><div class=post-toc-content><nav id=TableOfContents><ul><li><a href=#代码实现>代码实现</a><ul><li><a href=#原来的实现>原来的实现</a></li><li><a href=#重构过程>重构过程</a></li><li><a href=#重构后的代码>重构后的代码</a></li></ul></li><li><a href=#后记>后记</a></li></ul></nav></div></div><script type=text/javascript>$(document).ready(function(){var postToc=$(".post-toc");if(postToc.length){var leftPos=$("#main").offset().left;if(leftPos<220){postToc.css({"width":leftPos-10,"margin-left":(0-leftPos)})}
+var t=postToc.offset().top-20,a={start:{position:"absolute",top:t},process:{position:"fixed",top:20},};$(window).scroll(function(){var e=$(window).scrollTop();e<t?postToc.css(a.start):postToc.css(a.process)})}})</script><article class=post><header><h1 class=post-title>代码重构 - 后端部分代码</h1></header><date class="post-meta meta-date">2019年2月28日</date><div class=post-meta><span>|</span>
+<span class=meta-category><a href=/categories/%E9%87%8D%E6%9E%84>重构</a></span>
+<span class=meta-category><a href=/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F>设计模式</a></span></div><div class=post-content><p><a href=http://technotes.guru/post/2019/refactor-the-frontend/>前一篇
+</a>主要写了一下前端部分的重构，这一篇则主要关注后端部分。</p><p>在前一篇后面说到了一个很实用的套路（模式），其类图如下图所示：
+<a data-fancybox=gallery href=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203814.png><img class=mx-auto alt src=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203814.png></a></p><p>在后端部分，我先将后端Java代码的类图画出来：
+<a data-fancybox=gallery href=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203838.png><img class=mx-auto alt src=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203838.png></a></p><p>可以发现，还是一样的套路。</p><h2 id=代码实现>代码实现</h2><p>下面则具体说下实现，首先是说一下原来的系统的实现，然后是重构的实现。</p><h3 id=原来的实现>原来的实现</h3><p>在上一篇前端部分，拿了两个方法作为示例，在方法体的后面，则都是通过<code>POST</code>请求调用后端的Controller。</p><pre><code>postVue(&quot;${ctx}/BusinessOpportunity/openAcct&quot;,params,function (data) {......
+postVue(&quot;${ctx}/BusinessOpportunity/openAmlInviteAcct&quot;,params,function (data) {......
+</code></pre><p>这里是原有的<code>Controller</code>的实现：
+<a data-fancybox=gallery href=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203911.png><img class=mx-auto alt src=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203911.png></a></p><p><a data-fancybox=gallery href=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203937.png><img class=mx-auto alt src=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203937.png></a></p><p>然后则是<code>Service</code>的实现：</p><p><a data-fancybox=gallery href=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016204019.png><img class=mx-auto alt src=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016204019.png></a></p><p><a data-fancybox=gallery href=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016204039.png><img class=mx-auto alt src=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016204039.png></a></p><p>然后就是<code>Service</code>调用不同的<code>MyBatis</code>的<code>dao</code>层实现。</p><p><a data-fancybox=gallery href=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016204102.png><img class=mx-auto alt src=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016204102.png></a></p><p>从实现上来说，就是一一相对应，优点是代码过程清晰明了，基本上完全反映实现的意图。缺点自然也很明显，比如大量重复的代码，并且也没有代码复用等。</p><h3 id=重构过程>重构过程</h3><p>这部分这样描述下重构的部分。上一篇中提到了我对于重构的两个原则：</p><ol><li>尽可能的代码复用</li><li>为使用方提供一致的调用外观</li></ol><p>所以这一部分，还是会基于这两个主要原则，并且主要针对Controller层和Service层。</p><p>由于是前后端分离，所以这部分是Restful风格的，WEB API作为前后端的契约，一是URL尽量的符合REST语义，二是传输的数据(payload)。</p><p>这个是REST Controller的实现：</p><pre><code>@PostMapping(&quot;/api/opportunities/batch&quot;)
+public ResponseEntity&lt;?&gt; batchProcess(@RequestBody OpportunityBatchRequest request) {
+	log.info(&quot;Process opportunity batch action - type: {}&quot;, request.getType());
+	List&lt;String&gt; emailSendFailedList;
+	try {
+		businessOpportunityProcessorService.process(request);
+		emailSendFailedList = businessOpportunityProcessorService.getAllEmailSendFailed();
+	} catch (Exception e) {
+		log.error(&quot;Process opportunity batch action failed, type: {}, root cause: {}&quot;, request.getType(), e);
+		return WebUtil.error(e.getMessage());
+	}
+
+	String message = &quot;保存成功,以下企业发送通知失败，请检查：&quot; + String.join(&quot;, &quot;, emailSendFailedList);
+
+	return new ResponseEntity&lt;&gt;(RestResponse.builder().status(HttpStatus.OK.value()).body(Boolean.TRUE).message(message).build(), HttpStatus.OK);
+}
+</code></pre><p><code>/api/opportunities</code> 这部分其实是放<code>RestController</code>类注解上的，这里只是为了说明。
+另外，按照REST语义，针对不同的资源的操作，是区分GET、POST、DELETE等动词的，但是在真实的项目环境下，其实很难严格按照REST语义的，所以这里针对批处理的方式，统一使用了POST。</p><p>这个是<code>RequestBody</code>的部分，作为数据(schema)，<code>type</code>表述执行什么操作，<code>data</code>则是本次操作的数据部分。</p><pre><code>@Data
+@ToString
+public class OpportunityBatchRequest {
+    private String type;
+    private List&lt;RequestData&gt; data;
+
+    @Data
+    public static class RequestData {
+        private String companyName;
+        private String contactNumber;
+        private Integer customerId;
+        private String email;
+        private String opportunityId;
+    }
+}
+</code></pre><p>这部分就是针对批处理操作的Controller层，下面则是Service层，由于在上面已经给出了UML类图，所以这里主要是给出一些具体的实现：</p><p>首先是定义接口，用以规范行为，这边的泛型其实并没有实际的意义，直接就是<code>OpportunityBatchRequest </code>这个类</p><pre><code>public interface OpportunityProcessor&lt;T&gt; {
+    boolean supports(String type);
+    void process(T request) throws ProcessException;
+}
+</code></pre><p>主要是两个方法：</p><ul><li>supports：用以在具体的实现类中表达支持哪种<code>type</code>的处理</li><li>process： 业务处理方法</li></ul><p>具体的子类的实现示例如下：</p><pre><code>/**
+ * 开通反洗钱
+ */
+@Service
+@Slf4j
+public class OpenAmlAccountProcessor extends AbstractOpportunityProcessor&lt;OpportunityBatchRequest&gt; {
+    private static final String SUPPORTS_TYPE = &quot;OpenAmlAccount&quot;;
+
+    @Override
+    public boolean supports(String type) {
+        return SUPPORTS_TYPE.equalsIgnoreCase(type);
+    }
+
+    @Override
+    public void process(OpportunityBatchRequest request) throws ProcessException {
+        log.info(&quot;Process OpenAmlAccount action&quot;);
+
+    }
+}
+</code></pre><pre><code>/**
+ * 开通反洗钱邀请
+ */
+@Service
+@Slf4j
+public class OpenAmlInviteAccountProcessor extends AbstractOpportunityProcessor&lt;OpportunityBatchRequest&gt; {
+    private static final String SUPPORTS_TYPE = &quot;OpenAmlInviteAccount&quot;;
+
+    @Override
+    public boolean supports(String type) {
+        return SUPPORTS_TYPE.equalsIgnoreCase(type);
+    }
+
+    @Override
+    public void process(OpportunityBatchRequest request) throws ProcessException {
+        log.info(&quot;Process OpenAmlInviteAccount action&quot;);
+
+    }
+}
+</code></pre><p>这里的抽象父类<code>AbstractOpportunityProcessor</code>，用以处理一些较为公共的逻辑等，比如注入公共组件，抽些公共的方法等。引入这个抽象类的性价比是很高的。</p><h3 id=重构后的代码>重构后的代码</h3><p>这个例子中，有几个操作都是开通账号、邀请相关的，所以，涉及开通账号方法，就可以放在这个抽象父类中，而相应的子类，则只需要说明账户类型，就可以了：</p><pre><code>/**
+ * 开通反洗钱
+ */
+@Service
+@Slf4j
+public class OpenAmlAccountProcessor extends AbstractOpportunityProcessor&lt;OpportunityBatchRequest&gt; {
+    private static final String SUPPORTS_TYPE = &quot;OpenAmlAccount&quot;;
+    private static final String ACCOUNT_OPEN_MODE = Constants.AcctOpenMode.AML;
+
+    @Override
+    public boolean supports(String type) {
+        return SUPPORTS_TYPE.equalsIgnoreCase(type);
+    }
+
+    @Override
+    public void process(OpportunityBatchRequest request) throws ProcessException {
+        log.info(&quot;Process OpenAmlAccount action&quot;);
+
+        for (OpportunityBatchRequest.RequestData requestData : request.getData()) {
+            openAccount(requestData, ACCOUNT_OPEN_MODE);
+        }
+    }
+}
+
+/**
+ * 开通反洗钱邀请
+ */
+@Service
+@Slf4j
+public class OpenAmlInviteAccountProcessor extends AbstractOpportunityProcessor&lt;OpportunityBatchRequest&gt; {
+    private static final String SUPPORTS_TYPE = &quot;OpenAmlInviteAccount&quot;;
+    private static final String ACCOUNT_OPEN_MODE = Constants.AcctOpenMode.INVITE_AML;
+
+    @Override
+    public boolean supports(String type) {
+        return SUPPORTS_TYPE.equalsIgnoreCase(type);
+    }
+
+    @Override
+    public void process(OpportunityBatchRequest request) throws ProcessException {
+        log.info(&quot;Process OpenAmlInviteAccount action&quot;);
+
+        for (OpportunityBatchRequest.RequestData requestData : request.getData()) {
+            openAccount(requestData, ACCOUNT_OPEN_MODE);
+        }
+    }
+}
+</code></pre><p><a data-fancybox=gallery href=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016204126.png><img class=mx-auto alt src=https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016204126.png></a></p><p>而对于其他的操作，则只需要在具体自己的子类中实现，如删除:</p><pre><code>/**
+ * 批量删除
+ */
+@Service
+@Slf4j
+public class DeleteOpportunitiesProcessor extends AbstractOpportunityProcessor&lt;OpportunityBatchRequest&gt; {
+    private static final String SUPPORTS_TYPE = &quot;DeleteOpportunities&quot;;
+
+    @Override
+    public boolean supports(String type) {
+        return SUPPORTS_TYPE.equalsIgnoreCase(type);
+    }
+
+    @Override
+    public void process(OpportunityBatchRequest request) throws ProcessException {
+        log.info(&quot;Process DeleteOpportunities action&quot;);
+
+        List&lt;String&gt; opportunityIdList = request.getData()
+                .stream()
+                .map(OpportunityBatchRequest.RequestData::getOpportunityId)
+                .collect(Collectors.toList());
+        businessOpportunityMapper.deleteOpportunitiesInBatch(opportunityIdList);
+    }
+}
+</code></pre><h2 id=后记>后记</h2><p>这是本次重构的后端部分，相应的套路（模式）也更多一些，自己也相对的更加熟悉一些。这两篇博客提到的模式，在很多场景下都可以使用。</p><p>谢谢阅读。</p><p><strong>Works，then better.</strong></p><p><em>(2019-02-28 发表于简书)</em></p></div><div class=post-archive><ul class=post-copyright><li><strong>原文作者：</strong><a rel=author href=http://technotes.guru>TechNotes</a></li><li style=word-break:break-all><strong>原文链接：</strong><a href=http://technotes.guru/post/2019/refactor-the-backend/>http://technotes.guru/post/2019/refactor-the-backend/</a></li><li><strong>版权声明：</strong>本作品采用<a rel=license href=https://creativecommons.org/licenses/by-nc-nd/4.0/>知识共享署名-非商业性使用-禁止演绎 4.0 国际许可协议</a>进行许可，非商业转载请注明出处（作者，原文链接），商业转载请联系作者获得授权。</li></ul></div><br><div class=post-archive><h2>See Also</h2><ul class=listing><li><a href=/post/2019/refactor-the-frontend/>代码重构 - 前端部分代码</a></li><li><a href=/post/2017/why-I-hate-ant/>Why I hate Ant</a></li><li><a href=/about/>About Me</a></li><li><a href=/archives/>归档</a></li><li><a href=/search/>搜索</a></li></ul></div><div class="post-meta meta-tags"><ul class=clearfix><li><a href=/tags/%E9%87%8D%E6%9E%84>重构</a></li><li><a href=/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F>设计模式</a></li></ul></div></article></div><footer id=footer><div>&copy; 2020 <a href=http://technotes.guru>TechNotes</a></div><br><div><div class=github-badge><a href=https://gohugo.io/ target=_black rel=nofollow><span class=badge-subject>Powered by</span><span class="badge-value bg-blue">Hugo</span></a></div></div></footer><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?077988cdd83c4fada527c368cf2c84a9";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script><script type=text/javascript>window.MathJax={tex2jax:{inlineMath:[['$','$']],processEscapes:true}};</script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script src=https://cdn.bootcdn.net/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js></script><a id=rocket href=#top></a><script type=text/javascript src="/js/totop.js?v=0.0.0" async></script></div><div id=secondary><section class=widget><form id=search action=http://technotes.guru/search/ method=get accept-charset=utf-8 target=_blank _lpchecked=1><input type=text name=q maxlength=20 placeholder=Search>
+<input type=hidden name=sitesearch value=http://technotes.guru>
+<button type=submit class="submit icon-search"></button></form></section><section class=widget><h3 class=widget-title>最近文章</h3><ul class=widget-list><li><a href=http://technotes.guru/post/2019/refactor-the-backend/ title="代码重构 - 后端部分代码">代码重构 - 后端部分代码</a></li><li><a href=http://technotes.guru/post/2019/refactor-the-frontend/ title="代码重构 - 前端部分代码">代码重构 - 前端部分代码</a></li><li><a href=http://technotes.guru/post/2017/why-I-hate-ant/ title="Why I hate Ant">Why I hate Ant</a></li></ul></section><section class=widget><h3 class=widget-title><a href=/categories/>分类</a></h3><ul class=widget-list><li><a href=http://technotes.guru/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/>设计模式 (2)</a></li><li><a href=http://technotes.guru/categories/%E9%87%8D%E6%9E%84/>重构 (2)</a></li></ul></section><section class=widget><h3 class=widget-title><a href=/tags/>标签</a></h3><div class=tagcloud><a href=http://technotes.guru/tags/Apache-Ant/>Apache Ant</a>
+<a href=http://technotes.guru/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/>设计模式</a>
+<a href=http://technotes.guru/tags/%E9%87%8D%E6%9E%84/>重构</a></div></section><section class=widget><h3 class=widget-title>其它</h3><ul class=widget-list><li><a href=http://technotes.guru/index.xml>文章 RSS</a></li></ul></section></div></div></div></div></body></html>
