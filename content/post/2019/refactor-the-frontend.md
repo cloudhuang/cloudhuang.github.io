@@ -14,11 +14,11 @@ tags: ["重构", "设计模式"]
 ## 业务背景
 这里首先交代下重构部分的业务，如下图所以，这是个比较典型的数据表格，展示了业务数据，以及相关的操作，查看详情，编辑，删除，并且可以多选，并且进行对多条数据进行批量的操作。
 
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016202825.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016202825.png)
 
 下图是完成了的数据表格部分，隐藏了其中涉及到的业务数据
 
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016202916.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016202916.png)
 
 其主要的功能为：
 1. 表格右侧的“操作”部分，主要是针对单条记录的操作，如查看，修改，删除
@@ -37,15 +37,15 @@ tags: ["重构", "设计模式"]
 这部分主要描述下上述需求的原来的实现部分，这里不会贴出全部的代码，主要还是将意图表达出来。另外，这个项目的前端展示部分是基于JSP+jQuery+Vue的，所以原来页面部分逻辑较为复杂，一部分数据是传统的基于表单的，一部分数据是jQuery Ajax方式的，一部分数据则是Vue（axios）方式。
 
 下面的三张截图，第一张是按钮部分，针对不同的功能，对应不同的响应方法:
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203036.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203036.png)
 
 下面两张是其中两个方法的具体实现:
 
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203139.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203139.png)
 
 
 
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203208.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203208.png)
 
 由于逻辑不复杂，所以实现上也是比较的明了。基本上完成过程式的代码实现，遍历选择的数据，对数据进行校验，然后调用后台对应的接口。
 
@@ -142,7 +142,7 @@ export {default as NormalOpportunityValidator} from './NormalOpportunityValidato
 ```
 import {CompanyNameValidator, XBBIdValidator, EmailValidator, PhoneNumberValidator, NormalOpportunityValidator} from './validators';
 ```
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203239.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203239.png)
 
 如果需要增加新的功能，需要引入新的验证器，同样的增加一个，然后export导出就可以了。
 验证器的使用：
@@ -340,7 +340,7 @@ process(type, processMsg, selectedRows, validators) {
 计划这一篇是前端部分，不过自己接触前端(Javascript, Vue)并没有多久，主要其实还是写后端代码，所以主要还是希望把意图表达清楚。下面则将视角稍微往上一点，首先从功能实现角度，都是工作的，所以这里也还是已技术为主要视角。
 
 主要的套路(模式)见下面的UML类图，这是个很实用的套路，很多场景下都可以使用，下一篇将写一下后端代码(Java)部分的重构，其实也是基于这个套路。
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203304.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203304.png)
 
 谢谢阅读。
 

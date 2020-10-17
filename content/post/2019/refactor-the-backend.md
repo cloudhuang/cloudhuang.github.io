@@ -8,10 +8,10 @@ tags: ["重构", "设计模式"]
 [前一篇]({{< ref "./refactor-the-frontend.md" >}})主要写了一下前端部分的重构，这一篇则主要关注后端部分。
 
 在前一篇后面说到了一个很实用的套路（模式），其类图如下图所示：
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203814.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203814.png)
 
 在后端部分，我先将后端Java代码的类图画出来：
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203838.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203838.png)
 
 可以发现，还是一样的套路。
 
@@ -23,23 +23,23 @@ tags: ["重构", "设计模式"]
 ```
 postVue("${ctx}/BusinessOpportunity/openAcct",params,function (data) {......
 postVue("${ctx}/BusinessOpportunity/openAmlInviteAcct",params,function (data) {......
+
 ```
 这里是原有的`Controller`的实现：
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203911.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203911.png)
 
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016203937.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203937.png)
 
 然后则是`Service`的实现：
 
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016204019.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016204019.png)
 
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016204039.png)
-
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016204039.png)
 
 
 然后就是`Service`调用不同的`MyBatis`的`dao`层实现。
 
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016204102.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016204102.png)
 
 从实现上来说，就是一一相对应，优点是代码过程清晰明了，基本上完全反映实现的意图。缺点自然也很明显，比如大量重复的代码，并且也没有代码复用等。
 
@@ -209,7 +209,7 @@ public class OpenAmlInviteAccountProcessor extends AbstractOpportunityProcessor<
 
 
 
-![](https://raw.githubusercontent.com/cloudhuang/knowledge-base/master/pictures/20201016204126.png)
+![](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016204126.png)
 
 而对于其他的操作，则只需要在具体自己的子类中实现，如删除:
 ```
