@@ -1,0 +1,96 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>以太坊智能合约开发入门 - TechNotes</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="TechNotes"><meta name=description content="搭建智能合约开发环境 智能合约的开发环境依赖于node/npm，所以在构建开发环境之前需要确保开发机器已经安装好了node/npm的环境了。 如"><meta name=keywords content="Java,Spring,Spring boot,Spring cloud,Golang,微服务,Microservices,Ruby on Rails,DevOps,Agile,容器化,Docker,K8S,项目管理,软件架构,产品研发"><meta name=generator content="Hugo 0.76.5 with theme even"><link rel=canonical href=https://technotes.guru/post/2018/blockchain-eth-chaincode/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.c7bc1becf36bcf6a9ebd25d2947e43a2eb745ddb0c9a32b43126fd7fa460c351.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><link rel=stylesheet href=/css/syntax.css><meta property="og:title" content="以太坊智能合约开发入门"><meta property="og:description" content="搭建智能合约开发环境 智能合约的开发环境依赖于node/npm，所以在构建开发环境之前需要确保开发机器已经安装好了node/npm的环境了。 如"><meta property="og:type" content="article"><meta property="og:url" content="https://technotes.guru/post/2018/blockchain-eth-chaincode/"><meta property="article:published_time" content="2018-05-07T00:00:00+00:00"><meta property="article:modified_time" content="2018-05-07T00:00:00+00:00"><meta itemprop=name content="以太坊智能合约开发入门"><meta itemprop=description content="搭建智能合约开发环境 智能合约的开发环境依赖于node/npm，所以在构建开发环境之前需要确保开发机器已经安装好了node/npm的环境了。 如"><meta itemprop=datePublished content="2018-05-07T00:00:00+00:00"><meta itemprop=dateModified content="2018-05-07T00:00:00+00:00"><meta itemprop=wordCount content="1818"><meta itemprop=keywords content="区块链,以太坊,"><meta name=twitter:card content="summary"><meta name=twitter:title content="以太坊智能合约开发入门"><meta name=twitter:description content="搭建智能合约开发环境 智能合约的开发环境依赖于node/npm，所以在构建开发环境之前需要确保开发机器已经安装好了node/npm的环境了。 如"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>TechNotes</a></div><div class=mobile-navbar-icon><span></span><span></span><span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=/about/><li class=mobile-menu-item>About</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>TechNotes</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=/about/>About</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>以太坊智能合约开发入门</h1><div class=post-meta><span class=post-time>2018-05-07</span><div class=post-category><a href=/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/>区块链</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>文章目录</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#搭建智能合约开发环境>搭建智能合约开发环境</a></li><li><a href=#创建智能合约>创建智能合约</a></li><li><a href=#通过web3-js访问智能合约>通过Web3 JS访问智能合约</a></li><li><a href=#创建界面>创建界面</a></li></ul></li></ul></nav></div></div><div class=post-content><h2 id=搭建智能合约开发环境>搭建智能合约开发环境</h2><p>智能合约的开发环境依赖于node/npm，所以在构建开发环境之前需要确保开发机器已经安装好了node/npm的环境了。</p><p>如何还没有安装，那么在mac下面可以通过brew命令非常快速的安装
+<code>brew install node</code>
+或者自己下载node的安装包安装。
+然后分别安装下面的几个开发智能合约需要用到的工具:</p><ol><li>Web3 JS - 开发以太坊客户端的javascript框架
+<code>npm install web3</code></li><li>truffle - 以太坊开发框架
+<code>npm install -g truffle</code></li><li>Metamask  - 以太坊钱包，基于Chrome的插件</li><li>Ganache - 用于本地的虚拟以太坊区块链， 并且自动创建了用于测试的10个本地的区块链账号
+<img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018203449.png alt></li><li>Remix -
+<a href=https://remix.ethereum.org/ target=_blank>https://remix.ethereum.org/</a> 以太坊官方推荐的智能合约开发IDE,可以在浏览器中快速部署测试智能合约。
+<img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018203514.png alt></li></ol><p>配置Metamask连接Ganache本地环境，Ganache默认的监听端口为7545，所以需要设置Metamask，如下，点击 “Custom RPC”，然后设置本地虚拟区块链的地址</p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018203635.png alt></p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018203715.png alt></p><p>配置完之后，就可以导入Ganache默认创建的账号，</p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018203741.png alt></p><p>点击右侧的钥匙(show key), 从弹出的界面中拷贝账号的token，然后通过点击Metamask右上角的头像，通过"Import Account"，粘贴刚才复制的token，导入，就可以看到新导入的账号，并且该账号已经默认的有了100个ETH了。</p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018203753.png alt></p><h2 id=创建智能合约>创建智能合约</h2><p>在Remix编辑器中编写一个简单的智能合约 - HelloWorld</p><pre><code>pragma solidity ^0.4.0;
+
+contract HelloWorld {
+   string public name;
+
+   function HelloWorld() public {
+       name = &quot;Liping&quot;;
+   }
+
+   function setName(string _name) public {
+       name = _name;
+   }
+}
+</code></pre><p>合约编好之后，点击 &ldquo;Run&rdquo; 标签，在“Environment”中选择"Web3 Provider"</p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018203817.png alt></p><p>点击“OK”后，填入"http://localhost:7545"，连接我们在本地运行的Ganache虚拟区块链</p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018203831.png alt></p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018203845.png alt></p><p>连接成功之后，在“Account”下拉列表中会列出区块链中已经存在的账号：</p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018203858.png alt></p><p>点击"Create"，则刚刚编写的智能合约代码就部署到了虚拟区块链上了</p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018203914.png alt></p><p>下一步，将通过Web3 JS 和 Node.js 来编写改智能合约的客户端。</p><h2 id=通过web3-js访问智能合约>通过Web3 JS访问智能合约</h2><p>通智能合约的通行，可以通过Web3来实现。Web3 JS通过RPC远程调用与以太坊节点进行连接。然后通过Web3中的eth对象与以太坊进行交互。其过程主要为：</p><ol><li>初始化Web3</li><li>设置区块链账号</li><li>设置智能合约Abi</li><li>设置智能合约的地址</li><li>创建智能合约对象</li><li>通过智能合约对象与部署好的合约进行交互</li></ol><p>完整的代码(javascript)如下</p><pre><code> // 初始化 Web3
+  if (typeof web3 !== 'undefined') {
+      web3 = new Web3(web3.currentProvider);
+  } else {
+      web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
+  }
+
+  // 设置默认账户
+  web3.eth.defaultAccount = web3.eth.accounts[0];
+  // 设置合约 ABI
+  var contractAbi = [
+      {
+          &quot;constant&quot;: false,
+          &quot;inputs&quot;: [
+              {
+                  &quot;name&quot;: &quot;_name&quot;,
+                  &quot;type&quot;: &quot;string&quot;
+              }
+          ],
+          &quot;name&quot;: &quot;setName&quot;,
+          &quot;outputs&quot;: [],
+          &quot;payable&quot;: false,
+          &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+          &quot;type&quot;: &quot;function&quot;
+      },
+      {
+          &quot;inputs&quot;: [],
+          &quot;payable&quot;: false,
+          &quot;stateMutability&quot;: &quot;nonpayable&quot;,
+          &quot;type&quot;: &quot;constructor&quot;
+      },
+      {
+          &quot;constant&quot;: true,
+          &quot;inputs&quot;: [],
+          &quot;name&quot;: &quot;name&quot;,
+          &quot;outputs&quot;: [
+              {
+                  &quot;name&quot;: &quot;&quot;,
+                  &quot;type&quot;: &quot;string&quot;
+              }
+          ],
+          &quot;payable&quot;: false,
+          &quot;stateMutability&quot;: &quot;view&quot;,
+          &quot;type&quot;: &quot;function&quot;
+      }
+  ];
+
+  // 设置合约地址
+  var contractAddress = '0x01ee312a2055f212e09aa43e1b8d61f5634ccfc3';
+  // 获取智能合约对象
+  var contract = web3.eth.contract(contractAbi).at(contractAddress);
+  // 调用合约对象的方法，返回name
+  contract.name(function(err, value) {
+      $('#name').html(value);
+  })
+
+  // 提交name的值
+  $('form').on('submit', function(event) {
+      event.preventDefault;
+      contract.setName($('#input_name').val());
+  });
+</code></pre><p>代码比较简单，用到了web3和jQuery.</p><p>重点要解释的是合约的ABI，以及如何获取合约Abi和合约地址。</p><p>什么是合约ABI呢？ABI是Application Binary Interface的缩写，是是能合约的二进制接口，可以通俗的理解为描述智能合约的接口说明。当合约被编译后，那么它的abi也就确定了。</p><p>如何获取合约ABI和合约地址呢？</p><p>这个通过Remix 浏览器IDE可以非常容易就获取到，在“Compiler”标签，点击“Details”按钮，就可以在弹出的页面上看到“ABI”的这个区域，点击右侧的复制图标，就可以将ABI复制到粘贴板了。</p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018203936.png alt></p><p>ABI的内容可以从上面的代码中看到，一个简单的JSON描述文件。</p><p>如何获取合约的部署地址呢？</p><p>同样的通过Remix 浏览器IDE来获取，上面我们是在“Run”标签页中通过“Create”来部署智能合约的，当点击“Create”按钮后，在标签页下方会显示合约名称 at XXXXX的下拉列表框，这个就是我们部署好的合约，点击复制图标，就可以将该合约的地址复制到粘贴板，</p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018204010.png alt></p><p>通过合约的ABI和合约的地址后，就可以构建合约对象了，然后通过该合约对象，就可以完成智能合约的一些操作。</p><p>Web3 API中文文档  http://web3.tryblockchain.org/index.html</p><h2 id=创建界面>创建界面</h2><p>通过上面的代码，已经初始化了web3，创建了contract 对象，所以只要写一个简单的HTML文件就可以完成一个非常简单的界面了</p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018204028.png alt></p><p>​ <img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018204049.png alt></p><p>在输入框中输入其他的内容，点击"Say Hello To" 按钮，可以看到合约返回的name值相应的变成了输入框中输入的值了。</p><p>通过Ganache的Blocks和Transactions界面，可以看到每次的操作都会形成相应的区块和事务记录。</p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018204124.png alt></p><p><img src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201018204145.png alt></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
+<span class=item-content>TechNotes</span></p><p class=copyright-item><span class=item-title>上次更新</span>
+<span class=item-content>2018-05-07</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/>区块链</a>
+<a href=/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/>以太坊</a></div><nav class=post-nav><a class=prev href=/post/2019/refactor-the-frontend/><i class="iconfont icon-left"></i><span class="prev-text nav-default">代码重构 - 前端部分代码</span>
+<span class="prev-text nav-mobile">上一篇</span></a>
+<a class=next href=/post/2017/why-i-hate-ant/><span class="next-text nav-default">Why I hate Ant</span>
+<span class="next-text nav-mobile">下一篇</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=https://technotes.guru/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动</span>
+<span class=division>|</span>
+<span class=theme-info>主题 -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2017 -
+2020<span class=heart><i class="iconfont icon-heart"></i></span><span>TechNotes</span></span></div><script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?077988cdd83c4fada527c368cf2c84a9";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src="/lib/highlight/highlight.pack.js?v=20171001"></script><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js></script></body></html>
