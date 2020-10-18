@@ -12,5 +12,3 @@ date: 2015-03-10 00:13:27
 然后再去慢慢的完善博客的功能，以及内容。
 
 最后，欢迎访问我的博客！:-)
-
-主题修改自[飞雪无情](https://www.flysnow.org/) 的 [Maupassant](https://github.com/flysnow-org/maupassant-hugo)
