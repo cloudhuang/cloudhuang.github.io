@@ -67,8 +67,8 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
 
   # site info (optional)                                  # 站点信息（可选，不需要的可以直接注释掉）
   logoTitle = ""        # default: the title value    # 默认值: 上面设置的title值
-  keywords = ["Hugo", "theme","even"]
-  description = "Hugo theme even example site."
+  keywords = ["Java", "Spring", "Spring boot", "Spring cloud", "Golang", "微服务", "Microservices", "Ruby on Rails", "DevOps", "Agile", "容器化", "Docker", "K8S", "项目管理", "软件架构", "产品研发"]
+  description = "专注于IT技术，包括但不限于Java，Spring体系, 微服务, Microservices, 敏捷, Agile, DevOps, 软件架构等"
 
   # paginate of archives, tags and categories             # 归档、标签、分类每页显示的文章数目，建议修改为一个较大的值
   archivePaginate = 50
