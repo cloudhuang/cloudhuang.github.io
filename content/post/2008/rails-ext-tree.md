@@ -2,7 +2,7 @@
 title: "Rails生成Ext Tree"
 date: 2008-03-29
 categories: ["Ruby on Rails"]
-tags: ["Ruby on Rails", "Tree"]
+tags: ["Ruby on Rails"]
 ---
 
 > 树形菜单是在开发中经常会遇到的一个功能，RoR的这个设计对于大数据量tree结构是最好的，比如一些常见的查询都可以避免循环或者递归抓取, 而且通过在lft, rgt上设置索引能够达到最好的查询效率。(发布于JavaEye)
