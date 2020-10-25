@@ -1,8 +1,8 @@
 ---
 title: "Running Spring Batch on Multiple Databases in Parallel"
 date: 2017-06-21
-categories: ["Java"]
-tags: ["Java", "Spring"]
+categories: ["Spring"]
+tags: ["Java", "Spring", "Spring Boot"]
 ---
 
 ## The Question
