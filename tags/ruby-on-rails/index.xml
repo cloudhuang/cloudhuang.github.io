@@ -1,1 +1,24 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Ruby on Rails on TechNotes</title><link>https://technotes.guru/tags/ruby-on-rails/</link><description>Recent content in Ruby on Rails on TechNotes</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 29 Mar 2008 00:00:00 +0000</lastBuildDate><atom:link href="https://technotes.guru/tags/ruby-on-rails/index.xml" rel="self" type="application/rss+xml"/><item><title>Rails生成Ext Tree</title><link>https://technotes.guru/post/2008/rails-ext-tree/</link><pubDate>Sat, 29 Mar 2008 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2008/rails-ext-tree/</guid><description>树形菜单是在开发中经常会遇到的一个功能，RoR的这个设计对于大数据量tree结构是最好的，比如一些常见的查询都可以避免循环或者递归抓取, 而且</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Ruby on Rails on TechNotes</title>
+    <link>https://technotes.guru/tags/ruby-on-rails/</link>
+    <description>Recent content in Ruby on Rails on TechNotes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 29 Mar 2008 00:00:00 +0000</lastBuildDate><atom:link href="https://technotes.guru/tags/ruby-on-rails/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rails生成Ext Tree</title>
+      <link>https://technotes.guru/posts/2008/rails-ext-tree/</link>
+      <pubDate>Sat, 29 Mar 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2008/rails-ext-tree/</guid>
+      <description>树形菜单是在开发中经常会遇到的一个功能，RoR的这个设计对于大数据量tree结构是最好的，比如一些常见的查询都可以避免循环或者递归抓取, 而且通过在lft, rgt上设置索引能够达到最好的查询效率。(发布于JavaEye)
+ 在Rails中使用has_one 、has_many 、belongs_to 和 has_and_belongs_to_may 来声明关系型数据库中的一对一，一对多和多对多的关系，但当想以树形的数据结构来表示分类的时候，这些基本的关联功能并不够，Rails在has_XXX关系的基础上，提供了acts as的扩展功能，如acts_as_list 、acts_as_tree 、 acts_as_nested_set。acts_as_tree就提供树状的结构来组织记录。(不知道为什么Rails2.0以后会取消掉，需要通过插件的方式来安装)
+acts_as_nested_set的官方解释：
+ A Nested Set is similar to a tree from ActsAsTree. However the nested set allows building of the entire hierarchy at once instead of querying each nodes children, and their children. When destroying an object, a before_destroy trigger prunes the rest of the branch of object under the current object.
+ 上面是引用自rubyonrails.org上的对于acts_as_nested_set的描述，并提供了一个简单的示例：
+SQL脚本：</description>
+    </item>
+    
+  </channel>
+</rss>

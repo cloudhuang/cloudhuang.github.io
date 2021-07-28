@@ -1,1 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Node on TechNotes</title><link>https://technotes.guru/categories/node/</link><description>Recent content in Node on TechNotes</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Fri, 24 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://technotes.guru/categories/node/index.xml" rel="self" type="application/rss+xml"/><item><title>解决 Docker 由于node-sass build失败的问题</title><link>https://technotes.guru/post/2019/%E8%A7%A3%E5%86%B3-docker-%E7%94%B1%E4%BA%8Enode-sass-build%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</link><pubDate>Fri, 24 May 2019 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2019/%E8%A7%A3%E5%86%B3-docker-%E7%94%B1%E4%BA%8Enode-sass-build%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</guid><description>问题描述： 在Mac上通过docker build node.js的镜像失败，由于node-sass安装失败，异常log如下 Module build failed (from ./node_modules/_sass-loader@7.1.0@sass-loader/lib/loader.js): Error: Missing binding /app/node_modules/_node-sass@4.12.0@node-sass/vendor/linux_musl-x64-57/binding.node Node Sass could not find a</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Node on TechNotes</title>
+    <link>https://technotes.guru/categories/node/</link>
+    <description>Recent content in Node on TechNotes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 24 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://technotes.guru/categories/node/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>解决 Docker 由于node-sass build失败的问题</title>
+      <link>https://technotes.guru/posts/2019/%E8%A7%A3%E5%86%B3-docker-%E7%94%B1%E4%BA%8Enode-sass-build%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 24 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2019/%E8%A7%A3%E5%86%B3-docker-%E7%94%B1%E4%BA%8Enode-sass-build%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description>问题描述： 在Mac上通过docker build node.js的镜像失败，由于node-sass安装失败，异常log如下
+Module build failed (from ./node_modules/_sass-loader@7.1.0@sass-loader/lib/loader.js): Error: Missing binding /app/node_modules/_node-sass@4.12.0@node-sass/vendor/linux_musl-x64-57/binding.node Node Sass could not find a binding for your current environment: Linux/musl 64-bit with Node.js 8.x Found bindings for the following environments: - OS X 64-bit with Node.js 11.x This usually happens because your environment has changed since running `npm install`. Run `npm rebuild node-sass` to download the binding for your current environment. at module.exports (/app/node_modules/_node-sass@4.12.0@node-sass/lib/binding.js:15:13) at Object.</description>
+    </item>
+    
+  </channel>
+</rss>

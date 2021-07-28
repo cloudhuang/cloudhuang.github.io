@@ -1,3 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Spring on TechNotes</title><link>https://technotes.guru/tags/spring/</link><description>Recent content in Spring on TechNotes</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 21 Jun 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://technotes.guru/tags/spring/index.xml" rel="self" type="application/rss+xml"/><item><title>Running Spring Batch on Multiple Databases in Parallel</title><link>https://technotes.guru/post/2017/running-spring-batch-on-multiple-databases-in-parallel/</link><pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2017/running-spring-batch-on-multiple-databases-in-parallel/</guid><description>The Question I&amp;rsquo;ve created a Spring batch application using Spring boot, and I have a Job with 9 steps. These steps are using a DataSource which I created its bean in a configuration file as follows:
-@Configuration public class DatabaseConfig { @ConfigurationProperties(prefix = &amp;quot;spring.datasource&amp;quot;) @Bean @Primary public DataSource dataSource(){ return DataSourceBuilder.create().build(); } } This DataSource is using properties declared in the application.yml file:
-spring: datasource: url: jdbc:mysql://localhost:3306/db_01?zeroDateTimeBehavior=convertToNull username: xxxx password: **** So far, all works as expected.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Spring on TechNotes</title>
+    <link>https://technotes.guru/tags/spring/</link>
+    <description>Recent content in Spring on TechNotes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 21 Jun 2017 00:00:00 +0000</lastBuildDate><atom:link href="https://technotes.guru/tags/spring/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Running Spring Batch on Multiple Databases in Parallel</title>
+      <link>https://technotes.guru/posts/2017/running-spring-batch-on-multiple-databases-in-parallel/</link>
+      <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2017/running-spring-batch-on-multiple-databases-in-parallel/</guid>
+      <description>The Question I&amp;rsquo;ve created a Spring batch application using Spring boot, and I have a Job with 9 steps. These steps are using a DataSource which I created its bean in a configuration file as follows:
+@Configuration public class DatabaseConfig { @ConfigurationProperties(prefix = &amp;quot;spring.datasource&amp;quot;) @Bean @Primary public DataSource dataSource(){ return DataSourceBuilder.create().build(); } }  This DataSource is using properties declared in the application.yml file:
+spring: datasource: url: jdbc:mysql://localhost:3306/db_01?zeroDateTimeBehavior=convertToNull username: xxxx password: ****  So far, all works as expected.</description>
+    </item>
+    
+  </channel>
+</rss>

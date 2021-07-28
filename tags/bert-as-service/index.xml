@@ -1,1 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Bert as Service on TechNotes</title><link>https://technotes.guru/tags/bert-as-service/</link><description>Recent content in Bert as Service on TechNotes</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 15 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://technotes.guru/tags/bert-as-service/index.xml" rel="self" type="application/rss+xml"/><item><title>解决Bert as servcie在单GPU，单线程测试场景下无响应的问题</title><link>https://technotes.guru/post/2019/bert-as-servcie%E5%9C%A8%E5%8D%95gpu%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF%E4%B8%8B%E7%B3%BB%E7%BB%9F%E5%81%9C%E9%A1%BF%E7%9A%84%E9%97%AE%E9%A2%98/</link><pubDate>Wed, 15 May 2019 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2019/bert-as-servcie%E5%9C%A8%E5%8D%95gpu%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF%E4%B8%8B%E7%B3%BB%E7%BB%9F%E5%81%9C%E9%A1%BF%E7%9A%84%E9%97%AE%E9%A2%98/</guid><description>问题描述： 在一个单GPU（RTX 2080 Ti）的服务器上进行 bert as servcie 的压力测试，当使用单线程跑的时候，在JMeter连续请求1分钟左右，bert as s</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Bert as Service on TechNotes</title>
+    <link>https://technotes.guru/tags/bert-as-service/</link>
+    <description>Recent content in Bert as Service on TechNotes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 15 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://technotes.guru/tags/bert-as-service/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>解决Bert as servcie在单GPU，单线程测试场景下无响应的问题</title>
+      <link>https://technotes.guru/posts/2019/bert-as-servcie%E5%9C%A8%E5%8D%95gpu%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF%E4%B8%8B%E7%B3%BB%E7%BB%9F%E5%81%9C%E9%A1%BF%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Wed, 15 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2019/bert-as-servcie%E5%9C%A8%E5%8D%95gpu%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF%E4%B8%8B%E7%B3%BB%E7%BB%9F%E5%81%9C%E9%A1%BF%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description>问题描述： 在一个单GPU（RTX 2080 Ti）的服务器上进行 bert as servcie 的压力测试，当使用单线程跑的时候，在JMeter连续请求1分钟左右，bert as servcie会停顿，没有响应。 但是当多个线程执行，或者在多核CPU上则无法重现。
+原因： I:PROXY:[htt:enc: 48]:new request from 192.168.0.83 I:VENTILATOR:[__i:_ru:194]:new encode request req id: 17813 size: 1 client: b&#39;e38043ad-153b-427a-b78d-d148c2032c11&#39; I:SINK:[__i:_ru:352]:job register size: 1 job id: b&#39;e38043ad-153b-427a-b78d-d148c2032c11#17813&#39; I:WORKER-0:[__i:gen:553]:new job socket: 0 size: 1 client: b&#39;e38043ad-153b-427a-b78d-d148c2032c11#17813&#39; I:WORKER-0:[__i:_ru:528]:job done size: (1, 768) client: b&#39;e38043ad-153b-427a-b78d-d148c2032c11#17813&#39; I:SINK:[__i:_ru:332]:collect b&#39;EMBEDDINGS&#39; b&#39;e38043ad-153b-427a-b78d-d148c2032c11#17813&#39; (E:1/T:0/A:1) I:SINK:[__i:_ru:341]:send back size: 1 job id: b&#39;e38043ad-153b-427a-b78d-d148c2032c11#17813&#39; 192.168.0.83 - - [15/May/2019 03:19:37] &amp;quot;POST /encode HTTP/1.1&amp;quot; 200 - I:PROXY:[htt:enc: 48]:new request from 192.</description>
+    </item>
+    
+  </channel>
+</rss>

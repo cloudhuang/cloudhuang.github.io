@@ -1,3 +1,272 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>TechNotes</title><link>https://technotes.guru/</link><description>Recent content on TechNotes</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 17 Mar 2021 13:37:54 +0800</lastBuildDate><atom:link href="https://technotes.guru/index.xml" rel="self" type="application/rss+xml"/><item><title>为什么sleep会让Netty的性能大降</title><link>https://technotes.guru/post/2021/%E4%B8%BA%E4%BB%80%E4%B9%88sleep%E4%BC%9A%E8%AE%A9netty%E7%9A%84%E6%80%A7%E8%83%BD%E5%A4%A7%E9%99%8D/</link><pubDate>Wed, 17 Mar 2021 13:37:54 +0800</pubDate><guid>https://technotes.guru/post/2021/%E4%B8%BA%E4%BB%80%E4%B9%88sleep%E4%BC%9A%E8%AE%A9netty%E7%9A%84%E6%80%A7%E8%83%BD%E5%A4%A7%E9%99%8D/</guid><description>TL;DR 即时通讯技术分享 在知乎上分享了一些列的高性能网络编程的文章，该系列文章从底层原理说起，提到了高性能网络的方方面面，特别的干货。但是在第七篇</description></item><item><title>服务器采购及网络存储规划</title><link>https://technotes.guru/post/2020/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%87%87%E8%B4%AD%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%AD%98%E5%82%A8%E8%A7%84%E5%88%92/</link><pubDate>Mon, 12 Oct 2020 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2020/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%87%87%E8%B4%AD%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%AD%98%E5%82%A8%E8%A7%84%E5%88%92/</guid><description>服务器采购 对于需要自建（小）机房的初创公司来说，服务器采购可以说是整个IT基础设施建设的第一步，如何在“差钱”的状态下平衡服务器配置与成本的</description></item><item><title>中小企业的研发体系</title><link>https://technotes.guru/post/2020/%E4%B8%AD%E5%B0%8F%E4%BC%81%E4%B8%9A%E7%9A%84%E7%A0%94%E5%8F%91%E4%BD%93%E7%B3%BB/</link><pubDate>Tue, 22 Sep 2020 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2020/%E4%B8%AD%E5%B0%8F%E4%BC%81%E4%B8%9A%E7%9A%84%E7%A0%94%E5%8F%91%E4%BD%93%E7%B3%BB/</guid><description>对于中小企业，业务虽小，但五脏俱全。特别是初创公司，公司刚刚成立，人员少，主要人员还是研发人员为主，IT运维能力弱，需要部署的系统也很少，这</description></item><item><title>解决 Docker 由于node-sass build失败的问题</title><link>https://technotes.guru/post/2019/%E8%A7%A3%E5%86%B3-docker-%E7%94%B1%E4%BA%8Enode-sass-build%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</link><pubDate>Fri, 24 May 2019 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2019/%E8%A7%A3%E5%86%B3-docker-%E7%94%B1%E4%BA%8Enode-sass-build%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</guid><description>问题描述： 在Mac上通过docker build node.js的镜像失败，由于node-sass安装失败，异常log如下 Module build failed (from ./node_modules/_sass-loader@7.1.0@sass-loader/lib/loader.js): Error: Missing binding /app/node_modules/_node-sass@4.12.0@node-sass/vendor/linux_musl-x64-57/binding.node Node Sass could not find a</description></item><item><title>解决Bert as servcie在单GPU，单线程测试场景下无响应的问题</title><link>https://technotes.guru/post/2019/bert-as-servcie%E5%9C%A8%E5%8D%95gpu%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF%E4%B8%8B%E7%B3%BB%E7%BB%9F%E5%81%9C%E9%A1%BF%E7%9A%84%E9%97%AE%E9%A2%98/</link><pubDate>Wed, 15 May 2019 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2019/bert-as-servcie%E5%9C%A8%E5%8D%95gpu%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF%E4%B8%8B%E7%B3%BB%E7%BB%9F%E5%81%9C%E9%A1%BF%E7%9A%84%E9%97%AE%E9%A2%98/</guid><description>问题描述： 在一个单GPU（RTX 2080 Ti）的服务器上进行 bert as servcie 的压力测试，当使用单线程跑的时候，在JMeter连续请求1分钟左右，bert as s</description></item><item><title>代码重构 - 后端部分代码</title><link>https://technotes.guru/post/2019/refactor-the-backend/</link><pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2019/refactor-the-backend/</guid><description>前一篇 主要写了一下前端部分的重构，这一篇则主要关注后端部分。 在前一篇后面说到了一个很实用的套路（模式），其类图如下图所示： 在后端部分，我先将</description></item><item><title>代码重构 - 前端部分代码</title><link>https://technotes.guru/post/2019/refactor-the-frontend/</link><pubDate>Wed, 27 Feb 2019 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2019/refactor-the-frontend/</guid><description>缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，</description></item><item><title>基于区块链的公益捐赠平台</title><link>https://technotes.guru/post/2008/blockchain-based-philanthropic-platform/</link><pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2008/blockchain-based-philanthropic-platform/</guid><description>企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业 当某个企业与公益组织达成捐赠合作后，也往往面临的很多的问题： 捐</description></item><item><title>以太坊智能合约开发入门</title><link>https://technotes.guru/post/2018/blockchain-eth-chaincode/</link><pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2018/blockchain-eth-chaincode/</guid><description>搭建智能合约开发环境 智能合约的开发环境依赖于node/npm，所以在构建开发环境之前需要确保开发机器已经安装好了node/npm的环境了。 如</description></item><item><title>解决 Spring Boot Process finished with exit code 0的问题</title><link>https://technotes.guru/post/2018/spring-boot-process-finished-with-exit-code-0/</link><pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2018/spring-boot-process-finished-with-exit-code-0/</guid><description>问题描述 在启动Spring Boot项目的时候，直接返回Process finished with exit code 0退出了，无法正常启动。 . ____ _ __ _ _ /\\ / ___'_ __ _ _(_)_ __ __ _ \ \ \ \ (</description></item><item><title>Why I hate Ant</title><link>https://technotes.guru/post/2017/why-i-hate-ant/</link><pubDate>Sat, 07 Oct 2017 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2017/why-i-hate-ant/</guid><description>Apache Ant, yes, this is a great Java build tool I know of. It&amp;rsquo;s free (in all senses of the word), it&amp;rsquo;s a defacto standard in the 20th I think, and it generally works. But to working with the plain ant scripts is really painfully Write ant scripts are complex and verbose. Ant build files are generally typeless. There is no grand schema or DTD they can validate against. Hardly</description></item><item><title>Running Spring Batch on Multiple Databases in Parallel</title><link>https://technotes.guru/post/2017/running-spring-batch-on-multiple-databases-in-parallel/</link><pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2017/running-spring-batch-on-multiple-databases-in-parallel/</guid><description>The Question I&amp;rsquo;ve created a Spring batch application using Spring boot, and I have a Job with 9 steps. These steps are using a DataSource which I created its bean in a configuration file as follows:
-@Configuration public class DatabaseConfig { @ConfigurationProperties(prefix = &amp;quot;spring.datasource&amp;quot;) @Bean @Primary public DataSource dataSource(){ return DataSourceBuilder.create().build(); } } This DataSource is using properties declared in the application.yml file:
-spring: datasource: url: jdbc:mysql://localhost:3306/db_01?zeroDateTimeBehavior=convertToNull username: xxxx password: **** So far, all works as expected.</description></item><item><title>About Me</title><link>https://technotes.guru/about/</link><pubDate>Tue, 10 Mar 2015 00:13:27 +0000</pubDate><guid>https://technotes.guru/about/</guid><description>开过好几个博客，CSDN有, JaveEye有，简书也有，这儿写写，那儿写写，慢慢的这儿那儿的博客却都几乎都荒废了，看了看JavaEye最近的</description></item><item><title>一个小项目的回顾</title><link>https://technotes.guru/post/2009/a-project-retrospection/</link><pubDate>Thu, 20 Aug 2009 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2009/a-project-retrospection/</guid><description>最近的一个项目，四个开发人员，大概做了一个月多一点，从需求，到最终代码的完成。 写思考，我想，主要还是要回顾一下在项目中遇到的问题，或是有什么</description></item><item><title>Rails生成Ext Tree</title><link>https://technotes.guru/post/2008/rails-ext-tree/</link><pubDate>Sat, 29 Mar 2008 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2008/rails-ext-tree/</guid><description>树形菜单是在开发中经常会遇到的一个功能，RoR的这个设计对于大数据量tree结构是最好的，比如一些常见的查询都可以避免循环或者递归抓取, 而且</description></item><item><title>Generic Data Access Objects －范型DAO类设计模式</title><link>https://technotes.guru/post/2007/the-generic-dao/</link><pubDate>Thu, 19 Apr 2007 00:00:00 +0000</pubDate><guid>https://technotes.guru/post/2007/the-generic-dao/</guid><description>Generic Data Access Objects －范型DAO类设计模式, DAO模式是最为经典的JAVA EE模式之一, 特别是自JDK5之后增加的泛型支持，大大增加了DAO的可复用性。</description></item><item><title>归档</title><link>https://technotes.guru/archives/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://technotes.guru/archives/</guid><description/></item><item><title>搜索</title><link>https://technotes.guru/search/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://technotes.guru/search/</guid><description/></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>TechNotes</title>
+    <link>https://technotes.guru/</link>
+    <description>Recent content on TechNotes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 17 Mar 2021 13:37:54 +0800</lastBuildDate><atom:link href="https://technotes.guru/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>为什么sleep会让Netty的性能大降</title>
+      <link>https://technotes.guru/posts/2021/%E4%B8%BA%E4%BB%80%E4%B9%88sleep%E4%BC%9A%E8%AE%A9netty%E7%9A%84%E6%80%A7%E8%83%BD%E5%A4%A7%E9%99%8D/</link>
+      <pubDate>Wed, 17 Mar 2021 13:37:54 +0800</pubDate>
+      
+      <guid>https://technotes.guru/posts/2021/%E4%B8%BA%E4%BB%80%E4%B9%88sleep%E4%BC%9A%E8%AE%A9netty%E7%9A%84%E6%80%A7%E8%83%BD%E5%A4%A7%E9%99%8D/</guid>
+      <description>TL;DR  即时通讯技术分享  在知乎上分享了一些列的高性能网络编程的文章，该系列文章从底层原理说起，提到了高性能网络的方方面面，特别的干货。但是在第七篇文章中， 高性能网络编程(七)：到底什么是高并发？一文即懂！ ，作者通过ab分别对Java(Netty)和PHP(Swoole)进行性能压测的部分让我产生了一些疑惑。
+作者使用了ab命令分别进行了压测
+ab命令：docker run --rm jordi/ab -k -c 1000 -n 1000000 http://10.234.3.32:5555/
+在并发1000进行100万次Http请求的基准测试中的结果如下。
+Netty的压测结果:
+Swoole的压测结果:
+附图直接使用了上述文章中的图片，从数据来看Netty的Requests per second为84042.11，Swoole的Requests per second的结果为87222.98，可见在默认情况下，两者的表现基本是一致的。(不过docker容器、1G内存+2核CPU，能跑出这样的QPS，还是挺意外的)
+但是后来作者通过在Java和PHP代码中,分别加上 sleep(0.01) //秒 的代码，模拟0.01秒的系统调用阻塞，下面就产生了奇迹时刻：
+Netty的压测结果:
+Swoole的压测结果:
+可以看到，Netty的QPS一下子降低到了1562.69，较原来的8万多，一下子降低了好几十倍。比起Swoole，也差了好几倍，作者也提到 “**从结果中可以看出：**基于协程的php+ swoole服务比 Java + netty服务的QPS高了6倍。” 。而且这还是0.01秒的结果，到了真实的业务系统上，实际的业务操作时间往往都超过0.01秒。
+那么，是什么原因，让Netty的性能大降呢？
+Netty 线程模型 首先需要了解下Netty的线程模型，那上文中的示例来说，其实际上是官方的Http中的HelloWorld示例 - HttpHelloWorldServer.java 
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38  public final class HttpHelloWorldServer { static final boolean SSL = System.</description>
+    </item>
+    
+    <item>
+      <title>服务器采购及网络存储规划</title>
+      <link>https://technotes.guru/posts/2020/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%87%87%E8%B4%AD%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%AD%98%E5%82%A8%E8%A7%84%E5%88%92/</link>
+      <pubDate>Mon, 12 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2020/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%87%87%E8%B4%AD%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%AD%98%E5%82%A8%E8%A7%84%E5%88%92/</guid>
+      <description>服务器采购 对于需要自建（小）机房的初创公司来说，服务器采购可以说是整个IT基础设施建设的第一步，如何在“差钱”的状态下平衡服务器配置与成本的关系，就显得比较重要了。
+好在现在电商发达，各种价格都比较透明，对于购买来说，最简单的就是在电商网站下单了。但是在下单之前，还是需要列一个简单的方案，比如:
+ 在采购时比较看重哪些因素？（机架式服务器，还是塔式服务器） 通常的IT应用包括哪些? (WEB服务器，大数据套件、数据库服务、邮件服务器) 采购IT基础设施方案时最关注哪些？（易用性、可靠性，扩展能力等）  特别是在发展初期，公司规模较小，业务量不大，IT信息化建设上不会投入太多的资金，针对不同的需求，其采购的重心差别还是比较大的，特别是在发展初期，公司规模较小，业务量并不大，IT信息化建设上不会投入太多的资金，所以初期采购的时候，首先以满足初期（比如2年以内）应用为主，主要包括:
+ 文件服务器，如FTP，文件备份，主要是对存储的需求 代码仓库服务器，跑Git服务 测试服务器 数据库服务器  尽管初创企业的业务可能变化会比较大，但是上面那么是非常基础的服务，生产环境则还是建议放到云上。比如我现在的公司，开始的时候就几个人，还是『租用』的他人的办公场所，就购买了一台塔式服务器，用于跑Gitlab，并且在上面跑了一个FTP服务。这个时候还没有专职的测试人员，也不需要发布测试版本。
+大概小半年之后，租了自己的办公室，简单的隔了一个小机房，放了一个机架，这个时候人员也招聘到了将近20个。软件也大体上主要功能已经开发完成，也有了专职的测试人员。这个时候，又采购了四台联想的1U的服务器RS260, CPU E3-1220 v6 + 32G内存，配置不是很高，但是价格便宜，而且四台未来1-2年内基本上是够用的，CPU差了一些，但是日常的研发用服务器基本够了，跑个几十个应用实例基本没有压力。
+processor : 1 vendor_id : GenuineIntel cpu family : 6 model : 158 model name : Intel(R) Xeon(R) CPU E3-1220 v6 @ 3.00GHz stepping : 9 microcode : 0x8e cpu MHz : 799.987 cache size : 8192 KB physical id : 0 siblings : 4 core id : 1 cpu cores : 4 apicid : 2 initial apicid : 2 fpu : yes fpu_exception : yes cpuid level : 22 wp : yes 不过，从省钱的角度, 本地服务器采用二手服务器也是一个不错的选择，可以花最少的钱办做多的事情，不过X鱼水可能比较深。我自己还是比较偏向于入二手服务器，毕竟可以花较少的资金，就可以购买到性能不错的机架服务器。</description>
+    </item>
+    
+    <item>
+      <title>中小企业的研发体系</title>
+      <link>https://technotes.guru/posts/2020/%E4%B8%AD%E5%B0%8F%E4%BC%81%E4%B8%9A%E7%9A%84%E7%A0%94%E5%8F%91%E4%BD%93%E7%B3%BB/</link>
+      <pubDate>Tue, 22 Sep 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2020/%E4%B8%AD%E5%B0%8F%E4%BC%81%E4%B8%9A%E7%9A%84%E7%A0%94%E5%8F%91%E4%BD%93%E7%B3%BB/</guid>
+      <description>对于中小企业，业务虽小，但五脏俱全。特别是初创公司，公司刚刚成立，人员少，主要人员还是研发人员为主，IT运维能力弱，需要部署的系统也很少，这个时候应该选择公有云或者直接使用SaaS服务，其优点非常明显： 基础IT管理交给公有云平台，对公司运维人员要求不高，基本的Linux能力就行了，如果都使用SasS的服务，甚至都不需要IT运维人员。 公有云按时按量收费，前期资金投入较少，又可以借助于公有云成熟的IT能力，企业可以将核心精力放在业务方向，专注于业务价值。同时公有云可以快速的申请资源以应业务的快速发展。 公有云提供了完善的运维、监控及流程处理等各方面的保障 公有云会通过大量的软硬件投入来完善IT安全机制，以保证每个用户的安全，这个是小企业短期内无法实现的。
+使用云服务，使用云服务，使用云服务。
+但是，总是有一些原因，比如从IT资产的角度，或者从数据安全的角度(比如我的数据被盗用了怎么办)，需要自己部署机房，那么就有一些列的事情需要自己处理了，包括IT基础设施及各种支撑的基础服务。
+这个时候除了购买机器或者云服务器之外，需要安装部署一些列的基础服务来支持整个研发过程，包括源码仓库、中间制品仓库、CICD，已经依赖的一系列基础服务，如数据库，消息中间件服务，如消息队列服务，Redis缓存服务等等。而各种服务，还需要区分相应的环境，如开发环境，测试环境，并需要多用户支持。
+在应用部署到环境之后，需要有相应的监控支持，业务监控，资源监控，性能监控等。 同时对于运行时的日志，需要提供相应的日志收集、日志处理分析的功能。同时需要相应的监控大屏以监控各个系统的SLA数据，当监控数据超过警戒线则相应的需要进行系统报警。
+这个时候，整个IT运维管理，基本上就完全依赖于初期运维人员(针对初创企业，往往可能只有一个运维人员)的个人能力及经验了。
+下面是是一个主要的Checklist，一部分是关于基础的IT设施，另外一部分主要是DevOps层面
+基础设施   服务器采购
+  网络规划
+  存储规划
+  内部域名
+  LDAP
+  员工邮箱
+  (CMDB)
+  DevOps  服务器(IaaS)  虚拟化 容器化   容器化及编排  Docker (Docker Swarm) Kubernetes   代码制品仓库  Git JForg Nexus Docker Registry   CI/CD  Jenkins 部署pipeline GitOps   中间件服务  Redis Kafka Message Queue   数据库  MySQL MongoDB ElasticSearch   存储服务  云存储服务 自建存储服务   效能  任务管理 Bug系统 内部沟通(如Slack) Wiki 代码质量分析 Code Review   微服务  服务注册发现 服务配置中心 链路跟踪   日志处理分析  EL(F)K Stack   系统服务监控  系统监控 APM服务监控   数据处理 &amp;ndash; 大数据技术栈 多云管理 数据备份 安全  简而言之，就是通过资源、规范、服务三位一体来支撑整个企业的研发工作。</description>
+    </item>
+    
+    <item>
+      <title>解决 Docker 由于node-sass build失败的问题</title>
+      <link>https://technotes.guru/posts/2019/%E8%A7%A3%E5%86%B3-docker-%E7%94%B1%E4%BA%8Enode-sass-build%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Fri, 24 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2019/%E8%A7%A3%E5%86%B3-docker-%E7%94%B1%E4%BA%8Enode-sass-build%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description>问题描述： 在Mac上通过docker build node.js的镜像失败，由于node-sass安装失败，异常log如下
+Module build failed (from ./node_modules/_sass-loader@7.1.0@sass-loader/lib/loader.js): Error: Missing binding /app/node_modules/_node-sass@4.12.0@node-sass/vendor/linux_musl-x64-57/binding.node Node Sass could not find a binding for your current environment: Linux/musl 64-bit with Node.js 8.x Found bindings for the following environments: - OS X 64-bit with Node.js 11.x This usually happens because your environment has changed since running `npm install`. Run `npm rebuild node-sass` to download the binding for your current environment. at module.exports (/app/node_modules/_node-sass@4.12.0@node-sass/lib/binding.js:15:13) at Object.</description>
+    </item>
+    
+    <item>
+      <title>解决Bert as servcie在单GPU，单线程测试场景下无响应的问题</title>
+      <link>https://technotes.guru/posts/2019/bert-as-servcie%E5%9C%A8%E5%8D%95gpu%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF%E4%B8%8B%E7%B3%BB%E7%BB%9F%E5%81%9C%E9%A1%BF%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Wed, 15 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2019/bert-as-servcie%E5%9C%A8%E5%8D%95gpu%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF%E4%B8%8B%E7%B3%BB%E7%BB%9F%E5%81%9C%E9%A1%BF%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description>问题描述： 在一个单GPU（RTX 2080 Ti）的服务器上进行 bert as servcie 的压力测试，当使用单线程跑的时候，在JMeter连续请求1分钟左右，bert as servcie会停顿，没有响应。 但是当多个线程执行，或者在多核CPU上则无法重现。
+原因： I:PROXY:[htt:enc: 48]:new request from 192.168.0.83 I:VENTILATOR:[__i:_ru:194]:new encode request req id: 17813 size: 1 client: b&#39;e38043ad-153b-427a-b78d-d148c2032c11&#39; I:SINK:[__i:_ru:352]:job register size: 1 job id: b&#39;e38043ad-153b-427a-b78d-d148c2032c11#17813&#39; I:WORKER-0:[__i:gen:553]:new job socket: 0 size: 1 client: b&#39;e38043ad-153b-427a-b78d-d148c2032c11#17813&#39; I:WORKER-0:[__i:_ru:528]:job done size: (1, 768) client: b&#39;e38043ad-153b-427a-b78d-d148c2032c11#17813&#39; I:SINK:[__i:_ru:332]:collect b&#39;EMBEDDINGS&#39; b&#39;e38043ad-153b-427a-b78d-d148c2032c11#17813&#39; (E:1/T:0/A:1) I:SINK:[__i:_ru:341]:send back size: 1 job id: b&#39;e38043ad-153b-427a-b78d-d148c2032c11#17813&#39; 192.168.0.83 - - [15/May/2019 03:19:37] &amp;quot;POST /encode HTTP/1.1&amp;quot; 200 - I:PROXY:[htt:enc: 48]:new request from 192.</description>
+    </item>
+    
+    <item>
+      <title>代码重构 - 后端部分代码</title>
+      <link>https://technotes.guru/posts/2019/refactor-the-backend/</link>
+      <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2019/refactor-the-backend/</guid>
+      <description>前一篇 主要写了一下前端部分的重构，这一篇则主要关注后端部分。
+在前一篇后面说到了一个很实用的套路（模式），其类图如下图所示： 在后端部分，我先将后端Java代码的类图画出来： 可以发现，还是一样的套路。
+代码实现 下面则具体说下实现，首先是说一下原来的系统的实现，然后是重构的实现。
+原来的实现 在上一篇前端部分，拿了两个方法作为示例，在方法体的后面，则都是通过POST请求调用后端的Controller。
+1 2 3  postVue(&amp;#34;${ctx}/BusinessOpportunity/openAcct&amp;#34;,params,function (data) {...... postVue(&amp;#34;${ctx}/BusinessOpportunity/openAmlInviteAcct&amp;#34;,params,function (data) {......   这里是原有的Controller的实现： 然后则是Service的实现：
+然后就是Service调用不同的MyBatis的dao层实现。
+从实现上来说，就是一一相对应，优点是代码过程清晰明了，基本上完全反映实现的意图。缺点自然也很明显，比如大量重复的代码，并且也没有代码复用等。
+重构过程 这部分这样描述下重构的部分。上一篇中提到了我对于重构的两个原则：
+ 尽可能的代码复用 为使用方提供一致的调用外观  所以这一部分，还是会基于这两个主要原则，并且主要针对Controller层和Service层。
+由于是前后端分离，所以这部分是Restful风格的，WEB API作为前后端的契约，一是URL尽量的符合REST语义，二是传输的数据(payload)。
+这个是REST Controller的实现：
+@PostMapping(&amp;quot;/api/opportunities/batch&amp;quot;) public ResponseEntity&amp;lt;?&amp;gt; batchProcess(@RequestBody OpportunityBatchRequest request) { log.info(&amp;quot;Process opportunity batch action - type: {}&amp;quot;, request.getType()); List&amp;lt;String&amp;gt; emailSendFailedList; try { businessOpportunityProcessorService.process(request); emailSendFailedList = businessOpportunityProcessorService.getAllEmailSendFailed(); } catch (Exception e) { log.error(&amp;quot;Process opportunity batch action failed, type: {}, root cause: {}&amp;quot;, request.</description>
+    </item>
+    
+    <item>
+      <title>代码重构 - 前端部分代码</title>
+      <link>https://technotes.guru/posts/2019/refactor-the-frontend/</link>
+      <pubDate>Wed, 27 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2019/refactor-the-frontend/</guid>
+      <description>缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。
+这里计划用两篇博客记录一下重构中的一些点，一篇为前端部分，一篇为后端部分，这篇为前端部分。 由于处在不同的职位上，所关心的内容是不同的，比如产品经理更加关心产品的功能、业务的完成度、项目经理更加关注项目的进度等，另外一方面，从代码层面来说，还是比较主观的，不同的开发人员，写出来的代码也会差别很大，所以这里仅是个人的重构记录。下面就闲话少说，“talk is cheap, show me the code”。
+业务背景 这里首先交代下重构部分的业务，如下图所以，这是个比较典型的数据表格，展示了业务数据，以及相关的操作，查看详情，编辑，删除，并且可以多选，并且进行对多条数据进行批量的操作。
+下图是完成了的数据表格部分，隐藏了其中涉及到的业务数据
+其主要的功能为：
+ 表格右侧的“操作”部分，主要是针对单条记录的操作，如查看，修改，删除 表格下方的批量操作部分，当选中多条记录之后，执行不同的批量操作，如批量发送邀请，批量创建账号，批量删除等。针对不同的操作，在执行相应的操作时候，需要进行不同的前端验证，如开通邀请，则需要验证所选择的记录的电话号码不能为空，邮箱不能为空，销帮帮ID是否存在，等。  代码实现 简单介绍完需求之后，逻辑并不复杂，从代码实现角度，主要就是如下几步： 1、响应按钮点击 2、在响应的方法中遍历选中的数据 3、对数据进行校验，如何校验失败，则进行相应的提示 4、将数据提交到后端
+实现起来也是相当的明了。
+原来的实现 这部分主要描述下上述需求的原来的实现部分，这里不会贴出全部的代码，主要还是将意图表达出来。另外，这个项目的前端展示部分是基于JSP+jQuery+Vue的，所以原来页面部分逻辑较为复杂，一部分数据是传统的基于表单的，一部分数据是jQuery Ajax方式的，一部分数据则是Vue（axios）方式。
+下面的三张截图，第一张是按钮部分，针对不同的功能，对应不同的响应方法: 下面两张是其中两个方法的具体实现:
+由于逻辑不复杂，所以实现上也是比较的明了。基本上完成过程式的代码实现，遍历选择的数据，对数据进行校验，然后调用后台对应的接口。
+过程式的代码，优点是代码清晰明了，基本上完全反映实现的意图。缺点也比较的明显，大量的重复代码，拿贴出来的两段代码来看，基本上都是相同的，复制粘贴一个方法，然后稍微的改一改。这里不去写这些的弊端，重点还是放在重构部分的内容上。
+重构过程 首先上面的代码，从功能角度来说，是可以工作的代码，但是，很多的重复代码。实际上很容易就可以发现其中可以重用的部分，如公司名称的校验，销帮帮ID的校验，邮箱的校验等。 那么，最简单的实现重用的方式，可以将其中的检验部分抽出来，形成一个一个单独的验证方法，如：
+validateEmailXXX() validateCompanyNameXXX() 这样在不同的方法中，就可以重用这些验证的逻辑，原来代码中的isEmailAvailable()方法就是工具方法层面的复用。比如说常见的代码中的很多的工具类，如StringUtils，DateUtils，就是这样的一个思路，实现了一些工具方法层面的重用。(对于Ruby，Kotlin，可以非常优雅的扩展父类方法)。
+不过这部分重构，我并非仅仅是抽取了几个验证的方法。下面会描述，这里先说一下我考虑的两个原则：
+ 为使用方提供一致的调用外观 尽可能的代码复用  提供较为一致的调用外观 这部分主要是真的按钮的响应，所以这里统一了方法handleOperation的调用，然后通过type来区分。这部分看个人的习惯了，比如原来的方式，也是不错的，方法名就反映出来该方法的意图。
+&amp;lt;el-button type=&amp;quot;primary&amp;quot; :disabled=&amp;quot;totalSelectedRows === 0&amp;quot; @click=&amp;quot;handleOperation(&#39;openAmlAccount&#39;)&amp;quot;&amp;gt;&amp;lt;span&amp;gt;开通反洗钱&amp;lt;/span&amp;gt;&amp;lt;/el-button&amp;gt; &amp;lt;el-button type=&amp;quot;primary&amp;quot; :disabled=&amp;quot;totalSelectedRows === 0&amp;quot; @click=&amp;quot;handleOperation(&#39;openAmlInviteAccount&#39;)&amp;quot;&amp;gt;&amp;lt;span&amp;gt;开通反洗钱邀请账号&amp;lt;/span&amp;gt;&amp;lt;/el-button&amp;gt; &amp;lt;el-button type=&amp;quot;danger&amp;quot; :disabled=&amp;quot;totalSelectedRows === 0&amp;quot; @click=&amp;quot;handleOperation(&#39;deleteOpportunities&#39;)&amp;quot;&amp;gt;&amp;lt;span&amp;gt;批量删除&amp;lt;/span&amp;gt;&amp;lt;/el-button&amp;gt; &amp;lt;el-button type=&amp;quot;primary&amp;quot; :disabled=&amp;quot;totalSelectedRows === 0&amp;quot; @click=&amp;quot;handleOperation(&#39;openNormalAccount&#39;)&amp;quot;&amp;gt;&amp;lt;span&amp;gt;开通账号&amp;lt;/span&amp;gt;&amp;lt;/el-button&amp;gt; &amp;lt;el-button type=&amp;quot;primary&amp;quot; :disabled=&amp;quot;totalSelectedRows === 0&amp;quot; @click=&amp;quot;handleOperation(&#39;openInviteAccount&#39;)&amp;quot;&amp;gt;&amp;lt;span&amp;gt;开通邀请账号&amp;lt;/span&amp;gt;&amp;lt;/el-button&amp;gt; &amp;lt;el-button type=&amp;quot;danger&amp;quot; :disabled=&amp;quot;totalSelectedRows === 0&amp;quot; @click=&amp;quot;handleOperation(&#39;physicallyDelete&#39;)&amp;quot;&amp;gt;&amp;lt;span&amp;gt;删除账号&amp;lt;/span&amp;gt;&amp;lt;/el-button&amp;gt; &amp;lt;el-button type=&amp;quot;danger&amp;quot; :disabled=&amp;quot;totalSelectedRows === 0&amp;quot; @click=&amp;quot;handleOperation(&#39;completelyPhysicalDelete&#39;)&amp;quot;&amp;gt;&amp;lt;span&amp;gt;彻底删除&amp;lt;/span&amp;gt;&amp;lt;/el-button&amp;gt; handleOperation则根据不同的type，分别调用相对于的处理方法。</description>
+    </item>
+    
+    <item>
+      <title>基于区块链的公益捐赠平台</title>
+      <link>https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/</link>
+      <pubDate>Tue, 29 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/</guid>
+      <description>企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业
+当某个企业与公益组织达成捐赠合作后，也往往面临的很多的问题：
+ 捐赠中涉及的款项不透明，监管难度较大 公益组织本身不是盈利机构，需要将捐赠款项中的一部分作为公益组织的公益费用 按照捐赠协议，比如本次捐赠需要涉及多次活动，管理难度加大，费用使用情况复杂  以企业捐赠为例，企业为了履行其社会责任，决定发起一个捐赠，捐赠金额50万，捐赠3个项目。其中总金额的10%，5万元作为对应公益组织的费用。
+场景：
+ 企业发布公益计划，包括捐赠金额，活动要求等信息，公益活动方向，如针对贫困地区儿童的放心早餐项目 公益组织提交其组织资料，资质等信息，以及相应的活动策划信息 企业与公益组织签订协议  协议内容： &amp;ndash; 活动的捐赠额 &amp;ndash; 捐赠的钱是一次到账，还是按照活动数分批次，每举办一次活动转一次账 活动的活动周期多久，如一年的放心早餐 &amp;ndash; 多少费用作为公益组织的费用 &amp;ndash; 活动的命名 &amp;ndash; 其他一些活动信息   公益组织按照协议条款履行协议内容 企业按照协议条框履行协议内容 按照协议履行的情况增加或者减少Token 过程中涉及的文件，照片等上链存证  方向上可以分为：
+ 2G方向: 企业/个人社会责任指数、公益组织社会责任指数 2C方向：Token积分兑换物品，社区商城  </description>
+    </item>
+    
+    <item>
+      <title>以太坊智能合约开发入门</title>
+      <link>https://technotes.guru/posts/2018/blockchain-eth-chaincode/</link>
+      <pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2018/blockchain-eth-chaincode/</guid>
+      <description>搭建智能合约开发环境 智能合约的开发环境依赖于node/npm，所以在构建开发环境之前需要确保开发机器已经安装好了node/npm的环境了。
+如何还没有安装，那么在mac下面可以通过brew命令非常快速的安装 brew install node 或者自己下载node的安装包安装。 然后分别安装下面的几个开发智能合约需要用到的工具:
+ Web3 JS - 开发以太坊客户端的javascript框架 npm install web3 truffle - 以太坊开发框架 npm install -g truffle Metamask - 以太坊钱包，基于Chrome的插件 Ganache - 用于本地的虚拟以太坊区块链， 并且自动创建了用于测试的10个本地的区块链账号  Remix - https://remix.ethereum.org/  以太坊官方推荐的智能合约开发IDE,可以在浏览器中快速部署测试智能合约。   配置Metamask连接Ganache本地环境，Ganache默认的监听端口为7545，所以需要设置Metamask，如下，点击 “Custom RPC”，然后设置本地虚拟区块链的地址
+配置完之后，就可以导入Ganache默认创建的账号，
+点击右侧的钥匙(show key), 从弹出的界面中拷贝账号的token，然后通过点击Metamask右上角的头像，通过&amp;quot;Import Account&amp;quot;，粘贴刚才复制的token，导入，就可以看到新导入的账号，并且该账号已经默认的有了100个ETH了。
+创建智能合约 在Remix编辑器中编写一个简单的智能合约 - HelloWorld
+pragma solidity ^0.4.0; contract HelloWorld { string public name; function HelloWorld() public { name = &amp;quot;Liping&amp;quot;; } function setName(string _name) public { name = _name; } } 合约编好之后，点击 &amp;ldquo;Run&amp;rdquo; 标签，在“Environment”中选择&amp;quot;Web3 Provider&amp;quot;</description>
+    </item>
+    
+    <item>
+      <title>解决 Spring Boot Process finished with exit code 0的问题</title>
+      <link>https://technotes.guru/posts/2018/spring-boot-process-finished-with-exit-code-0/</link>
+      <pubDate>Mon, 07 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2018/spring-boot-process-finished-with-exit-code-0/</guid>
+      <description>问题描述 在启动Spring Boot项目的时候，直接返回Process finished with exit code 0退出了，无法正常启动。
+ . ____ _ __ _ _ /\\ / ___&#39;_ __ _ _(_)_ __ __ _ \ \ \ \ ( ( )\___ | &#39;_ | &#39;_| | &#39;_ \/ _` | \ \ \ \ \\/ ___)| |_)| | | | | || (_| | ) ) ) ) &#39; |____| .__|_| |_|_| |_\__, | / / / / =========|_|==============|___/=/_/_/_/ :: Spring Boot :: (v2.</description>
+    </item>
+    
+    <item>
+      <title>Why I hate Ant</title>
+      <link>https://technotes.guru/posts/2017/why-i-hate-ant/</link>
+      <pubDate>Sat, 07 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2017/why-i-hate-ant/</guid>
+      <description>Apache Ant, yes, this is a great Java build tool I know of. It&amp;rsquo;s free (in all senses of the word), it&amp;rsquo;s a defacto standard in the 20th I think, and it generally works.
+But to working with the plain ant scripts is really painfully
+ Write ant scripts are complex and verbose. Ant build files are generally typeless. There is no grand schema or DTD they can validate against. Hardly to maintain the ant scripts It&amp;rsquo;s almost impossible re-use someone else&amp;rsquo;s Ant target out of the box.</description>
+    </item>
+    
+    <item>
+      <title>Running Spring Batch on Multiple Databases in Parallel</title>
+      <link>https://technotes.guru/posts/2017/running-spring-batch-on-multiple-databases-in-parallel/</link>
+      <pubDate>Wed, 21 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2017/running-spring-batch-on-multiple-databases-in-parallel/</guid>
+      <description>The Question I&amp;rsquo;ve created a Spring batch application using Spring boot, and I have a Job with 9 steps. These steps are using a DataSource which I created its bean in a configuration file as follows:
+@Configuration public class DatabaseConfig { @ConfigurationProperties(prefix = &amp;quot;spring.datasource&amp;quot;) @Bean @Primary public DataSource dataSource(){ return DataSourceBuilder.create().build(); } }  This DataSource is using properties declared in the application.yml file:
+spring: datasource: url: jdbc:mysql://localhost:3306/db_01?zeroDateTimeBehavior=convertToNull username: xxxx password: ****  So far, all works as expected.</description>
+    </item>
+    
+    <item>
+      <title>About Me</title>
+      <link>https://technotes.guru/about/</link>
+      <pubDate>Tue, 10 Mar 2015 00:13:27 +0000</pubDate>
+      
+      <guid>https://technotes.guru/about/</guid>
+      <description>开过好几个博客，CSDN有, JaveEye有，简书也有，这儿写写，那儿写写，慢慢的这儿那儿的博客却都几乎都荒废了，看了看JavaEye最近的博客，差不多是十年前的了。平时的涂涂写写都扔到了云笔记里，不过好像Evernote有，有道云笔记也有。好几次在微信群里聊到一些内容，会去云笔记找，然后截个图，发到群里。突然意识到，还是再次开个博客吧。
+在这里我主要会写一些日常工作中的学习笔记，技术点滴。在平时的工作学习中，不时会有一些值得记下的信息，一方面方便自己将来温故知新，另一方面如果我的分享能够帮助到同样学习的朋友，也是极好的。
+所以先把博客建了，然后把以前写过其他博客平台上写的一些觉得还有点价值的，先备份过来。 然后再把云笔记值得分享的也整理了发到博客上来。
+然后再去慢慢的完善博客的功能，以及内容。
+最后，欢迎访问我的博客！:-)</description>
+    </item>
+    
+    <item>
+      <title>一个小项目的回顾</title>
+      <link>https://technotes.guru/posts/2009/a-project-retrospection/</link>
+      <pubDate>Thu, 20 Aug 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2009/a-project-retrospection/</guid>
+      <description>最近的一个项目，四个开发人员，大概做了一个月多一点，从需求，到最终代码的完成。
+写思考，我想，主要还是要回顾一下在项目中遇到的问题，或是有什么比较好的经验，新的体会值得记录下来，以供以后参考。在这里，主要是要思考两个方面的问题，数据库和测试。
+  数据库
+对于数据库，在j道上面有这样一篇文章 《数据库已死》 ，其主要思想，个人感觉，主要还是对象与关系的问题，我们现在的主流已经是面向对象，但现在，可能很多公司仍以数据库建模作为其一条主线，首先进行数据建模，erwin，powerdesigner(后注: 实际上PowerDesigner的Logical Data Model的设计非常的强大，可以首先设计Logical Data Model, 然后转换成Physical Data Model，最后生成DDL)，然后创建相应的表，下面，就使用myeclipse,hibernate tools等生成相应的实体类，以及相应的映射文件。包括以前的几个项目，者是在开始花了大量的时间进行数据库的设计，中途加入的项目，也会在进入项目组的开始阶段让你熟悉其数据库的表结构，当面对大量的表的时候，看着E-R图上面的“蜘蛛网”的时候，可能，就已经晕了。
+实际上，在面向对象的时代，数据库只是状态持久化的一种手段，数据库的表结构完全可以通过Hibernate等ORM工具自动生成。
+在这个小项目中，前期，并没有花大多的时候在数据库的设计上，在初期建模了一些核心对象，创建相应的实体类，加上相应的注解，借助于hibernate的hbm2ddl，完全可以由hibernate自动生成相应的表结构。当增加新的对象的时候，也只需要定义其类结构。
+并且，可以提供不同的sessionfactory，分别针对测试等环境，也可以做到一定程度的database migration。
+  测试
+TDD，BDD，持续集成~~~~等等，不知道有多少公司实施了，并且实施的情况如何。在以前的项目中，最怕的，就是测试数据依赖于其它的模块，当跑一次测试，还需要去跑一下由其它小组开发的模块，当对该模块的业务不太了解的时候，测试起来，还是比较麻烦的，还有可能需要麻烦其它小组的人员来为我们提供相应的测试数据。
+这种情况，其中一个原因，测试代码太少。所以在这个项目中，针对一些核心的，或是较复杂的业务逻辑，都提供了相应的测试代码(当然，这里有一个粒度的问题)，虽然在开发过程中，需要抽出一部分时间来编写相应的测试代码，但在实际过程中，效果还是比较明显的。
+  </description>
+    </item>
+    
+    <item>
+      <title>Rails生成Ext Tree</title>
+      <link>https://technotes.guru/posts/2008/rails-ext-tree/</link>
+      <pubDate>Sat, 29 Mar 2008 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2008/rails-ext-tree/</guid>
+      <description>树形菜单是在开发中经常会遇到的一个功能，RoR的这个设计对于大数据量tree结构是最好的，比如一些常见的查询都可以避免循环或者递归抓取, 而且通过在lft, rgt上设置索引能够达到最好的查询效率。(发布于JavaEye)
+ 在Rails中使用has_one 、has_many 、belongs_to 和 has_and_belongs_to_may 来声明关系型数据库中的一对一，一对多和多对多的关系，但当想以树形的数据结构来表示分类的时候，这些基本的关联功能并不够，Rails在has_XXX关系的基础上，提供了acts as的扩展功能，如acts_as_list 、acts_as_tree 、 acts_as_nested_set。acts_as_tree就提供树状的结构来组织记录。(不知道为什么Rails2.0以后会取消掉，需要通过插件的方式来安装)
+acts_as_nested_set的官方解释：
+ A Nested Set is similar to a tree from ActsAsTree. However the nested set allows building of the entire hierarchy at once instead of querying each nodes children, and their children. When destroying an object, a before_destroy trigger prunes the rest of the branch of object under the current object.
+ 上面是引用自rubyonrails.org上的对于acts_as_nested_set的描述，并提供了一个简单的示例：
+SQL脚本：</description>
+    </item>
+    
+    <item>
+      <title>Generic Data Access Objects －范型DAO类设计模式</title>
+      <link>https://technotes.guru/posts/2007/the-generic-dao/</link>
+      <pubDate>Thu, 19 Apr 2007 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2007/the-generic-dao/</guid>
+      <description>Generic Data Access Objects －范型DAO类设计模式, DAO模式是最为经典的JAVA EE模式之一, 特别是自JDK5之后增加的泛型支持，大大增加了DAO的可复用性。(发布于JavaEye)
+ 普通数据访问对象，这个是Hibernate官方网站上面的一个DAO类的设计模式，基于JDK5.0范型支持,文章地址如下：
+ Generic Data Access Objects 
+我下面的代码与Hibernate官网上提供的有点不同。 首先定义DAO类的接口IGenericDAO，该接口定义了共同的CRUD操作：
+/** * 定义通用的CRUD操作 */ public interface IGenericDAO &amp;lt;T, ID extends Serializable&amp;gt; { // 通过主键标识查找某个对象。 public T findById(ID id); // 通过主键标识查找某个对象，可以锁定表中对应的记录。 T findById(ID id, boolean lock); // 得到所有的对象。 List&amp;lt;T&amp;gt; findAll(); // 通过给定的一个对象，查找与其匹配的对象。 List&amp;lt;T&amp;gt; findByExample(T exampleInstance); // 持久化对象。 T makePersistent(T entity); // 删除对象。 void makeTransient(T entity); } 下面是使用Hibernate针对该接口的实现GenericDAOHibernate:
+/** * 这是针对IGenericDAO接口的Hibernate实现，完成通用的CRUD操作。 * @param T POJO类 * @param ID POJO类的主键标识符 * @param DAOImpl 针对每一个POJO类的DAO类实现 */ public abstract class GenericDAOHibernate &amp;lt;T,ID extends Serializable, DAOImpl extends IGenericDAO&amp;lt;T, ID&amp;gt;&amp;gt; implements IGenericDAO&amp;lt;T,ID&amp;gt; { private Class&amp;lt;T&amp;gt; persistentClass; protected Session session; public GenericDAOHibernate() { this.</description>
+    </item>
+    
+    <item>
+      <title>归档</title>
+      <link>https://technotes.guru/archives/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/archives/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>搜索</title>
+      <link>https://technotes.guru/search/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/search/</guid>
+      <description>搜索页面</description>
+    </item>
+    
+  </channel>
+</rss>

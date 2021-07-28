@@ -1,0 +1,126 @@
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Rails生成Ext Tree | TechNotes</title><meta name=keywords content="Ruby on Rails"><meta name=description content="树形菜单是在开发中经常会遇到的一个功能，RoR的这个设计对于大数据量tree结构是最好的，比如一些常见的查询都可以避免循环或者递归抓取, 而且通过在lft, rgt上设置索引能够达到最好的查询效率。(发布于JavaEye)
+ 在Rails中使用has_one 、has_many 、belongs_to 和 has_and_belongs_to_may 来声明关系型数据库中的一对一，一对多和多对多的关系，但当想以树形的数据结构来表示分类的时候，这些基本的关联功能并不够，Rails在has_XXX关系的基础上，提供了acts as的扩展功能，如acts_as_list 、acts_as_tree 、 acts_as_nested_set。acts_as_tree就提供树状的结构来组织记录。(不知道为什么Rails2.0以后会取消掉，需要通过插件的方式来安装)
+acts_as_nested_set的官方解释：
+ A Nested Set is similar to a tree from ActsAsTree. However the nested set allows building of the entire hierarchy at once instead of querying each nodes children, and their children. When destroying an object, a before_destroy trigger prunes the rest of the branch of object under the current object.
+ 上面是引用自rubyonrails.org上的对于acts_as_nested_set的描述，并提供了一个简单的示例：
+SQL脚本："><meta name=author content="TechNotes"><link rel=canonical href=https://technotes.guru/posts/2008/rails-ext-tree/><meta name=google-site-verification content="XYZabc"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.min.196211a537485b3a9509ba7a77d2de5700c6d26cb8d6c95b483ea1ec528a1d43.css integrity="sha256-GWIRpTdIWzqVCbp6d9LeVwDG0my41slbSD6h7FKKHUM=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w=" onload=hljs.initHighlightingOnLoad();></script><link rel=icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><meta name=generator content="Hugo 0.76.5"><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-123-45','auto');ga('send','pageview');}</script><meta property="og:title" content="Rails生成Ext Tree"><meta property="og:description" content="树形菜单是在开发中经常会遇到的一个功能，RoR的这个设计对于大数据量tree结构是最好的，比如一些常见的查询都可以避免循环或者递归抓取, 而且通过在lft, rgt上设置索引能够达到最好的查询效率。(发布于JavaEye)
+ 在Rails中使用has_one 、has_many 、belongs_to 和 has_and_belongs_to_may 来声明关系型数据库中的一对一，一对多和多对多的关系，但当想以树形的数据结构来表示分类的时候，这些基本的关联功能并不够，Rails在has_XXX关系的基础上，提供了acts as的扩展功能，如acts_as_list 、acts_as_tree 、 acts_as_nested_set。acts_as_tree就提供树状的结构来组织记录。(不知道为什么Rails2.0以后会取消掉，需要通过插件的方式来安装)
+acts_as_nested_set的官方解释：
+ A Nested Set is similar to a tree from ActsAsTree. However the nested set allows building of the entire hierarchy at once instead of querying each nodes children, and their children. When destroying an object, a before_destroy trigger prunes the rest of the branch of object under the current object.
+ 上面是引用自rubyonrails.org上的对于acts_as_nested_set的描述，并提供了一个简单的示例：
+SQL脚本："><meta property="og:type" content="article"><meta property="og:url" content="https://technotes.guru/posts/2008/rails-ext-tree/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2008-03-29T00:00:00+00:00"><meta property="article:modified_time" content="2008-03-29T00:00:00+00:00"><meta property="og:site_name" content="TechNotes"><meta name=twitter:card content="summary"><meta name=twitter:title content="Rails生成Ext Tree"><meta name=twitter:description content="树形菜单是在开发中经常会遇到的一个功能，RoR的这个设计对于大数据量tree结构是最好的，比如一些常见的查询都可以避免循环或者递归抓取, 而且通过在lft, rgt上设置索引能够达到最好的查询效率。(发布于JavaEye)
+ 在Rails中使用has_one 、has_many 、belongs_to 和 has_and_belongs_to_may 来声明关系型数据库中的一对一，一对多和多对多的关系，但当想以树形的数据结构来表示分类的时候，这些基本的关联功能并不够，Rails在has_XXX关系的基础上，提供了acts as的扩展功能，如acts_as_list 、acts_as_tree 、 acts_as_nested_set。acts_as_tree就提供树状的结构来组织记录。(不知道为什么Rails2.0以后会取消掉，需要通过插件的方式来安装)
+acts_as_nested_set的官方解释：
+ A Nested Set is similar to a tree from ActsAsTree. However the nested set allows building of the entire hierarchy at once instead of querying each nodes children, and their children. When destroying an object, a before_destroy trigger prunes the rest of the branch of object under the current object.
+ 上面是引用自rubyonrails.org上的对于acts_as_nested_set的描述，并提供了一个简单的示例：
+SQL脚本："><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://technotes.guru/posts/"},{"@type":"ListItem","position":2,"name":"Rails生成Ext Tree","item":"https://technotes.guru/posts/2008/rails-ext-tree/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Rails生成Ext Tree","name":"Rails生成Ext Tree","description":"树形菜单是在开发中经常会遇到的一个功能，RoR的这个设计对于大数据量tree结构是最好的，比如一些常见的查询都可以避免循环或者递归抓取, 而且通过在lft, rgt上设置索引能够达到最好的查询效率。(发布于JavaEye)\n 在Rails中使用has_one 、has_many 、belongs_to 和 has_and_belongs_to_may 来声明关系型数据库中的一对一，一对多和多对多的关系，但当想以树形的数据结构来表示分类的时候，这些基本的关联功能并不够，Rails在has_XXX关系的基础上，提供了acts as的扩展功能，如acts_as_list 、acts_as_tree 、 acts_as_nested_set。acts_as_tree就提供树状的结构来组织记录。(不知道为什么Rails2.0以后会取消掉，需要通过插件的方式来安装)\nacts_as_nested_set的官方解释：\n A Nested Set is similar to a tree from ActsAsTree. However the nested set allows building of the entire hierarchy at once instead of querying each nodes children, and their children. When destroying an object, a before_destroy trigger prunes the rest of the branch of object under the current object.\n 上面是引用自rubyonrails.org上的对于acts_as_nested_set的描述，并提供了一个简单的示例：\nSQL脚本：","keywords":["Ruby on Rails"],"articleBody":" 树形菜单是在开发中经常会遇到的一个功能，RoR的这个设计对于大数据量tree结构是最好的，比如一些常见的查询都可以避免循环或者递归抓取, 而且通过在lft, rgt上设置索引能够达到最好的查询效率。(发布于JavaEye)\n 在Rails中使用has_one 、has_many 、belongs_to 和 has_and_belongs_to_may 来声明关系型数据库中的一对一，一对多和多对多的关系，但当想以树形的数据结构来表示分类的时候，这些基本的关联功能并不够，Rails在has_XXX关系的基础上，提供了acts as的扩展功能，如acts_as_list 、acts_as_tree 、 acts_as_nested_set。acts_as_tree就提供树状的结构来组织记录。(不知道为什么Rails2.0以后会取消掉，需要通过插件的方式来安装)\nacts_as_nested_set的官方解释：\n A Nested Set is similar to a tree from ActsAsTree. However the nested set allows building of the entire hierarchy at once instead of querying each nodes children, and their children. When destroying an object, a before_destroy trigger prunes the rest of the branch of object under the current object.\n 上面是引用自rubyonrails.org上的对于acts_as_nested_set的描述，并提供了一个简单的示例：\nSQL脚本：\ncreate table nested_objects ( id int(11) unsigned not null auto_increment, parent_id int(11), lft int(11), rgt int(11), name varchar(32), primary key (id) ); Ruby Model:\nclass NestedObject acts_as_nested_set提供的方法：\n root?() – 是否是根对象 child?() – 是否是子对象(拥有父对象) unknown?() – 不知道该对象的状态(既不是根对象，也不是子对象) add_child(child_object) – 为根对象添加一个子对象(如果child_object是一个根对象的话，则添加失败) children_count() – 根对象的所有子对象的个数 full_set() – 重新找到所有对象 all_children() – 根对象的所有子对象 direct_children() –根对象的直接子对象  下面就使用acts_as_nested_set来生成一个Ext的Tree。\n比如生成如下的树：\nroot |_ Child 1 | |_ Child 1.1 | |_ Child 1.2 |_ Child 2 |_ Child 2.1 |_ Child 2.2 先来看一下对上面的树的一个图形化的解释： 这图还是比较清除的，请理解横线中的1到14这些数字，对应这个树，我们可能会有下面的数据： 这个也就是SQL脚本中的的lft和rgt的解释。\nSteps:\n 创建Rails工程：  rails ExtTree 安装act_as_nested_set:  ruby script/plugin install acts_as_nested_set  下载ext，解压下载后的压缩包并拷贝到ExtTree工程的public目录(public/ext)\n  创建模型对象：\n  ruby script/generate resource Category parent_id:integer lft:integer rgt:integer text:string 给模型对象Category加入acts_as_nested_set:  class Category 下面在CategoriesController中加入index方法，让它来转到index.html页面，并且为EXT TREE来生成JSON数据：  class CategoriesController Category.find_children(id) } end end end index方法有一个参数id,用来接收一个树的节点的id，我们就可以通过一个id来查找该节点的子节点。\n实现CategoriesController中的find_children方法：  #首先先得到树的根节点，再根据传过来的id找到根的子节点 def self.find_children(start_id = nil) start_id.to_i == 0 ? root_nodes : find(start_id).direct_children end #如果parent_id为空，则为树的根节点 def self.root_nodes find(:all, :conditions = 'parent_id IS NULL') end 到这里，已经实现了基本的树形结构，但却还有一个问题，如果是树叶节点，既没有子节点的节点，图标应该显示为\"-\" ，不应该再能够伸展了，Ext Tree中提供的示例中给出的JSON数据中有一个leaf的属性，如果为true，则为树叶节点，如果为false，则为树枝节点，所以，我们还需要让我们生成的JSON数据用来leaf来标识树枝节点与树叶节点，在Category.rb中添加如下代码：\ndef leaf unknown? || children_count == 0 end def to_json_with_leaf(options = {}) self.to_json_without_leaf(options.merge(:methods = :leaf)) end alias_method_chain :to_json, :leaf 对于alias_method_chain，需要先说一下Ruby中的alias_method方法，在Ruby中有这样的用法：\nalias_method :old_method_name :new_method_name 它同alias很类似，但只能用法方法。\n在Ruby中，可以使用方法链的手段来实现mix-in，如果想要用new_method来override old_method方法，就可以这样使用：\nalias_method :old_method_name :new_method_name alias_method :new_method_name :old_method_name 而在Rails中，提供了一个更强大的方法：alias_method_chain。\n下面是index.html.erb文件：\n Rails Ext Tree    Ext.onReady(function(){ root = new Ext.tree.AsyncTreeNode({ text: 'Invisible Root', id:'0' }); new Ext.tree.TreePanel({ loader: new Ext.tree.TreeLoader({ url:'/categories', requestMethod:'GET', baseParams:{format:'json'} }), renderTo:'category-tree', root: root, rootVisible:false }); root.expand(); });   添加测试数据：\nroot = Category.create(:text = 'Root') root.add_child(c1 = Category.create(:text = 'Child 1')) c1.add_child(Category.create(:text = 'Child 1.1')) c1.add_child(Category.create(:text = 'Child 1.2')) root.add_child(c2 = Category.create(:text = 'Child 2')) c2.add_child(c21 = Category.create(:text = 'Child 2.1')) c2.add_child(c21 = Category.create(:text = 'Child 2.2')) 最后的显示效果： ","wordCount":"376","inLanguage":"en","datePublished":"2008-03-29T00:00:00Z","dateModified":"2008-03-29T00:00:00Z","author":{"@type":"Person","name":"TechNotes"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://technotes.guru/posts/2008/rails-ext-tree/"},"publisher":{"@type":"Organization","name":"TechNotes","logo":{"@type":"ImageObject","url":"https://technotes.guru/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><script>if(localStorage.getItem("pref-theme")==="dark"){document.body.classList.add('dark');}else if(localStorage.getItem("pref-theme")==="light"){document.body.classList.remove('dark')}else if(window.matchMedia('(prefers-color-scheme: dark)').matches){document.body.classList.add('dark');}</script><noscript><style type=text/css>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme: #1d1e20;--entry: #2e2e33;--primary: rgba(255, 255, 255, 0.84);--secondary: rgba(255, 255, 255, 0.56);--tertiary: rgba(255, 255, 255, 0.16);--content: rgba(255, 255, 255, 0.74);--hljs-bg: #2e2e33;--code-bg: #37383e;--border: #333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><header class=header><nav class=nav><div class=logo><a href=https://technotes.guru/ accesskey=h title="TechNotes (Alt + H)">TechNotes</a>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://technotes.guru/categories/ title=categories><span>categories</span></a></li><li><a href=https://technotes.guru/tags/ title=tags><span>tags</span></a></li><li><a href=https://technotes.guru/about/ title=about><span>about</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://technotes.guru/>Home</a>&nbsp;»&nbsp;<a href=https://technotes.guru/posts/>Posts</a></div><h1 class=post-title>Rails生成Ext Tree</h1><div class=post-meta>2008-03-03&nbsp;·&nbsp;2 min&nbsp;·&nbsp;TechNotes</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><div class=details>Table of Contents</div></summary><div class=inner></div></details></div><div class=post-content><blockquote><p>树形菜单是在开发中经常会遇到的一个功能，RoR的这个设计对于大数据量tree结构是最好的，比如一些常见的查询都可以避免循环或者递归抓取, 而且通过在lft, rgt上设置索引能够达到最好的查询效率。(发布于JavaEye)</p></blockquote><p>在Rails中使用has_one 、has_many 、belongs_to 和 has_and_belongs_to_may 来声明关系型数据库中的一对一，一对多和多对多的关系，但当想以树形的数据结构来表示分类的时候，这些基本的关联功能并不够，Rails在has_XXX关系的基础上，提供了acts as的扩展功能，如<code>acts_as_list</code> 、<code>acts_as_tree</code> 、 <code>acts_as_nested_set</code>。<code>acts_as_tree</code>就提供树状的结构来组织记录。(不知道为什么Rails2.0以后会取消掉，需要通过插件的方式来安装)</p><p><strong><code>acts_as_nested_set</code>的官方解释：</strong></p><blockquote><p>A Nested Set is similar to a tree from ActsAsTree. However the nested set allows building of the entire hierarchy at once instead of querying each nodes children, and their children. When destroying an object, a before_destroy trigger prunes the rest of the branch of object under the current object.</p></blockquote><p>上面是引用自rubyonrails.org上的对于<code>acts_as_nested_set</code>的描述，并提供了一个简单的示例：</p><p><strong>SQL脚本：</strong></p><pre><code>create table nested_objects (  
+  id int(11) unsigned not null auto_increment,  
+  parent_id int(11),  
+  lft int(11),  
+  rgt int(11),  
+  name varchar(32),  
+  primary key (id)  
+);  
+</code></pre><p><strong>Ruby Model:</strong></p><pre><code>class NestedObject &lt; ActiveRecord::Base  
+  acts_as_nested_set  
+end 
+</code></pre><p><strong><code>acts_as_nested_set</code>提供的方法：</strong></p><ul><li>root?() – <em>是否是根对象</em></li><li>child?() – <em>是否是子对象(拥有父对象)</em></li><li>unknown?() – <em>不知道该对象的状态(既不是根对象，也不是子对象)</em></li><li>add_child(child_object) – <em>为根对象添加一个子对象(如果child_object是一个根对象的话，则添加失败)</em></li><li>children_count() – <em>根对象的所有子对象的个数</em></li><li>full_set() – <em>重新找到所有对象</em></li><li>all_children() – <em>根对象的所有子对象</em></li><li>direct_children() –<em>根对象的直接子对象</em></li></ul><p>下面就使用<code>acts_as_nested_set</code>来生成一个Ext的Tree。</p><p>比如生成如下的树：</p><pre><code>root
+    |_ Child 1
+    |  |_ Child 1.1
+    |  |_ Child 1.2
+    |_ Child 2
+       |_ Child 2.1
+       |_ Child 2.2
+</code></pre><p>先来看一下对上面的树的一个图形化的解释：
+<img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201019214820.png alt></p><p>这图还是比较清除的，请理解横线中的1到14这些数字，对应这个树，我们可能会有下面的数据：
+<img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201019214918.png alt></p><p>这个也就是SQL脚本中的的lft和rgt的解释。</p><p><strong>Steps:</strong></p><ol><li>创建Rails工程：</li></ol><pre><code>rails ExtTree
+</code></pre><ol start=2><li>安装act_as_nested_set:</li></ol><pre><code>ruby script/plugin install acts_as_nested_set
+</code></pre><ol start=3><li><p>下载ext，解压下载后的压缩包并拷贝到ExtTree工程的public目录(public/ext)</p></li><li><p>创建模型对象：</p></li></ol><pre><code>ruby script/generate resource Category parent_id:integer lft:integer rgt:integer text:string
+</code></pre><ol start=5><li>给模型对象Category加入acts_as_nested_set:</li></ol><pre><code>class Category &lt; ActiveRecord::Base  
+  acts_as_nested_set  
+end  
+</code></pre><ol start=6><li>下面在CategoriesController中加入index方法，让它来转到index.html页面，并且为EXT TREE来生成JSON数据：</li></ol><pre><code>class CategoriesController &lt; ApplicationController  
+  def index(id = params[:node])  
+    respond_to do |format|  
+      format.html # render static index.html.erb  
+      format.json { render :json =&gt; Category.find_children(id) }  
+    end  
+  end  
+end  
+</code></pre><p>index方法有一个参数id,用来接收一个树的节点的id，我们就可以通过一个id来查找该节点的子节点。</p><ol start=7><li>实现CategoriesController中的find_children方法：</li></ol><pre><code>#首先先得到树的根节点，再根据传过来的id找到根的子节点  
+def self.find_children(start_id = nil)  
+    start_id.to_i == 0 ? root_nodes : find(start_id).direct_children  
+end  
+
+#如果parent_id为空，则为树的根节点  
+def self.root_nodes  
+    find(:all, :conditions =&gt; 'parent_id IS NULL')  
+end  
+</code></pre><p>到这里，已经实现了基本的树形结构，但却还有一个问题，如果是树叶节点，既没有子节点的节点，图标应该显示为"-" ，不应该再能够伸展了，Ext Tree中提供的示例中给出的JSON数据中有一个leaf的属性，如果为true，则为树叶节点，如果为false，则为树枝节点，所以，我们还需要让我们生成的JSON数据用来leaf来标识树枝节点与树叶节点，在Category.rb中添加如下代码：</p><pre><code>def leaf  
+    unknown? || children_count == 0  
+end  
+  
+def to_json_with_leaf(options = {})  
+    self.to_json_without_leaf(options.merge(:methods =&gt; :leaf))  
+end  
+  
+alias_method_chain :to_json, :leaf 
+</code></pre><p>对于alias_method_chain，需要先说一下Ruby中的alias_method方法，在Ruby中有这样的用法：</p><pre><code>alias_method :old_method_name :new_method_name
+</code></pre><p>它同alias很类似，但只能用法方法。</p><p>在Ruby中，可以使用方法链的手段来实现mix-in，如果想要用new_method来override old_method方法，就可以这样使用：</p><pre><code>alias_method :old_method_name :new_method_name  
+alias_method :new_method_name :old_method_name  
+</code></pre><p>而在Rails中，提供了一个更强大的方法：alias_method_chain。</p><p>下面是index.html.erb文件：</p><pre><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;  
+        &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;  
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;en&quot; lang=&quot;en&quot;&gt;  
+&lt;head&gt;  
+    &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=UTF-8&quot;/&gt;  
+    &lt;title&gt;Rails Ext Tree&lt;/title&gt;  
+    &lt;%= stylesheet_link_tag &quot;../ext/resources/css/ext-all.css&quot; %&gt;  
+    &lt;%= javascript_include_tag :defaults %&gt;  
+    &lt;%= javascript_include_tag &quot;../ext/adapter/prototype/ext-prototype-adapter.js&quot; %&gt;  
+    &lt;%= javascript_include_tag &quot;../ext/ext-all.js&quot; %&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+&lt;div id=&quot;category-tree&quot; style=&quot;padding:20px&quot;&gt;&lt;/div&gt;  
+&lt;% javascript_tag do -%&gt;  
+    Ext.onReady(function(){       
+        root = new Ext.tree.AsyncTreeNode({  
+        text: 'Invisible Root',  
+        id:'0'  
+    });  
+     
+    new Ext.tree.TreePanel({  
+        loader: new Ext.tree.TreeLoader({  
+            url:'/categories',  
+            requestMethod:'GET',  
+            baseParams:{format:'json'}  
+        }),  
+        renderTo:'category-tree',  
+        root: root,  
+        rootVisible:false  
+    });  
+      
+    root.expand();  
+    });  
+&lt;% end -%&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>添加测试数据：</p><pre><code>root = Category.create(:text =&gt; 'Root')  
+  
+root.add_child(c1 = Category.create(:text =&gt; 'Child 1'))  
+c1.add_child(Category.create(:text =&gt; 'Child 1.1'))  
+c1.add_child(Category.create(:text =&gt; 'Child 1.2'))  
+  
+root.add_child(c2 = Category.create(:text =&gt; 'Child 2'))  
+c2.add_child(c21 = Category.create(:text =&gt; 'Child 2.1'))  
+c2.add_child(c21 = Category.create(:text =&gt; 'Child 2.2'))
+</code></pre><p>最后的显示效果：
+<img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201019215300.png alt></p></div><footer class=post-footer><ul class=post-tags><li><a href=https://technotes.guru/tags/ruby-on-rails/>Ruby on Rails</a></li></ul><nav class=paginav><a class=prev href=https://technotes.guru/posts/2009/a-project-retrospection/><span class=title>« Prev Page</span><br><span>一个小项目的回顾</span></a>
+<a class=next href=https://technotes.guru/posts/2007/the-generic-dao/><span class=title>Next Page »</span><br><span>Generic Data Access Objects －范型DAO类设计模式</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2021 <a href=https://technotes.guru/>TechNotes</a></span>
+<span>Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)"><button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></button></a>
+<script>let menu=document.getElementById('menu')
+menu.scrollLeft=localStorage.getItem("menu-scroll-position");menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft);}
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener("click",function(e){e.preventDefault();var id=this.getAttribute("href").substr(1);if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({behavior:"smooth"});}else{document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();}
+if(id==="top"){history.replaceState(null,null," ");}else{history.pushState(null,null,`#${id}`);}});});</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){if(document.body.scrollTop>800||document.documentElement.scrollTop>800){mybutton.style.visibility="visible";mybutton.style.opacity="1";}else{mybutton.style.visibility="hidden";mybutton.style.opacity="0";}};</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{if(document.body.className.includes("dark")){document.body.classList.remove('dark');localStorage.setItem("pref-theme",'light');}else{document.body.classList.add('dark');localStorage.setItem("pref-theme",'dark');}})</script></body></html>
