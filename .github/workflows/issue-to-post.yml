@@ -1,0 +1,52 @@
+name: Publish post from issue
+
+on:
+  issues:
+    types: ['labeled']
+
+jobs:
+  build:
+    if: ${{ contains(github.event.issue.labels.*.name, 'publish') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Generate Post
+        env:
+          POST_TITLE: ${{ github.event.issue.title }}
+          POST_BODY: ${{ github.event.issue.body }}
+          CREATED_AT: ${{ github.event.issue.created_at }}
+          UPDATED_AT: ${{ github.event.issue.updated_at }}
+        run: |
+          # echo "$POST_TITLE - $CREATED_AT"
+          YEAR=$(date -d "$CREATED_AT" '+%Y')
+          # Passing the var to next step
+          echo "PUBLISHED_YEAR=$YEAR" >> $GITHUB_ENV
+          # echo $YEAR
+          # echo $POST_BODY        
+          save_to="content/posts/$YEAR/$POST_TITLE"
+          mkdir -p "$save_to"
+          cd "$save_to"
+        
+          echo "---" > index.md
+          echo "title: $POST_TITLE" >> index.md
+          echo "date: $(date -d "$CREATED_AT" '+%Y-%m-%d')" >> index.md
+          echo "lastmod: $(date -d "$UPDATED_AT" '+%Y-%m-%d')" >> index.md
+          echo "tags: [${{ join(github.event.issue.labels.*.name, ', ') }}]" >> index.md
+          echo "---" >> index.md
+          
+          echo "" >> index.md
+          echo $POST_BODY >> index.md
+          
+      - name: Commit files
+        env:
+          POST_TITLE: ${{ github.event.issue.title }}
+        run: |
+          git config --local user.email "liping.huang@live.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -m "Add new post $POST_TITLE" -a
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ISSUE_TO_POST_DEPLOY_TOKEN }}
+          branch: ${{ github.ref }}
