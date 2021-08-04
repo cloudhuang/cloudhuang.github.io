@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>publish on TechNotes</title>
+    <link>https://technotes.guru/tags/publish/</link>
+    <description>Recent content in publish on TechNotes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 20 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://technotes.guru/tags/publish/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用 github pages &#43; issues 建立个人博客</title>
+      <link>https://technotes.guru/posts/2020/%E4%BD%BF%E7%94%A8-github-pages-&#43;-issues-%E5%BB%BA%E7%AB%8B%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</link>
+      <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/posts/2020/%E4%BD%BF%E7%94%A8-github-pages-&#43;-issues-%E5%BB%BA%E7%AB%8B%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</guid>
+      <description>TBD</description>
+    </item>
+    
+  </channel>
+</rss>
