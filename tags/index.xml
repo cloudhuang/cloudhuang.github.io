@@ -5,22 +5,40 @@
     <link>https://technotes.guru/tags/</link>
     <description>Recent content in Tags on TechNotes</description>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Wed, 17 Mar 2021 13:37:54 +0800</lastBuildDate><atom:link href="https://technotes.guru/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 13 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://technotes.guru/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>publish</title>
+      <link>https://technotes.guru/tags/publish/</link>
+      <pubDate>Wed, 13 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/tags/publish/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>大数据</title>
+      <link>https://technotes.guru/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</link>
+      <pubDate>Wed, 13 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>数据中台</title>
+      <link>https://technotes.guru/tags/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0/</link>
+      <pubDate>Wed, 13 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://technotes.guru/tags/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>Netty</title>
       <link>https://technotes.guru/tags/netty/</link>
       <pubDate>Wed, 17 Mar 2021 13:37:54 +0800</pubDate>
       
       <guid>https://technotes.guru/tags/netty/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>publish</title>
-      <link>https://technotes.guru/tags/publish/</link>
-      <pubDate>Tue, 20 Oct 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://technotes.guru/tags/publish/</guid>
       <description></description>
     </item>
     
