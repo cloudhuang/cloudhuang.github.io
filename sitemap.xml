@@ -1,183 +1,303 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
   <url>
     <loc>https://technotes.guru/posts/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/publish/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/pyspark/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/spark/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2021/%E4%BD%BF%E7%94%A8-apache-spark-pyspark-minio-%E5%88%86%E6%9E%90-movielens-%E6%95%B0%E6%8D%AE%E9%9B%86/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2021/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/</loc>
     <lastmod>2021-03-17T13:37:54+08:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/netty/</loc>
     <lastmod>2021-03-17T13:37:54+08:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/netty/</loc>
     <lastmod>2021-03-17T13:37:54+08:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2021/%E4%B8%BA%E4%BB%80%E4%B9%88sleep%E4%BC%9A%E8%AE%A9netty%E7%9A%84%E6%80%A7%E8%83%BD%E5%A4%A7%E9%99%8D/</loc>
     <lastmod>2021-03-17T13:37:54+08:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2020/%E4%BD%BF%E7%94%A8-github-pages-&#43;-issues-%E5%BB%BA%E7%AB%8B%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2021-08-04T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/devops/</loc>
     <lastmod>2020-10-12T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/devops/</loc>
     <lastmod>2020-10-12T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2020/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%87%87%E8%B4%AD%E5%8F%8A%E7%BD%91%E7%BB%9C%E5%AD%98%E5%82%A8%E8%A7%84%E5%88%92/</loc>
     <lastmod>2020-10-12T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2020/%E4%B8%AD%E5%B0%8F%E4%BC%81%E4%B8%9A%E7%9A%84%E7%A0%94%E5%8F%91%E4%BD%93%E7%B3%BB/</loc>
     <lastmod>2020-09-22T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/docker/</loc>
     <lastmod>2019-05-24T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/node/</loc>
     <lastmod>2019-05-24T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/node/</loc>
     <lastmod>2019-05-24T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2019/%E8%A7%A3%E5%86%B3-docker-%E7%94%B1%E4%BA%8Enode-sass-build%E5%A4%B1%E8%B4%A5%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
     <lastmod>2019-05-24T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/bert/</loc>
     <lastmod>2019-05-15T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/bert/</loc>
     <lastmod>2019-05-15T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/bert-as-service/</loc>
     <lastmod>2019-05-15T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2019/bert-as-servcie%E5%9C%A8%E5%8D%95gpu%E5%8D%95%E7%BA%BF%E7%A8%8B%E6%B5%8B%E8%AF%95%E5%9C%BA%E6%99%AF%E4%B8%8B%E7%B3%BB%E7%BB%9F%E5%81%9C%E9%A1%BF%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
     <lastmod>2019-05-15T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2019/refactor-the-backend/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/%E9%87%8D%E6%9E%84/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/%E9%87%8D%E6%9E%84/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2019/refactor-the-frontend/</loc>
     <lastmod>2019-02-27T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/</loc>
     <lastmod>2018-05-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/</loc>
     <lastmod>2018-05-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/</loc>
     <lastmod>2018-05-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/spring-boot/</loc>
     <lastmod>2018-05-07T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/spring-boot/</loc>
     <lastmod>2018-05-07T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/%E4%BB%A5%E5%A4%AA%E5%9D%8A/</loc>
     <lastmod>2018-05-07T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2018/blockchain-eth-chaincode/</loc>
     <lastmod>2018-05-07T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2018/spring-boot-process-finished-with-exit-code-0/</loc>
     <lastmod>2018-05-07T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/apache-ant/</loc>
     <lastmod>2017-10-07T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2017/why-i-hate-ant/</loc>
     <lastmod>2017-10-07T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/java/</loc>
     <lastmod>2017-06-21T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2017/running-spring-batch-on-multiple-databases-in-parallel/</loc>
     <lastmod>2017-06-21T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/spring/</loc>
     <lastmod>2017-06-21T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/spring/</loc>
     <lastmod>2017-06-21T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/about/</loc>
     <lastmod>2015-03-10T00:13:27+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/ddd/</loc>
     <lastmod>2009-08-20T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2009/a-project-retrospection/</loc>
     <lastmod>2009-08-20T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/</loc>
     <lastmod>2009-08-20T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/%E9%A1%B9%E7%9B%AE/</loc>
     <lastmod>2009-08-20T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2008/rails-ext-tree/</loc>
     <lastmod>2008-03-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/ruby-on-rails/</loc>
     <lastmod>2008-03-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/ruby-on-rails/</loc>
     <lastmod>2008-03-29T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/posts/2007/the-generic-dao/</loc>
     <lastmod>2007-04-19T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/tags/hibernate/</loc>
     <lastmod>2007-04-19T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/categories/hibernate/</loc>
     <lastmod>2007-04-19T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/archives/</loc>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://technotes.guru/search/</loc>
   </url>
+  
 </urlset>
