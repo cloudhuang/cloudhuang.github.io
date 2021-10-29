@@ -1,8 +1,9 @@
 name: CI #自动化的名称
 on:
-  push: # push的时候触发
-    branches: # 那些分支需要触发
-      - master
+  workflow_run:
+    workflows: ["CI build"]
+    types:
+      - completed
 jobs:
   build:
     runs-on: ubuntu-latest # 镜像市场
