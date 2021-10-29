@@ -1,7 +1,7 @@
 name: CI #自动化的名称
 on:
   workflow_run:
-    workflows: ["CI build"]
+    workflows: ["Publish post from issue"]
     types:
       - completed
 jobs:
