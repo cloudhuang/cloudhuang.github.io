@@ -24,9 +24,10 @@
 
 {{- $paginator := .Paginate $pages }}
 
-{{- if and .IsHome .Site.Params.homeInfoParams (eq $paginator.PageNumber 1) }}
+<!-- delete home InfoP section -->
+<!-- {{- if and .IsHome .Site.Params.homeInfoParams (eq $paginator.PageNumber 1) }}
 {{- partial "home_info.html" . }}
-{{- end }}
+{{- end }} -->
 
 {{- $term := .Data.Term }}
 {{- range $index, $page := $paginator.Pages }}

@@ -261,11 +261,13 @@
 }
 
 .toc {
-    margin: 0 2px 40px 2px;
+    margin: 0 2px 40px 10px;
     border: 1px solid var(--border);
     background: var(--code-bg);
     border-radius: var(--radius);
-    padding: 0.4em;
+    padding: 0.2em;
+    float: right;
+    font-size: 0.9rem !important;
 }
 
 .dark .toc {
