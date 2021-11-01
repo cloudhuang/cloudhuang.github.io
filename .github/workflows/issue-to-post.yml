@@ -37,6 +37,8 @@ jobs:
           
           echo "" >> index.md
           echo $POST_BODY >> index.md
+          # delete leading whitespaces          
+          sed -i 's/^ *//' index.md
           
       - name: Commit files
         env:
