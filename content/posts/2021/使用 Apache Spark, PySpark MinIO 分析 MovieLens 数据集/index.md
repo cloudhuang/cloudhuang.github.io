@@ -41,97 +41,98 @@ version: '3.7'
 
 # Settings and configurations that are common for all containers
 x-minio-common: &minio-common
-image: minio/minio
-command: server --console-address ":9001" http://minio{1...4}/data{1...2}
-expose:
-- "9000"
-- "9001"
-environment:
-MINIO_ROOT_USER: minio
-MINIO_ROOT_PASSWORD: minio123
-healthcheck:
-test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-interval: 30s
-timeout: 20s
-retries: 3
+  image: minio/minio
+  command: server --console-address ":9001" http://minio{1...4}/data{1...2}
+  expose:
+    - "9000"
+    - "9001"
+  environment:
+    MINIO_ROOT_USER: minio
+    MINIO_ROOT_PASSWORD: minio123
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+    interval: 30s
+    timeout: 20s
+    retries: 3
 
 # starts 4 docker containers running minio server instances.
 # using nginx reverse proxy, load balancing, you can access
 # it through port 9000.
 services:
-minio1:
-<<: *minio-common
-hostname: minio1
-volumes:
-- ./minio/data/data1-1:/data1
-- ./minio/data/data1-2:/data2
+  minio1:
+    <<: *minio-common
+    hostname: minio1
+    volumes:
+      - ./minio/data/data1-1:/data1
+      - ./minio/data/data1-2:/data2
 
-minio2:
-<<: *minio-common
-hostname: minio2
-volumes:
-- ./minio/data/data2-1:/data1
-- ./minio/data/data2-2:/data2
+  minio2:
+    <<: *minio-common
+    hostname: minio2
+    volumes:
+      - ./minio/data/data2-1:/data1
+      - ./minio/data/data2-2:/data2
 
-minio3:
-<<: *minio-common
-hostname: minio3
-volumes:
-- ./minio/data/data3-1:/data1
-- ./minio/data/data3-2:/data2
+  minio3:
+    <<: *minio-common
+    hostname: minio3
+    volumes:
+      - ./minio/data/data3-1:/data1
+      - ./minio/data/data3-2:/data2
 
-minio4:
-<<: *minio-common
-hostname: minio4
-volumes:
-- ./minio/data/data4-1:/data1
-- ./minio/data/data4-2:/data2
+  minio4:
+    <<: *minio-common
+    hostname: minio4
+    volumes:
+      - ./minio/data/data4-1:/data1
+      - ./minio/data/data4-2:/data2
 
-nginx:
-image: nginx:1.19.2-alpine
-hostname: nginx
-volumes:
-- ./nginx.conf:/etc/nginx/nginx.conf:ro
-ports:
-- "9000:9000"
-- "9001:9001"
-depends_on:
-- minio1
-- minio2
-- minio3
-- minio4
+  nginx:
+    image: nginx:1.19.2-alpine
+    hostname: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    depends_on:
+      - minio1
+      - minio2
+      - minio3
+      - minio4
 
-# jupyter/all-spark-notebook
-notebook:
-container_name: jupyter_notebook
-image: jupyter/all-spark-notebook
-ports:
-- 8888:8888
-- 4040:4040
-environment:
-- PYSPARK_SUBMIT_ARGS=--packages com.amazonaws:aws-java-sdk:1.12.95,org.apache.hadoop:hadoop-client:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.95,org.apache.hadoop:hadoop-aws:3.3.1 pyspark-shell
-volumes:
-- ./work:/home/jovyan/work
-# Databases
-pgdb:
-container_name: pg_container
-image: postgres
-restart: always
-environment:
-POSTGRES_USER: admin
-POSTGRES_PASSWORD: admin
-POSTGRES_DB: test_db
-ports:
-- "5432:5432"
-pgadmin:
-container_name: pgadmin4_container
-image: dpage/pgadmin4:6.1
-restart: always
-environment:
-PGADMIN_DEFAULT_EMAIL: admin@admin.com
-PGADMIN_DEFAULT_PASSWORD: admin
-ports:
-- "5050:80"
+  #  jupyter/all-spark-notebook
+  notebook:
+    container_name: jupyter_notebook
+    image: jupyter/all-spark-notebook
+    ports:
+      - 8888:8888
+      - 4040:4040
+    environment:
+      - PYSPARK_SUBMIT_ARGS=--packages com.amazonaws:aws-java-sdk:1.12.95,org.apache.hadoop:hadoop-client:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.95,org.apache.hadoop:hadoop-aws:3.3.1 pyspark-shell
+    volumes:
+      - ./work:/home/jovyan/work
+  # Databases
+  pgdb:
+    container_name: pg_container
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: test_db
+    ports:
+      - "5432:5432"
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4:6.1
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+
 ```
 
 然后通过`docker compose up -d`启动集群. 在这个 docker compose 文件中同时化部署了PostgreSQL数据库以及PostgreSQL Admin 管理UI。
