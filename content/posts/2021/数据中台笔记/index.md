@@ -5,7 +5,7 @@ lastmod: 2021-10-29
 tags: [publish, 数据中台, 大数据]
 ---
 
-# 数据中台笔记
+数据中台笔记
  
 ![image-20211013152259374](https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/image-20211013152259374.png)
 
