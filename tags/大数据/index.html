@@ -73,21 +73,16 @@
 </header>
 <section class=entry-content>
 <p>使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集
-## MinIO
-MinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。
+MinIO MinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。
 MinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。
 MinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。
-## Apache Spark / PySpark
-Apache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。
+Apache Spark / PySpark Apache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。
 Apache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。
-## Jupyter Notebook
-Jupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。
-## MovieLens 数据集
-GroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。
+Jupyter Notebook Jupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。
+MovieLens 数据集 GroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。
 数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip
 下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。
-## 准备环境
-这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理
+准备环境 这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理
 version: '3.7'
 # Settings and configurations that are common for all containers
 x-minio-common: &minio-common
