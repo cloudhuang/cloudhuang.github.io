@@ -22,7 +22,7 @@ spring: datasource: url: jdbc:mysql://localhost:3306/db_01?zeroDateTimeBehavior=
 <link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
 <meta name=theme-color content="#2e2e33">
 <meta name=msapplication-TileColor content="#2e2e33">
-<meta name=generator content="Hugo 0.88.1">
+<meta name=generator content="Hugo 0.89.0">
 <script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="Running Spring Batch on Multiple Databases in Parallel">
 <meta property="og:description" content="The Question I&rsquo;ve created a Spring batch application using Spring boot, and I have a Job with 9 steps. These steps are using a DataSource which I created its bean in a configuration file as follows:
 @Configuration public class DatabaseConfig { @ConfigurationProperties(prefix = &#34;spring.datasource&#34;) @Bean @Primary public DataSource dataSource(){ return DataSourceBuilder.create().build(); } }  This DataSource is using properties declared in the application.yml file:

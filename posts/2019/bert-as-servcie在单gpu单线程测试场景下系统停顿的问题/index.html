@@ -21,7 +21,7 @@
 <link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
 <meta name=theme-color content="#2e2e33">
 <meta name=msapplication-TileColor content="#2e2e33">
-<meta name=generator content="Hugo 0.88.1">
+<meta name=generator content="Hugo 0.89.0">
 <script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="解决Bert as servcie在单GPU，单线程测试场景下无响应的问题">
 <meta property="og:description" content="问题描述： 在一个单GPU（RTX 2080 Ti）的服务器上进行 bert as servcie 的压力测试，当使用单线程跑的时候，在JMeter连续请求1分钟左右，bert as servcie会停顿，没有响应。 但是当多个线程执行，或者在多核CPU上则无法重现。
 原因： I:PROXY:[htt:enc: 48]:new request from 192.168.0.83 I:VENTILATOR:[__i:_ru:194]:new encode request req id: 17813 size: 1 client: b'e38043ad-153b-427a-b78d-d148c2032c11' I:SINK:[__i:_ru:352]:job register size: 1 job id: b'e38043ad-153b-427a-b78d-d148c2032c11#17813' I:WORKER-0:[__i:gen:553]:new job socket: 0 size: 1 client: b'e38043ad-153b-427a-b78d-d148c2032c11#17813' I:WORKER-0:[__i:_ru:528]:job done size: (1, 768) client: b'e38043ad-153b-427a-b78d-d148c2032c11#17813' I:SINK:[__i:_ru:332]:collect b'EMBEDDINGS' b'e38043ad-153b-427a-b78d-d148c2032c11#17813' (E:1/T:0/A:1) I:SINK:[__i:_ru:341]:send back size: 1 job id: b'e38043ad-153b-427a-b78d-d148c2032c11#17813' 192.168.0.83 - - [15/May/2019 03:19:37] &#34;POST /encode HTTP/1.1&#34; 200 - I:PROXY:[htt:enc: 48]:new request from 192.">

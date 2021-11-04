@@ -25,7 +25,7 @@ processor : 1 vendor_id : GenuineIntel cpu family : 6 model : 158 model name : I
 <link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
 <meta name=theme-color content="#2e2e33">
 <meta name=msapplication-TileColor content="#2e2e33">
-<meta name=generator content="Hugo 0.88.1">
+<meta name=generator content="Hugo 0.89.0">
 <script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="服务器采购及网络存储规划">
 <meta property="og:description" content="服务器采购 对于需要自建（小）机房的初创公司来说，服务器采购可以说是整个IT基础设施建设的第一步，如何在“差钱”的状态下平衡服务器配置与成本的关系，就显得比较重要了。
 好在现在电商发达，各种价格都比较透明，对于购买来说，最简单的就是在电商网站下单了。但是在下单之前，还是需要列一个简单的方案，比如:
@@ -125,7 +125,6 @@ processor : 1 vendor_id : GenuineIntel cpu family : 6 model : 158 model name : I
 </ol>
 <p>尽管初创企业的业务可能变化会比较大，但是上面那么是非常基础的服务，生产环境则还是建议放到云上。比如我现在的公司，开始的时候就几个人，还是『租用』的他人的办公场所，就购买了一台塔式服务器，用于跑Gitlab，并且在上面跑了一个FTP服务。这个时候还没有专职的测试人员，也不需要发布测试版本。</p>
 <p>大概小半年之后，租了自己的办公室，简单的隔了一个小机房，放了一个机架，这个时候人员也招聘到了将近20个。软件也大体上主要功能已经开发完成，也有了专职的测试人员。这个时候，又采购了四台联想的1U的服务器RS260, CPU E3-1220 v6 + 32G内存，配置不是很高，但是价格便宜，而且四台未来1-2年内基本上是够用的，CPU差了一些，但是日常的研发用服务器基本够了，跑个几十个应用实例基本没有压力。</p>
-<p></p>
 <pre tabindex=0><code>processor       : 1
 vendor_id       : GenuineIntel
 cpu family      : 6
@@ -146,7 +145,6 @@ fpu_exception   : yes
 cpuid level     : 22
 wp              : yes
 </code></pre><p>不过，从省钱的角度, 本地服务器采用二手服务器也是一个不错的选择，可以花最少的钱办做多的事情，不过X鱼水可能比较深。我自己还是比较偏向于入二手服务器，毕竟可以花较少的资金，就可以购买到性能不错的机架服务器。</p>
-<p></p>
 <p>Google在刚开始的时候, 也是靠着一大堆二手设备来提供服务的。</p>
 <p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/image-20201026093803768.png alt=image-20201026093803768>
 </p>
