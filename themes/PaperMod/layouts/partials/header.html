@@ -6,8 +6,17 @@
     if (localStorage.getItem("pref-theme") === "dark") {
         document.body.classList.add('dark');
     }
-
 </script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V4HC5K9V2M"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-V4HC5K9V2M');
+</script>
+
 {{- /* theme is dark */}}
 {{- else if (eq .Site.Params.defaultTheme "dark") }}
 <script>
