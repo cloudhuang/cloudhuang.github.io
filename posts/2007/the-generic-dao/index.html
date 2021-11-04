@@ -13,7 +13,7 @@
 /** * 这是针对IGenericDAO接口的Hibernate实现，完成通用的CRUD操作。 * @param T POJO类 * @param ID POJO类的主键标识符 * @param DAOImpl 针对每一个POJO类的DAO类实现 */ public abstract class GenericDAOHibernate <T,ID extends Serializable, DAOImpl extends IGenericDAO<T, ID>> implements IGenericDAO<T,ID> { private Class<T> persistentClass; protected Session session; public GenericDAOHibernate() { this.">
 <meta name=author content="TechNotes">
 <link rel=canonical href=https://technotes.guru/posts/2007/the-generic-dao/>
-<meta name=google-site-verification content="XYZabc">
+<meta name=google-site-verification content="G-V4HC5K9V2M">
 <meta name=yandex-verification content="XYZabc">
 <meta name=msvalidate.01 content="XYZabc">
 <link crossorigin=anonymous href=/assets/css/stylesheet.min.030f3f25d9f3449b524f810ddd2c31b9d4718215f17a58bacbd906ecaf639910.css integrity="sha256-Aw8/JdnzRJtST4EN3SwxudRxghXxeli6y9kG7K9jmRA=" rel="preload stylesheet" as=style>
