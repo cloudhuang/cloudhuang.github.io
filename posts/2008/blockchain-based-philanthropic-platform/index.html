@@ -1,174 +1,30 @@
-<!doctype html><html lang=en dir=auto>
-<head><meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
-<meta name=robots content="index, follow">
-<title>基于区块链的公益捐赠平台 | TechNotes</title>
-<meta name=keywords content="区块链">
-<meta name=description content="企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>基于区块链的公益捐赠平台 | TechNotes</title><meta name=keywords content="区块链"><meta name=description content="企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业
 当某个企业与公益组织达成捐赠合作后，也往往面临的很多的问题：
  捐赠中涉及的款项不透明，监管难度较大 公益组织本身不是盈利机构，需要将捐赠款项中的一部分作为公益组织的公益费用 按照捐赠协议，比如本次捐赠需要涉及多次活动，管理难度加大，费用使用情况复杂  以企业捐赠为例，企业为了履行其社会责任，决定发起一个捐赠，捐赠金额50万，捐赠3个项目。其中总金额的10%，5万元作为对应公益组织的费用。
 场景：
  企业发布公益计划，包括捐赠金额，活动要求等信息，公益活动方向，如针对贫困地区儿童的放心早餐项目 公益组织提交其组织资料，资质等信息，以及相应的活动策划信息 企业与公益组织签订协议  协议内容： &ndash; 活动的捐赠额 &ndash; 捐赠的钱是一次到账，还是按照活动数分批次，每举办一次活动转一次账 活动的活动周期多久，如一年的放心早餐 &ndash; 多少费用作为公益组织的费用 &ndash; 活动的命名 &ndash; 其他一些活动信息   公益组织按照协议条款履行协议内容 企业按照协议条框履行协议内容 按照协议履行的情况增加或者减少Token 过程中涉及的文件，照片等上链存证  方向上可以分为：
- 2G方向: 企业/个人社会责任指数、公益组织社会责任指数 2C方向：Token积分兑换物品，社区商城  ">
-<meta name=author content="TechNotes">
-<link rel=canonical href=https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/>
-<meta name=google-site-verification content="G-V4HC5K9V2M">
-<meta name=yandex-verification content="XYZabc">
-<meta name=msvalidate.01 content="XYZabc">
-<link crossorigin=anonymous href=/assets/css/stylesheet.min.030f3f25d9f3449b524f810ddd2c31b9d4718215f17a58bacbd906ecaf639910.css integrity="sha256-Aw8/JdnzRJtST4EN3SwxudRxghXxeli6y9kG7K9jmRA=" rel="preload stylesheet" as=style>
-<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
-<link rel=icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=icon type=image/png sizes=16x16 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=icon type=image/png sizes=32x32 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=apple-touch-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<meta name=theme-color content="#2e2e33">
-<meta name=msapplication-TileColor content="#2e2e33">
-<meta name=generator content="Hugo 0.89.0">
-<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="基于区块链的公益捐赠平台">
-<meta property="og:description" content="企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业
+ 2G方向: 企业/个人社会责任指数、公益组织社会责任指数 2C方向：Token积分兑换物品，社区商城"><meta name=author content="TechNotes"><link rel=canonical href=https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/><meta name=google-site-verification content="G-V4HC5K9V2M"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.min.104dece512238ae351d9387d69c6d37c1f015f96d6f4261722aa2a75b2ddb5a0.css integrity="sha256-EE3s5RIjiuNR2Th9acbTfB8BX5bW9CYXIqoqdbLdtaA=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w=" onload=hljs.initHighlightingOnLoad();></script><link rel=icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><meta name=generator content="Hugo 0.76.5"><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-123-45','auto');ga('send','pageview');}</script><meta property="og:title" content="基于区块链的公益捐赠平台"><meta property="og:description" content="企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业
 当某个企业与公益组织达成捐赠合作后，也往往面临的很多的问题：
  捐赠中涉及的款项不透明，监管难度较大 公益组织本身不是盈利机构，需要将捐赠款项中的一部分作为公益组织的公益费用 按照捐赠协议，比如本次捐赠需要涉及多次活动，管理难度加大，费用使用情况复杂  以企业捐赠为例，企业为了履行其社会责任，决定发起一个捐赠，捐赠金额50万，捐赠3个项目。其中总金额的10%，5万元作为对应公益组织的费用。
 场景：
  企业发布公益计划，包括捐赠金额，活动要求等信息，公益活动方向，如针对贫困地区儿童的放心早餐项目 公益组织提交其组织资料，资质等信息，以及相应的活动策划信息 企业与公益组织签订协议  协议内容： &ndash; 活动的捐赠额 &ndash; 捐赠的钱是一次到账，还是按照活动数分批次，每举办一次活动转一次账 活动的活动周期多久，如一年的放心早餐 &ndash; 多少费用作为公益组织的费用 &ndash; 活动的命名 &ndash; 其他一些活动信息   公益组织按照协议条款履行协议内容 企业按照协议条框履行协议内容 按照协议履行的情况增加或者减少Token 过程中涉及的文件，照片等上链存证  方向上可以分为：
- 2G方向: 企业/个人社会责任指数、公益组织社会责任指数 2C方向：Token积分兑换物品，社区商城  ">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2018-05-29T00:00:00+00:00">
-<meta property="article:modified_time" content="2018-05-29T00:00:00+00:00"><meta property="og:site_name" content="TechNotes">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="基于区块链的公益捐赠平台">
-<meta name=twitter:description content="企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业
+ 2G方向: 企业/个人社会责任指数、公益组织社会责任指数 2C方向：Token积分兑换物品，社区商城"><meta property="og:type" content="article"><meta property="og:url" content="https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-05-29T00:00:00+00:00"><meta property="article:modified_time" content="2018-05-29T00:00:00+00:00"><meta property="og:site_name" content="TechNotes"><meta name=twitter:card content="summary"><meta name=twitter:title content="基于区块链的公益捐赠平台"><meta name=twitter:description content="企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业
 当某个企业与公益组织达成捐赠合作后，也往往面临的很多的问题：
  捐赠中涉及的款项不透明，监管难度较大 公益组织本身不是盈利机构，需要将捐赠款项中的一部分作为公益组织的公益费用 按照捐赠协议，比如本次捐赠需要涉及多次活动，管理难度加大，费用使用情况复杂  以企业捐赠为例，企业为了履行其社会责任，决定发起一个捐赠，捐赠金额50万，捐赠3个项目。其中总金额的10%，5万元作为对应公益组织的费用。
 场景：
  企业发布公益计划，包括捐赠金额，活动要求等信息，公益活动方向，如针对贫困地区儿童的放心早餐项目 公益组织提交其组织资料，资质等信息，以及相应的活动策划信息 企业与公益组织签订协议  协议内容： &ndash; 活动的捐赠额 &ndash; 捐赠的钱是一次到账，还是按照活动数分批次，每举办一次活动转一次账 活动的活动周期多久，如一年的放心早餐 &ndash; 多少费用作为公益组织的费用 &ndash; 活动的命名 &ndash; 其他一些活动信息   公益组织按照协议条款履行协议内容 企业按照协议条框履行协议内容 按照协议履行的情况增加或者减少Token 过程中涉及的文件，照片等上链存证  方向上可以分为：
- 2G方向: 企业/个人社会责任指数、公益组织社会责任指数 2C方向：Token积分兑换物品，社区商城  ">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://technotes.guru/posts/"},{"@type":"ListItem","position":2,"name":"基于区块链的公益捐赠平台","item":"https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"基于区块链的公益捐赠平台","name":"基于区块链的公益捐赠平台","description":"企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业\n当某个企业与公益组织达成捐赠合作后，也往往面临的很多的问题：\n 捐赠中涉及的款项不透明，监管难度较大 公益组织本身不是盈利机构，需要将捐赠款项中的一部分作为公益组织的公益费用 按照捐赠协议，比如本次捐赠需要涉及多次活动，管理难度加大，费用使用情况复杂  以企业捐赠为例，企业为了履行其社会责任，决定发起一个捐赠，捐赠金额50万，捐赠3个项目。其中总金额的10%，5万元作为对应公益组织的费用。\n场景：\n 企业发布公益计划，包括捐赠金额，活动要求等信息，公益活动方向，如针对贫困地区儿童的放心早餐项目 公益组织提交其组织资料，资质等信息，以及相应的活动策划信息 企业与公益组织签订协议  协议内容： \u0026ndash; 活动的捐赠额 \u0026ndash; 捐赠的钱是一次到账，还是按照活动数分批次，每举办一次活动转一次账 活动的活动周期多久，如一年的放心早餐 \u0026ndash; 多少费用作为公益组织的费用 \u0026ndash; 活动的命名 \u0026ndash; 其他一些活动信息   公益组织按照协议条款履行协议内容 企业按照协议条框履行协议内容 按照协议履行的情况增加或者减少Token 过程中涉及的文件，照片等上链存证  方向上可以分为：\n 2G方向: 企业/个人社会责任指数、公益组织社会责任指数 2C方向：Token积分兑换物品，社区商城  ","keywords":["区块链"],"articleBody":"企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业\n当某个企业与公益组织达成捐赠合作后，也往往面临的很多的问题：\n 捐赠中涉及的款项不透明，监管难度较大 公益组织本身不是盈利机构，需要将捐赠款项中的一部分作为公益组织的公益费用 按照捐赠协议，比如本次捐赠需要涉及多次活动，管理难度加大，费用使用情况复杂  以企业捐赠为例，企业为了履行其社会责任，决定发起一个捐赠，捐赠金额50万，捐赠3个项目。其中总金额的10%，5万元作为对应公益组织的费用。\n场景：\n 企业发布公益计划，包括捐赠金额，活动要求等信息，公益活动方向，如针对贫困地区儿童的放心早餐项目 公益组织提交其组织资料，资质等信息，以及相应的活动策划信息 企业与公益组织签订协议  协议内容： – 活动的捐赠额 – 捐赠的钱是一次到账，还是按照活动数分批次，每举办一次活动转一次账 活动的活动周期多久，如一年的放心早餐 – 多少费用作为公益组织的费用 – 活动的命名 – 其他一些活动信息   公益组织按照协议条款履行协议内容 企业按照协议条框履行协议内容 按照协议履行的情况增加或者减少Token 过程中涉及的文件，照片等上链存证  方向上可以分为：\n 2G方向: 企业/个人社会责任指数、公益组织社会责任指数 2C方向：Token积分兑换物品，社区商城  ","wordCount":"30","inLanguage":"en","datePublished":"2018-05-29T00:00:00Z","dateModified":"2018-05-29T00:00:00Z","author":{"@type":"Person","name":"TechNotes"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/"},"publisher":{"@type":"Organization","name":"TechNotes","logo":{"@type":"ImageObject","url":"https://technotes.guru/%3Clink%20/%20abs%20url%3E"}}}</script>
-</head>
-<body id=top>
-<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
-<noscript>
-<style type=text/css>#theme-toggle,.top-link{display:none}</style>
-<style>@media(prefers-color-scheme:dark){:root{--theme:#1d1e20;--entry:#2e2e33;--primary:rgba(255, 255, 255, 0.84);--secondary:rgba(255, 255, 255, 0.56);--tertiary:rgba(255, 255, 255, 0.16);--content:rgba(255, 255, 255, 0.74);--hljs-bg:#2e2e33;--code-bg:#37383e;--border:#333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
-</noscript>
-<header class=header>
-<nav class=nav>
-<div class=logo>
-<a href=https://technotes.guru/ accesskey=h title="TechNotes (Alt + H)">TechNotes</a>
-<span class=logo-switches>
-<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-</button>
-</span>
-</div>
-<ul id=menu>
-<li>
-<a href=https://technotes.guru/categories/ title=categories>
-<span>categories</span>
-</a>
-</li>
-<li>
-<a href=https://technotes.guru/tags/ title=tags>
-<span>tags</span>
-</a>
-</li>
-<li>
-<a href=https://technotes.guru/about/ title=about>
-<span>about</span>
-</a>
-</li>
-</ul>
-</nav>
-</header>
-<main class=main>
-<article class=post-single>
-<header class=post-header>
-<div class=breadcrumbs><a href=https://technotes.guru/>Home</a>&nbsp;»&nbsp;<a href=https://technotes.guru/posts/>Posts</a></div>
-<h1 class=post-title>
-基于区块链的公益捐赠平台
-</h1>
-<div class=post-meta>2018-05-05&nbsp;·&nbsp;1 min&nbsp;·&nbsp;TechNotes
-</div>
-</header> <div class=toc>
-<details open>
-<summary accesskey=c title="(Alt + C)">
-<div class=details>Table of Contents</div>
-</summary>
-<div class=inner>
-</div>
-</details>
-</div>
-<div class=post-content><p>企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业</p>
-<p>当某个企业与公益组织达成捐赠合作后，也往往面临的很多的问题：</p>
-<ol>
-<li>捐赠中涉及的款项不透明，监管难度较大</li>
-<li>公益组织本身不是盈利机构，需要将捐赠款项中的一部分作为公益组织的公益费用</li>
-<li>按照捐赠协议，比如本次捐赠需要涉及多次活动，管理难度加大，费用使用情况复杂</li>
-</ol>
-<p>以企业捐赠为例，企业为了履行其社会责任，决定发起一个捐赠，捐赠金额50万，捐赠3个项目。其中总金额的10%，5万元作为对应公益组织的费用。</p>
-<p>场景：</p>
-<ol>
-<li>企业发布公益计划，包括捐赠金额，活动要求等信息，公益活动方向，如针对贫困地区儿童的放心早餐项目</li>
-<li>公益组织提交其组织资料，资质等信息，以及相应的活动策划信息</li>
-<li>企业与公益组织签订协议
-<ul>
-<li>协议内容：
+ 2G方向: 企业/个人社会责任指数、公益组织社会责任指数 2C方向：Token积分兑换物品，社区商城"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://technotes.guru/posts/"},{"@type":"ListItem","position":2,"name":"基于区块链的公益捐赠平台","item":"https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"基于区块链的公益捐赠平台","name":"基于区块链的公益捐赠平台","description":"企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业\n当某个企业与公益组织达成捐赠合作后，也往往面临的很多的问题：\n 捐赠中涉及的款项不透明，监管难度较大 公益组织本身不是盈利机构，需要将捐赠款项中的一部分作为公益组织的公益费用 按照捐赠协议，比如本次捐赠需要涉及多次活动，管理难度加大，费用使用情况复杂  以企业捐赠为例，企业为了履行其社会责任，决定发起一个捐赠，捐赠金额50万，捐赠3个项目。其中总金额的10%，5万元作为对应公益组织的费用。\n场景：\n 企业发布公益计划，包括捐赠金额，活动要求等信息，公益活动方向，如针对贫困地区儿童的放心早餐项目 公益组织提交其组织资料，资质等信息，以及相应的活动策划信息 企业与公益组织签订协议  协议内容： \u0026ndash; 活动的捐赠额 \u0026ndash; 捐赠的钱是一次到账，还是按照活动数分批次，每举办一次活动转一次账 活动的活动周期多久，如一年的放心早餐 \u0026ndash; 多少费用作为公益组织的费用 \u0026ndash; 活动的命名 \u0026ndash; 其他一些活动信息   公益组织按照协议条款履行协议内容 企业按照协议条框履行协议内容 按照协议履行的情况增加或者减少Token 过程中涉及的文件，照片等上链存证  方向上可以分为：\n 2G方向: 企业/个人社会责任指数、公益组织社会责任指数 2C方向：Token积分兑换物品，社区商城  ","keywords":["区块链"],"articleBody":"企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业\n当某个企业与公益组织达成捐赠合作后，也往往面临的很多的问题：\n 捐赠中涉及的款项不透明，监管难度较大 公益组织本身不是盈利机构，需要将捐赠款项中的一部分作为公益组织的公益费用 按照捐赠协议，比如本次捐赠需要涉及多次活动，管理难度加大，费用使用情况复杂  以企业捐赠为例，企业为了履行其社会责任，决定发起一个捐赠，捐赠金额50万，捐赠3个项目。其中总金额的10%，5万元作为对应公益组织的费用。\n场景：\n 企业发布公益计划，包括捐赠金额，活动要求等信息，公益活动方向，如针对贫困地区儿童的放心早餐项目 公益组织提交其组织资料，资质等信息，以及相应的活动策划信息 企业与公益组织签订协议  协议内容： – 活动的捐赠额 – 捐赠的钱是一次到账，还是按照活动数分批次，每举办一次活动转一次账 活动的活动周期多久，如一年的放心早餐 – 多少费用作为公益组织的费用 – 活动的命名 – 其他一些活动信息   公益组织按照协议条款履行协议内容 企业按照协议条框履行协议内容 按照协议履行的情况增加或者减少Token 过程中涉及的文件，照片等上链存证  方向上可以分为：\n 2G方向: 企业/个人社会责任指数、公益组织社会责任指数 2C方向：Token积分兑换物品，社区商城  ","wordCount":"30","inLanguage":"en","datePublished":"2018-05-29T00:00:00Z","dateModified":"2018-05-29T00:00:00Z","author":{"@type":"Person","name":"TechNotes"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/"},"publisher":{"@type":"Organization","name":"TechNotes","logo":{"@type":"ImageObject","url":"https://technotes.guru/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><script>if(localStorage.getItem("pref-theme")==="dark"){document.body.classList.add('dark');}else if(localStorage.getItem("pref-theme")==="light"){document.body.classList.remove('dark')}else if(window.matchMedia('(prefers-color-scheme: dark)').matches){document.body.classList.add('dark');}</script><noscript><style type=text/css>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme: #1d1e20;--entry: #2e2e33;--primary: rgba(255, 255, 255, 0.84);--secondary: rgba(255, 255, 255, 0.56);--tertiary: rgba(255, 255, 255, 0.16);--content: rgba(255, 255, 255, 0.74);--hljs-bg: #2e2e33;--code-bg: #37383e;--border: #333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><header class=header><nav class=nav><div class=logo><a href=https://technotes.guru/ accesskey=h title="TechNotes (Alt + H)">TechNotes</a>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://technotes.guru/categories/ title=categories><span>categories</span></a></li><li><a href=https://technotes.guru/tags/ title=tags><span>tags</span></a></li><li><a href=https://technotes.guru/about/ title=about><span>about</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://technotes.guru/>Home</a>&nbsp;»&nbsp;<a href=https://technotes.guru/posts/>Posts</a></div><h1 class=post-title>基于区块链的公益捐赠平台</h1><div class=post-meta>2018-05-05&nbsp;·&nbsp;1 min&nbsp;·&nbsp;TechNotes</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><div class=details>Table of Contents</div></summary><div class=inner></div></details></div><div class=post-content><p>企业/个人与公益组织信息不对称，企业找不到捐赠对象，公益组织找不到想要捐赠企业</p><p>当某个企业与公益组织达成捐赠合作后，也往往面临的很多的问题：</p><ol><li>捐赠中涉及的款项不透明，监管难度较大</li><li>公益组织本身不是盈利机构，需要将捐赠款项中的一部分作为公益组织的公益费用</li><li>按照捐赠协议，比如本次捐赠需要涉及多次活动，管理难度加大，费用使用情况复杂</li></ol><p>以企业捐赠为例，企业为了履行其社会责任，决定发起一个捐赠，捐赠金额50万，捐赠3个项目。其中总金额的10%，5万元作为对应公益组织的费用。</p><p>场景：</p><ol><li>企业发布公益计划，包括捐赠金额，活动要求等信息，公益活动方向，如针对贫困地区儿童的放心早餐项目</li><li>公益组织提交其组织资料，资质等信息，以及相应的活动策划信息</li><li>企业与公益组织签订协议<ul><li>协议内容：
 &ndash; 活动的捐赠额
-&ndash; 捐赠的钱是一次到账，还是按照活动数分批次，每举办一次活动转一次账</li>
-<li>活动的活动周期多久，如一年的放心早餐
+&ndash; 捐赠的钱是一次到账，还是按照活动数分批次，每举办一次活动转一次账</li><li>活动的活动周期多久，如一年的放心早餐
 &ndash; 多少费用作为公益组织的费用
 &ndash; 活动的命名
-&ndash; 其他一些活动信息</li>
-</ul>
-</li>
-<li>公益组织按照协议条款履行协议内容</li>
-<li>企业按照协议条框履行协议内容</li>
-<li>按照协议履行的情况增加或者减少Token</li>
-<li>过程中涉及的文件，照片等上链存证</li>
-</ol>
-<p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201020104803.png alt>
-</p>
-<p>方向上可以分为：</p>
-<ol>
-<li>2G方向: 企业/个人社会责任指数、公益组织社会责任指数</li>
-<li>2C方向：Token积分兑换物品，社区商城</li>
-</ol>
-</div>
-<footer class=post-footer>
-<ul class=post-tags>
-<li><a href=https://technotes.guru/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/>区块链</a></li>
-</ul>
-<nav class=paginav>
-<a class=prev href=https://technotes.guru/posts/2019/refactor-the-frontend/>
-<span class=title>« Prev Page</span>
-<br>
-<span>代码重构 - 前端部分代码</span>
-</a>
-<a class=next href=https://technotes.guru/posts/2018/blockchain-eth-chaincode/>
-<span class=title>Next Page »</span>
-<br>
-<span>以太坊智能合约开发入门</span>
-</a>
-</nav>
-</footer>
-</article>
-</main>
-<footer class=footer>
-<span>&copy; 2021 <a href=https://technotes.guru/>TechNotes</a></span>
-<span>
-Powered by
+&ndash; 其他一些活动信息</li></ul></li><li>公益组织按照协议条款履行协议内容</li><li>企业按照协议条框履行协议内容</li><li>按照协议履行的情况增加或者减少Token</li><li>过程中涉及的文件，照片等上链存证</li></ol><p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201020104803.png alt></p><p>方向上可以分为：</p><ol><li>2G方向: 企业/个人社会责任指数、公益组织社会责任指数</li><li>2C方向：Token积分兑换物品，社区商城</li></ol></div><footer class=post-footer><ul class=post-tags><li><a href=https://technotes.guru/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/>区块链</a></li></ul><nav class=paginav><a class=prev href=https://technotes.guru/posts/2019/refactor-the-frontend/><span class=title>« Prev Page</span><br><span>代码重构 - 前端部分代码</span></a>
+<a class=next href=https://technotes.guru/posts/2018/blockchain-eth-chaincode/><span class=title>Next Page »</span><br><span>以太坊智能合约开发入门</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2021 <a href=https://technotes.guru/>TechNotes</a></span>
+<span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
-</span>
-</footer>
-<a href=#top aria-label="go to top" title="Go to Top (Alt + G)">
-<button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
-</button>
-</a>
-<script>let menu=document.getElementById('menu');menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)},document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
-<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
-<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
-</body>
-</html>
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)"><button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></button></a>
+<script>let menu=document.getElementById('menu')
+menu.scrollLeft=localStorage.getItem("menu-scroll-position");menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft);}
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener("click",function(e){e.preventDefault();var id=this.getAttribute("href").substr(1);if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({behavior:"smooth"});}else{document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();}
+if(id==="top"){history.replaceState(null,null," ");}else{history.pushState(null,null,`#${id}`);}});});</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){if(document.body.scrollTop>800||document.documentElement.scrollTop>800){mybutton.style.visibility="visible";mybutton.style.opacity="1";}else{mybutton.style.visibility="hidden";mybutton.style.opacity="0";}};</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{if(document.body.className.includes("dark")){document.body.classList.remove('dark');localStorage.setItem("pref-theme",'light');}else{document.body.classList.add('dark');localStorage.setItem("pref-theme",'dark');}})</script></body></html>

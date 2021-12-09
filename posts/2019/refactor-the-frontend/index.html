@@ -1,11 +1,4 @@
-<!doctype html><html lang=en dir=auto>
-<head><meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
-<meta name=robots content="index, follow">
-<title>代码重构 - 前端部分代码 | TechNotes</title>
-<meta name=keywords content="重构,设计模式">
-<meta name=description content="缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>代码重构 - 前端部分代码 | TechNotes</title><meta name=keywords content="重构,设计模式"><meta name=description content="缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。
 这里计划用两篇博客记录一下重构中的一些点，一篇为前端部分，一篇为后端部分，这篇为前端部分。 由于处在不同的职位上，所关心的内容是不同的，比如产品经理更加关心产品的功能、业务的完成度、项目经理更加关注项目的进度等，另外一方面，从代码层面来说，还是比较主观的，不同的开发人员，写出来的代码也会差别很大，所以这里仅是个人的重构记录。下面就闲话少说，“talk is cheap, show me the code”。
 业务背景 这里首先交代下重构部分的业务，如下图所以，这是个比较典型的数据表格，展示了业务数据，以及相关的操作，查看详情，编辑，删除，并且可以多选，并且进行对多条数据进行批量的操作。
 下图是完成了的数据表格部分，隐藏了其中涉及到的业务数据
@@ -20,24 +13,7 @@
 validateEmailXXX() validateCompanyNameXXX() 这样在不同的方法中，就可以重用这些验证的逻辑，原来代码中的isEmailAvailable()方法就是工具方法层面的复用。比如说常见的代码中的很多的工具类，如StringUtils，DateUtils，就是这样的一个思路，实现了一些工具方法层面的重用。(对于Ruby，Kotlin，可以非常优雅的扩展父类方法)。
 不过这部分重构，我并非仅仅是抽取了几个验证的方法。下面会描述，这里先说一下我考虑的两个原则：
  为使用方提供一致的调用外观 尽可能的代码复用  提供较为一致的调用外观 这部分主要是真的按钮的响应，所以这里统一了方法handleOperation的调用，然后通过type来区分。这部分看个人的习惯了，比如原来的方式，也是不错的，方法名就反映出来该方法的意图。
-<el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openAmlAccount')&#34;><span>开通反洗钱</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openAmlInviteAccount')&#34;><span>开通反洗钱邀请账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('deleteOpportunities')&#34;><span>批量删除</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openNormalAccount')&#34;><span>开通账号</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openInviteAccount')&#34;><span>开通邀请账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('physicallyDelete')&#34;><span>删除账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('completelyPhysicalDelete')&#34;><span>彻底删除</span></el-button> handleOperation则根据不同的type，分别调用相对于的处理方法。">
-<meta name=author content="TechNotes">
-<link rel=canonical href=https://technotes.guru/posts/2019/refactor-the-frontend/>
-<meta name=google-site-verification content="G-V4HC5K9V2M">
-<meta name=yandex-verification content="XYZabc">
-<meta name=msvalidate.01 content="XYZabc">
-<link crossorigin=anonymous href=/assets/css/stylesheet.min.030f3f25d9f3449b524f810ddd2c31b9d4718215f17a58bacbd906ecaf639910.css integrity="sha256-Aw8/JdnzRJtST4EN3SwxudRxghXxeli6y9kG7K9jmRA=" rel="preload stylesheet" as=style>
-<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
-<link rel=icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=icon type=image/png sizes=16x16 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=icon type=image/png sizes=32x32 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=apple-touch-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<meta name=theme-color content="#2e2e33">
-<meta name=msapplication-TileColor content="#2e2e33">
-<meta name=generator content="Hugo 0.89.0">
-<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="代码重构 - 前端部分代码">
-<meta property="og:description" content="缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。
+<el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openAmlAccount')&#34;><span>开通反洗钱</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openAmlInviteAccount')&#34;><span>开通反洗钱邀请账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('deleteOpportunities')&#34;><span>批量删除</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openNormalAccount')&#34;><span>开通账号</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openInviteAccount')&#34;><span>开通邀请账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('physicallyDelete')&#34;><span>删除账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('completelyPhysicalDelete')&#34;><span>彻底删除</span></el-button> handleOperation则根据不同的type，分别调用相对于的处理方法。"><meta name=author content="TechNotes"><link rel=canonical href=https://technotes.guru/posts/2019/refactor-the-frontend/><meta name=google-site-verification content="G-V4HC5K9V2M"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.min.104dece512238ae351d9387d69c6d37c1f015f96d6f4261722aa2a75b2ddb5a0.css integrity="sha256-EE3s5RIjiuNR2Th9acbTfB8BX5bW9CYXIqoqdbLdtaA=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w=" onload=hljs.initHighlightingOnLoad();></script><link rel=icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><meta name=generator content="Hugo 0.76.5"><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-123-45','auto');ga('send','pageview');}</script><meta property="og:title" content="代码重构 - 前端部分代码"><meta property="og:description" content="缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。
 这里计划用两篇博客记录一下重构中的一些点，一篇为前端部分，一篇为后端部分，这篇为前端部分。 由于处在不同的职位上，所关心的内容是不同的，比如产品经理更加关心产品的功能、业务的完成度、项目经理更加关注项目的进度等，另外一方面，从代码层面来说，还是比较主观的，不同的开发人员，写出来的代码也会差别很大，所以这里仅是个人的重构记录。下面就闲话少说，“talk is cheap, show me the code”。
 业务背景 这里首先交代下重构部分的业务，如下图所以，这是个比较典型的数据表格，展示了业务数据，以及相关的操作，查看详情，编辑，删除，并且可以多选，并且进行对多条数据进行批量的操作。
 下图是完成了的数据表格部分，隐藏了其中涉及到的业务数据
@@ -52,14 +28,7 @@ validateEmailXXX() validateCompanyNameXXX() 这样在不同的方法中，就可
 validateEmailXXX() validateCompanyNameXXX() 这样在不同的方法中，就可以重用这些验证的逻辑，原来代码中的isEmailAvailable()方法就是工具方法层面的复用。比如说常见的代码中的很多的工具类，如StringUtils，DateUtils，就是这样的一个思路，实现了一些工具方法层面的重用。(对于Ruby，Kotlin，可以非常优雅的扩展父类方法)。
 不过这部分重构，我并非仅仅是抽取了几个验证的方法。下面会描述，这里先说一下我考虑的两个原则：
  为使用方提供一致的调用外观 尽可能的代码复用  提供较为一致的调用外观 这部分主要是真的按钮的响应，所以这里统一了方法handleOperation的调用，然后通过type来区分。这部分看个人的习惯了，比如原来的方式，也是不错的，方法名就反映出来该方法的意图。
-<el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openAmlAccount')&#34;><span>开通反洗钱</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openAmlInviteAccount')&#34;><span>开通反洗钱邀请账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('deleteOpportunities')&#34;><span>批量删除</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openNormalAccount')&#34;><span>开通账号</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openInviteAccount')&#34;><span>开通邀请账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('physicallyDelete')&#34;><span>删除账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('completelyPhysicalDelete')&#34;><span>彻底删除</span></el-button> handleOperation则根据不同的type，分别调用相对于的处理方法。">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://technotes.guru/posts/2019/refactor-the-frontend/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2019-02-27T00:00:00+00:00">
-<meta property="article:modified_time" content="2019-02-27T00:00:00+00:00"><meta property="og:site_name" content="TechNotes">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="代码重构 - 前端部分代码">
-<meta name=twitter:description content="缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。
+<el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openAmlAccount')&#34;><span>开通反洗钱</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openAmlInviteAccount')&#34;><span>开通反洗钱邀请账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('deleteOpportunities')&#34;><span>批量删除</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openNormalAccount')&#34;><span>开通账号</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openInviteAccount')&#34;><span>开通邀请账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('physicallyDelete')&#34;><span>删除账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('completelyPhysicalDelete')&#34;><span>彻底删除</span></el-button> handleOperation则根据不同的type，分别调用相对于的处理方法。"><meta property="og:type" content="article"><meta property="og:url" content="https://technotes.guru/posts/2019/refactor-the-frontend/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-02-27T00:00:00+00:00"><meta property="article:modified_time" content="2019-02-27T00:00:00+00:00"><meta property="og:site_name" content="TechNotes"><meta name=twitter:card content="summary"><meta name=twitter:title content="代码重构 - 前端部分代码"><meta name=twitter:description content="缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。
 这里计划用两篇博客记录一下重构中的一些点，一篇为前端部分，一篇为后端部分，这篇为前端部分。 由于处在不同的职位上，所关心的内容是不同的，比如产品经理更加关心产品的功能、业务的完成度、项目经理更加关注项目的进度等，另外一方面，从代码层面来说，还是比较主观的，不同的开发人员，写出来的代码也会差别很大，所以这里仅是个人的重构记录。下面就闲话少说，“talk is cheap, show me the code”。
 业务背景 这里首先交代下重构部分的业务，如下图所以，这是个比较典型的数据表格，展示了业务数据，以及相关的操作，查看详情，编辑，删除，并且可以多选，并且进行对多条数据进行批量的操作。
 下图是完成了的数据表格部分，隐藏了其中涉及到的业务数据
@@ -74,146 +43,27 @@ validateEmailXXX() validateCompanyNameXXX() 这样在不同的方法中，就可
 validateEmailXXX() validateCompanyNameXXX() 这样在不同的方法中，就可以重用这些验证的逻辑，原来代码中的isEmailAvailable()方法就是工具方法层面的复用。比如说常见的代码中的很多的工具类，如StringUtils，DateUtils，就是这样的一个思路，实现了一些工具方法层面的重用。(对于Ruby，Kotlin，可以非常优雅的扩展父类方法)。
 不过这部分重构，我并非仅仅是抽取了几个验证的方法。下面会描述，这里先说一下我考虑的两个原则：
  为使用方提供一致的调用外观 尽可能的代码复用  提供较为一致的调用外观 这部分主要是真的按钮的响应，所以这里统一了方法handleOperation的调用，然后通过type来区分。这部分看个人的习惯了，比如原来的方式，也是不错的，方法名就反映出来该方法的意图。
-<el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openAmlAccount')&#34;><span>开通反洗钱</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openAmlInviteAccount')&#34;><span>开通反洗钱邀请账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('deleteOpportunities')&#34;><span>批量删除</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openNormalAccount')&#34;><span>开通账号</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openInviteAccount')&#34;><span>开通邀请账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('physicallyDelete')&#34;><span>删除账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('completelyPhysicalDelete')&#34;><span>彻底删除</span></el-button> handleOperation则根据不同的type，分别调用相对于的处理方法。">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://technotes.guru/posts/"},{"@type":"ListItem","position":2,"name":"代码重构 - 前端部分代码","item":"https://technotes.guru/posts/2019/refactor-the-frontend/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"代码重构 - 前端部分代码","name":"代码重构 - 前端部分代码","description":"缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。\n这里计划用两篇博客记录一下重构中的一些点，一篇为前端部分，一篇为后端部分，这篇为前端部分。 由于处在不同的职位上，所关心的内容是不同的，比如产品经理更加关心产品的功能、业务的完成度、项目经理更加关注项目的进度等，另外一方面，从代码层面来说，还是比较主观的，不同的开发人员，写出来的代码也会差别很大，所以这里仅是个人的重构记录。下面就闲话少说，“talk is cheap, show me the code”。\n业务背景 这里首先交代下重构部分的业务，如下图所以，这是个比较典型的数据表格，展示了业务数据，以及相关的操作，查看详情，编辑，删除，并且可以多选，并且进行对多条数据进行批量的操作。\n下图是完成了的数据表格部分，隐藏了其中涉及到的业务数据\n其主要的功能为：\n 表格右侧的“操作”部分，主要是针对单条记录的操作，如查看，修改，删除 表格下方的批量操作部分，当选中多条记录之后，执行不同的批量操作，如批量发送邀请，批量创建账号，批量删除等。针对不同的操作，在执行相应的操作时候，需要进行不同的前端验证，如开通邀请，则需要验证所选择的记录的电话号码不能为空，邮箱不能为空，销帮帮ID是否存在，等。  代码实现 简单介绍完需求之后，逻辑并不复杂，从代码实现角度，主要就是如下几步： 1、响应按钮点击 2、在响应的方法中遍历选中的数据 3、对数据进行校验，如何校验失败，则进行相应的提示 4、将数据提交到后端\n实现起来也是相当的明了。\n原来的实现 这部分主要描述下上述需求的原来的实现部分，这里不会贴出全部的代码，主要还是将意图表达出来。另外，这个项目的前端展示部分是基于JSP+jQuery+Vue的，所以原来页面部分逻辑较为复杂，一部分数据是传统的基于表单的，一部分数据是jQuery Ajax方式的，一部分数据则是Vue（axios）方式。\n下面的三张截图，第一张是按钮部分，针对不同的功能，对应不同的响应方法: 下面两张是其中两个方法的具体实现:\n由于逻辑不复杂，所以实现上也是比较的明了。基本上完成过程式的代码实现，遍历选择的数据，对数据进行校验，然后调用后台对应的接口。\n过程式的代码，优点是代码清晰明了，基本上完全反映实现的意图。缺点也比较的明显，大量的重复代码，拿贴出来的两段代码来看，基本上都是相同的，复制粘贴一个方法，然后稍微的改一改。这里不去写这些的弊端，重点还是放在重构部分的内容上。\n重构过程 首先上面的代码，从功能角度来说，是可以工作的代码，但是，很多的重复代码。实际上很容易就可以发现其中可以重用的部分，如公司名称的校验，销帮帮ID的校验，邮箱的校验等。 那么，最简单的实现重用的方式，可以将其中的检验部分抽出来，形成一个一个单独的验证方法，如：\nvalidateEmailXXX() validateCompanyNameXXX() 这样在不同的方法中，就可以重用这些验证的逻辑，原来代码中的isEmailAvailable()方法就是工具方法层面的复用。比如说常见的代码中的很多的工具类，如StringUtils，DateUtils，就是这样的一个思路，实现了一些工具方法层面的重用。(对于Ruby，Kotlin，可以非常优雅的扩展父类方法)。\n不过这部分重构，我并非仅仅是抽取了几个验证的方法。下面会描述，这里先说一下我考虑的两个原则：\n 为使用方提供一致的调用外观 尽可能的代码复用  提供较为一致的调用外观 这部分主要是真的按钮的响应，所以这里统一了方法handleOperation的调用，然后通过type来区分。这部分看个人的习惯了，比如原来的方式，也是不错的，方法名就反映出来该方法的意图。\n\u0026lt;el-button type=\u0026quot;primary\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('openAmlAccount')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;开通反洗钱\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; \u0026lt;el-button type=\u0026quot;primary\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('openAmlInviteAccount')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;开通反洗钱邀请账号\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; \u0026lt;el-button type=\u0026quot;danger\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('deleteOpportunities')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;批量删除\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; \u0026lt;el-button type=\u0026quot;primary\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('openNormalAccount')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;开通账号\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; \u0026lt;el-button type=\u0026quot;primary\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('openInviteAccount')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;开通邀请账号\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; \u0026lt;el-button type=\u0026quot;danger\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('physicallyDelete')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;删除账号\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; \u0026lt;el-button type=\u0026quot;danger\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('completelyPhysicalDelete')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;彻底删除\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; handleOperation则根据不同的type，分别调用相对于的处理方法。","keywords":["重构","设计模式"],"articleBody":"缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。\n这里计划用两篇博客记录一下重构中的一些点，一篇为前端部分，一篇为后端部分，这篇为前端部分。 由于处在不同的职位上，所关心的内容是不同的，比如产品经理更加关心产品的功能、业务的完成度、项目经理更加关注项目的进度等，另外一方面，从代码层面来说，还是比较主观的，不同的开发人员，写出来的代码也会差别很大，所以这里仅是个人的重构记录。下面就闲话少说，“talk is cheap, show me the code”。\n业务背景 这里首先交代下重构部分的业务，如下图所以，这是个比较典型的数据表格，展示了业务数据，以及相关的操作，查看详情，编辑，删除，并且可以多选，并且进行对多条数据进行批量的操作。\n下图是完成了的数据表格部分，隐藏了其中涉及到的业务数据\n其主要的功能为：\n 表格右侧的“操作”部分，主要是针对单条记录的操作，如查看，修改，删除 表格下方的批量操作部分，当选中多条记录之后，执行不同的批量操作，如批量发送邀请，批量创建账号，批量删除等。针对不同的操作，在执行相应的操作时候，需要进行不同的前端验证，如开通邀请，则需要验证所选择的记录的电话号码不能为空，邮箱不能为空，销帮帮ID是否存在，等。  代码实现 简单介绍完需求之后，逻辑并不复杂，从代码实现角度，主要就是如下几步： 1、响应按钮点击 2、在响应的方法中遍历选中的数据 3、对数据进行校验，如何校验失败，则进行相应的提示 4、将数据提交到后端\n实现起来也是相当的明了。\n原来的实现 这部分主要描述下上述需求的原来的实现部分，这里不会贴出全部的代码，主要还是将意图表达出来。另外，这个项目的前端展示部分是基于JSP+jQuery+Vue的，所以原来页面部分逻辑较为复杂，一部分数据是传统的基于表单的，一部分数据是jQuery Ajax方式的，一部分数据则是Vue（axios）方式。\n下面的三张截图，第一张是按钮部分，针对不同的功能，对应不同的响应方法: 下面两张是其中两个方法的具体实现:\n由于逻辑不复杂，所以实现上也是比较的明了。基本上完成过程式的代码实现，遍历选择的数据，对数据进行校验，然后调用后台对应的接口。\n过程式的代码，优点是代码清晰明了，基本上完全反映实现的意图。缺点也比较的明显，大量的重复代码，拿贴出来的两段代码来看，基本上都是相同的，复制粘贴一个方法，然后稍微的改一改。这里不去写这些的弊端，重点还是放在重构部分的内容上。\n重构过程 首先上面的代码，从功能角度来说，是可以工作的代码，但是，很多的重复代码。实际上很容易就可以发现其中可以重用的部分，如公司名称的校验，销帮帮ID的校验，邮箱的校验等。 那么，最简单的实现重用的方式，可以将其中的检验部分抽出来，形成一个一个单独的验证方法，如：\nvalidateEmailXXX() validateCompanyNameXXX() 这样在不同的方法中，就可以重用这些验证的逻辑，原来代码中的isEmailAvailable()方法就是工具方法层面的复用。比如说常见的代码中的很多的工具类，如StringUtils，DateUtils，就是这样的一个思路，实现了一些工具方法层面的重用。(对于Ruby，Kotlin，可以非常优雅的扩展父类方法)。\n不过这部分重构，我并非仅仅是抽取了几个验证的方法。下面会描述，这里先说一下我考虑的两个原则：\n 为使用方提供一致的调用外观 尽可能的代码复用  提供较为一致的调用外观 这部分主要是真的按钮的响应，所以这里统一了方法handleOperation的调用，然后通过type来区分。这部分看个人的习惯了，比如原来的方式，也是不错的，方法名就反映出来该方法的意图。\n开通反洗钱 开通反洗钱邀请账号 批量删除 开通账号 开通邀请账号 删除账号 彻底删除 handleOperation则根据不同的type，分别调用相对于的处理方法。\nhandleOperation(type) { console.log(type); } 尽可能的代码复用 针对代码复用的部分，这边则主要的就是那些验证的部分，验证公司名称不能为空，验证销帮帮ID不能为空等。我这里并没有采用工具方法，而且采用了更加面向对象的方式，比如验证公司名称，创建了相应的验证类CompanyNameValidator.js，实现如下：（我这里的名称其实并不是太好，因为没有表达出该验证类的意图 - 公司名称不能为空，CompanyNameCannotBeNullValidator会更加的合适一点）\n/** * CompanyNameValidator.js * 公司名称不能为空 */ var CompanyNameValidator = { validate: function (index, item) { if (!item.companyName) { return { msg: \"第\" + (index + 1) + \"行数据没有公司名称\", error: true, } } else { return { error: null } } } }; export default CompanyNameValidator; 另外一个验证邮箱的实现，\n/** * EmailValidator .js * 验证Email的格式 */ var EmailValidator = { validate: function (index, item) { if (!isEmailValid(item.email)) { return { msg: \"第\" + (index + 1) + \"行数据的【邮箱格式】有误，公司名称为：\" + item.companyName, error: true } } else { return { error: null } } } }; export default EmailValidator; 然后我可以统一导出这些验证器：\nexport {default as CompanyNameValidator} from './CompanyNameValidator' export {default as XBBIdValidator} from './XBBIdValidator' export {default as EmailValidator} from './EmailValidator' export {default as PhoneNumberValidator} from './PhoneNumberValidator' export {default as NormalOpportunityValidator} from './NormalOpportunityValidator' 这样，这些验证器就可以复用了:\nimport {CompanyNameValidator, XBBIdValidator, EmailValidator, PhoneNumberValidator, NormalOpportunityValidator} from './validators'; 如果需要增加新的功能，需要引入新的验证器，同样的增加一个，然后export导出就可以了。 验证器的使用：\nhandleOperation(type) { console.log(type); let selectedRows = this.selectedRows; let validators = [CompanyNameValidator]; let errors = []; selectedRows.forEach((row, index) = { validators.forEach(validator = { let result = validator.validate(index, row); if (result.error != null) { errors.push(result); } }); }); if (errors.length  0) { errors.forEach(error = { this.$message({ type: 'info', message: error.msg }); }); } else { console.log('--------------------------------------') } } 然后进一步的将验证器使用部分封装起来，\nvar ValidatorUtil = { validate: function(selectedRows, validators) { let errors = []; selectedRows.forEach((row, index) = { validators.forEach(validator = { let result = validator.validate(index, row); if (result.error != null) { errors.push(result); } }); }); return errors; } }; export default ValidatorUtil; 使用部分，只需要调用调用该工具：\nimport ValidatorUtil from './validators/ValidatorUtil'; .... ValidatorUtil.validate(selectedRows, validators); 所以使用部分，则进一步的简化了:\nhandleOperation(type) { ...... let selectedRows = this.selectedRows; let validators = [CompanyNameValidator, XBBIdValidator, EmailValidator]; let errors = ValidatorUtil.validate(selectedRows, validators); if (errors.length  0) { errors.forEach(error = { this.$message({ type: 'info', message: error.msg }); }); } else { console.log('--------------------------------------') } } 接下来就是不同的type的不同实现了，由于验证器部分已经可以达成复用，上述handleOperation已然是一个模板了，不同的方法，只要传入不同的validators 数组就行了。\n重构后的代码 根据上面的重构思路和描述的过程，贴出一部分重构后的代码：\nhandleOperation(type) { let selectedRows = this.selectedRows; switch (type) { case 'openAmlAccount': this.processOpenAmlAccount(selectedRows); break; case 'openAmlInviteAccount': this.processOpenAmlInviteAccount(selectedRows); break; case 'deleteOpportunities': this.processDeleteOpportunities(selectedRows); break; case 'openNormalAccount': this.processOpenNormalAccount(selectedRows); break; case 'openInviteAccount': this.processOpenInviteAccount(selectedRows); break; case 'physicallyDelete': this.processPhysicallyDelete(selectedRows); break; case 'completelyPhysicalDelete': this.processCompletelyPhysicalDelete(selectedRows); break; } } /** * 开通账号 * @param selectedRows */ processOpenNormalAccount(selectedRows) { let validators = [CompanyNameValidator, XBBIdValidator, EmailValidator, PhoneNumberValidator]; this.process('OpenNormalAccount', '开通账号', selectedRows, validators); }, /** * 开通邀请账号 * @param selectedRows */ processOpenInviteAccount(selectedRows) { let validators = [CompanyNameValidator, XBBIdValidator, PhoneNumberValidator]; this.process('OpenInviteAccount', '开通邀请账号', selectedRows, validators); }, /** * 删除账号 * @param selectedRows */ processPhysicallyDelete(selectedRows) { let validators = [NormalOpportunityValidator]; this.process('PhysicallyDelete', '删除账号', selectedRows, validators); }, /** * 批量处理公共执行方法 * * @param type 批量操作类型 * @param processMsg 操作说明，操作成功后提示信息 * @param selectedRows 选中的表格行数据 * @param validators 该操作涉及的验证器集合 */ process(type, processMsg, selectedRows, validators) { let errors = ValidatorUtil.validate(selectedRows, validators); if (errors.length  0) { errors.forEach(error = { this.$message({ type: 'error', message: error.msg }); }); } else { let datas = []; selectedRows.forEach(row = { datas.push( { opportunityId: row.id, companyName: row.companyName, customerId: row.customerId, contactNumber: row.contactNumber, email: row.email } ) }); this.$axios.post('/api/opportunities/batch', { type: type, data: datas }, {}).then(res = { if (res.status === 200) { this.doSearch(); this.$message({ type: 'success', message: processMsg + '操作成功!' }); } }).catch(error = { this.$message({ type: 'error', message: processMsg + '操作失败! ' + error.msg }); }) } } 后记 计划这一篇是前端部分，不过自己接触前端(Javascript, Vue)并没有多久，主要其实还是写后端代码，所以主要还是希望把意图表达清楚。下面则将视角稍微往上一点，首先从功能实现角度，都是工作的，所以这里也还是已技术为主要视角。\n主要的套路(模式)见下面的UML类图，这是个很实用的套路，很多场景下都可以使用，下一篇将写一下后端代码(Java)部分的重构，其实也是基于这个套路。 谢谢阅读。\nWorks，then better.\n2019-02-27 发布于简\n","wordCount":"600","inLanguage":"en","datePublished":"2019-02-27T00:00:00Z","dateModified":"2019-02-27T00:00:00Z","author":{"@type":"Person","name":"TechNotes"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://technotes.guru/posts/2019/refactor-the-frontend/"},"publisher":{"@type":"Organization","name":"TechNotes","logo":{"@type":"ImageObject","url":"https://technotes.guru/%3Clink%20/%20abs%20url%3E"}}}</script>
-</head>
-<body id=top>
-<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
-<noscript>
-<style type=text/css>#theme-toggle,.top-link{display:none}</style>
-<style>@media(prefers-color-scheme:dark){:root{--theme:#1d1e20;--entry:#2e2e33;--primary:rgba(255, 255, 255, 0.84);--secondary:rgba(255, 255, 255, 0.56);--tertiary:rgba(255, 255, 255, 0.16);--content:rgba(255, 255, 255, 0.74);--hljs-bg:#2e2e33;--code-bg:#37383e;--border:#333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
-</noscript>
-<header class=header>
-<nav class=nav>
-<div class=logo>
-<a href=https://technotes.guru/ accesskey=h title="TechNotes (Alt + H)">TechNotes</a>
-<span class=logo-switches>
-<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-</button>
-</span>
-</div>
-<ul id=menu>
-<li>
-<a href=https://technotes.guru/categories/ title=categories>
-<span>categories</span>
-</a>
-</li>
-<li>
-<a href=https://technotes.guru/tags/ title=tags>
-<span>tags</span>
-</a>
-</li>
-<li>
-<a href=https://technotes.guru/about/ title=about>
-<span>about</span>
-</a>
-</li>
-</ul>
-</nav>
-</header>
-<main class=main>
-<article class=post-single>
-<header class=post-header>
-<div class=breadcrumbs><a href=https://technotes.guru/>Home</a>&nbsp;»&nbsp;<a href=https://technotes.guru/posts/>Posts</a></div>
-<h1 class=post-title>
-代码重构 - 前端部分代码
-</h1>
-<div class=post-meta>2019-02-02&nbsp;·&nbsp;3 min&nbsp;·&nbsp;TechNotes
-</div>
-</header> <div class=toc>
-<details open>
-<summary accesskey=c title="(Alt + C)">
-<div class=details>Table of Contents</div>
-</summary>
-<div class=inner><ul>
-<li>
-<a href=#%e7%bc%98%e8%b5%b7 aria-label=缘起>缘起</a></li>
-<li>
-<a href=#%e4%b8%9a%e5%8a%a1%e8%83%8c%e6%99%af aria-label=业务背景>业务背景</a></li>
-<li>
-<a href=#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0 aria-label=代码实现>代码实现</a><ul>
-<li>
-<a href=#%e5%8e%9f%e6%9d%a5%e7%9a%84%e5%ae%9e%e7%8e%b0 aria-label=原来的实现>原来的实现</a></li>
-<li>
-<a href=#%e9%87%8d%e6%9e%84%e8%bf%87%e7%a8%8b aria-label=重构过程>重构过程</a><ul>
-<li>
-<a href=#%e6%8f%90%e4%be%9b%e8%be%83%e4%b8%ba%e4%b8%80%e8%87%b4%e7%9a%84%e8%b0%83%e7%94%a8%e5%a4%96%e8%a7%82 aria-label=提供较为一致的调用外观>提供较为一致的调用外观</a></li>
-<li>
-<a href=#%e5%b0%bd%e5%8f%af%e8%83%bd%e7%9a%84%e4%bb%a3%e7%a0%81%e5%a4%8d%e7%94%a8 aria-label=尽可能的代码复用>尽可能的代码复用</a></li></ul>
-</li>
-<li>
-<a href=#%e9%87%8d%e6%9e%84%e5%90%8e%e7%9a%84%e4%bb%a3%e7%a0%81 aria-label=重构后的代码>重构后的代码</a></li></ul>
-</li>
-<li>
-<a href=#%e5%90%8e%e8%ae%b0 aria-label=后记>后记</a>
-</li>
-</ul>
-</div>
-</details>
-</div>
-<div class=post-content><h2 id=缘起>缘起<a hidden class=anchor aria-hidden=true href=#缘起>#</a></h2>
-<p>由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。</p>
-<p>这里计划用两篇博客记录一下重构中的一些点，一篇为前端部分，一篇为后端部分，这篇为前端部分。
-由于处在不同的职位上，所关心的内容是不同的，比如产品经理更加关心产品的功能、业务的完成度、项目经理更加关注项目的进度等，另外一方面，从代码层面来说，还是比较主观的，不同的开发人员，写出来的代码也会差别很大，所以这里仅是个人的重构记录。下面就闲话少说，“talk is cheap, show me the code”。</p>
-<h2 id=业务背景>业务背景<a hidden class=anchor aria-hidden=true href=#业务背景>#</a></h2>
-<p>这里首先交代下重构部分的业务，如下图所以，这是个比较典型的数据表格，展示了业务数据，以及相关的操作，查看详情，编辑，删除，并且可以多选，并且进行对多条数据进行批量的操作。</p>
-<p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016202825.png alt>
-</p>
-<p>下图是完成了的数据表格部分，隐藏了其中涉及到的业务数据</p>
-<p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016202916.png alt>
-</p>
-<p>其主要的功能为：</p>
-<ol>
-<li>表格右侧的“操作”部分，主要是针对单条记录的操作，如查看，修改，删除</li>
-<li>表格下方的批量操作部分，当选中多条记录之后，执行不同的批量操作，如批量发送邀请，批量创建账号，批量删除等。针对不同的操作，在执行相应的操作时候，需要进行不同的前端验证，如开通邀请，则需要验证所选择的记录的电话号码不能为空，邮箱不能为空，销帮帮ID是否存在，等。</li>
-</ol>
-<h2 id=代码实现>代码实现<a hidden class=anchor aria-hidden=true href=#代码实现>#</a></h2>
-<p>简单介绍完需求之后，逻辑并不复杂，从代码实现角度，主要就是如下几步：
+<el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openAmlAccount')&#34;><span>开通反洗钱</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openAmlInviteAccount')&#34;><span>开通反洗钱邀请账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('deleteOpportunities')&#34;><span>批量删除</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openNormalAccount')&#34;><span>开通账号</span></el-button> <el-button type=&#34;primary&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('openInviteAccount')&#34;><span>开通邀请账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('physicallyDelete')&#34;><span>删除账号</span></el-button> <el-button type=&#34;danger&#34; :disabled=&#34;totalSelectedRows === 0&#34; @click=&#34;handleOperation('completelyPhysicalDelete')&#34;><span>彻底删除</span></el-button> handleOperation则根据不同的type，分别调用相对于的处理方法。"><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://technotes.guru/posts/"},{"@type":"ListItem","position":2,"name":"代码重构 - 前端部分代码","item":"https://technotes.guru/posts/2019/refactor-the-frontend/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"代码重构 - 前端部分代码","name":"代码重构 - 前端部分代码","description":"缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。\n这里计划用两篇博客记录一下重构中的一些点，一篇为前端部分，一篇为后端部分，这篇为前端部分。 由于处在不同的职位上，所关心的内容是不同的，比如产品经理更加关心产品的功能、业务的完成度、项目经理更加关注项目的进度等，另外一方面，从代码层面来说，还是比较主观的，不同的开发人员，写出来的代码也会差别很大，所以这里仅是个人的重构记录。下面就闲话少说，“talk is cheap, show me the code”。\n业务背景 这里首先交代下重构部分的业务，如下图所以，这是个比较典型的数据表格，展示了业务数据，以及相关的操作，查看详情，编辑，删除，并且可以多选，并且进行对多条数据进行批量的操作。\n下图是完成了的数据表格部分，隐藏了其中涉及到的业务数据\n其主要的功能为：\n 表格右侧的“操作”部分，主要是针对单条记录的操作，如查看，修改，删除 表格下方的批量操作部分，当选中多条记录之后，执行不同的批量操作，如批量发送邀请，批量创建账号，批量删除等。针对不同的操作，在执行相应的操作时候，需要进行不同的前端验证，如开通邀请，则需要验证所选择的记录的电话号码不能为空，邮箱不能为空，销帮帮ID是否存在，等。  代码实现 简单介绍完需求之后，逻辑并不复杂，从代码实现角度，主要就是如下几步： 1、响应按钮点击 2、在响应的方法中遍历选中的数据 3、对数据进行校验，如何校验失败，则进行相应的提示 4、将数据提交到后端\n实现起来也是相当的明了。\n原来的实现 这部分主要描述下上述需求的原来的实现部分，这里不会贴出全部的代码，主要还是将意图表达出来。另外，这个项目的前端展示部分是基于JSP+jQuery+Vue的，所以原来页面部分逻辑较为复杂，一部分数据是传统的基于表单的，一部分数据是jQuery Ajax方式的，一部分数据则是Vue（axios）方式。\n下面的三张截图，第一张是按钮部分，针对不同的功能，对应不同的响应方法: 下面两张是其中两个方法的具体实现:\n由于逻辑不复杂，所以实现上也是比较的明了。基本上完成过程式的代码实现，遍历选择的数据，对数据进行校验，然后调用后台对应的接口。\n过程式的代码，优点是代码清晰明了，基本上完全反映实现的意图。缺点也比较的明显，大量的重复代码，拿贴出来的两段代码来看，基本上都是相同的，复制粘贴一个方法，然后稍微的改一改。这里不去写这些的弊端，重点还是放在重构部分的内容上。\n重构过程 首先上面的代码，从功能角度来说，是可以工作的代码，但是，很多的重复代码。实际上很容易就可以发现其中可以重用的部分，如公司名称的校验，销帮帮ID的校验，邮箱的校验等。 那么，最简单的实现重用的方式，可以将其中的检验部分抽出来，形成一个一个单独的验证方法，如：\nvalidateEmailXXX() validateCompanyNameXXX() 这样在不同的方法中，就可以重用这些验证的逻辑，原来代码中的isEmailAvailable()方法就是工具方法层面的复用。比如说常见的代码中的很多的工具类，如StringUtils，DateUtils，就是这样的一个思路，实现了一些工具方法层面的重用。(对于Ruby，Kotlin，可以非常优雅的扩展父类方法)。\n不过这部分重构，我并非仅仅是抽取了几个验证的方法。下面会描述，这里先说一下我考虑的两个原则：\n 为使用方提供一致的调用外观 尽可能的代码复用  提供较为一致的调用外观 这部分主要是真的按钮的响应，所以这里统一了方法handleOperation的调用，然后通过type来区分。这部分看个人的习惯了，比如原来的方式，也是不错的，方法名就反映出来该方法的意图。\n\u0026lt;el-button type=\u0026quot;primary\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('openAmlAccount')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;开通反洗钱\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; \u0026lt;el-button type=\u0026quot;primary\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('openAmlInviteAccount')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;开通反洗钱邀请账号\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; \u0026lt;el-button type=\u0026quot;danger\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('deleteOpportunities')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;批量删除\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; \u0026lt;el-button type=\u0026quot;primary\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('openNormalAccount')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;开通账号\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; \u0026lt;el-button type=\u0026quot;primary\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('openInviteAccount')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;开通邀请账号\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; \u0026lt;el-button type=\u0026quot;danger\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('physicallyDelete')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;删除账号\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; \u0026lt;el-button type=\u0026quot;danger\u0026quot; :disabled=\u0026quot;totalSelectedRows === 0\u0026quot; @click=\u0026quot;handleOperation('completelyPhysicalDelete')\u0026quot;\u0026gt;\u0026lt;span\u0026gt;彻底删除\u0026lt;/span\u0026gt;\u0026lt;/el-button\u0026gt; handleOperation则根据不同的type，分别调用相对于的处理方法。","keywords":["重构","设计模式"],"articleBody":"缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。\n这里计划用两篇博客记录一下重构中的一些点，一篇为前端部分，一篇为后端部分，这篇为前端部分。 由于处在不同的职位上，所关心的内容是不同的，比如产品经理更加关心产品的功能、业务的完成度、项目经理更加关注项目的进度等，另外一方面，从代码层面来说，还是比较主观的，不同的开发人员，写出来的代码也会差别很大，所以这里仅是个人的重构记录。下面就闲话少说，“talk is cheap, show me the code”。\n业务背景 这里首先交代下重构部分的业务，如下图所以，这是个比较典型的数据表格，展示了业务数据，以及相关的操作，查看详情，编辑，删除，并且可以多选，并且进行对多条数据进行批量的操作。\n下图是完成了的数据表格部分，隐藏了其中涉及到的业务数据\n其主要的功能为：\n 表格右侧的“操作”部分，主要是针对单条记录的操作，如查看，修改，删除 表格下方的批量操作部分，当选中多条记录之后，执行不同的批量操作，如批量发送邀请，批量创建账号，批量删除等。针对不同的操作，在执行相应的操作时候，需要进行不同的前端验证，如开通邀请，则需要验证所选择的记录的电话号码不能为空，邮箱不能为空，销帮帮ID是否存在，等。  代码实现 简单介绍完需求之后，逻辑并不复杂，从代码实现角度，主要就是如下几步： 1、响应按钮点击 2、在响应的方法中遍历选中的数据 3、对数据进行校验，如何校验失败，则进行相应的提示 4、将数据提交到后端\n实现起来也是相当的明了。\n原来的实现 这部分主要描述下上述需求的原来的实现部分，这里不会贴出全部的代码，主要还是将意图表达出来。另外，这个项目的前端展示部分是基于JSP+jQuery+Vue的，所以原来页面部分逻辑较为复杂，一部分数据是传统的基于表单的，一部分数据是jQuery Ajax方式的，一部分数据则是Vue（axios）方式。\n下面的三张截图，第一张是按钮部分，针对不同的功能，对应不同的响应方法: 下面两张是其中两个方法的具体实现:\n由于逻辑不复杂，所以实现上也是比较的明了。基本上完成过程式的代码实现，遍历选择的数据，对数据进行校验，然后调用后台对应的接口。\n过程式的代码，优点是代码清晰明了，基本上完全反映实现的意图。缺点也比较的明显，大量的重复代码，拿贴出来的两段代码来看，基本上都是相同的，复制粘贴一个方法，然后稍微的改一改。这里不去写这些的弊端，重点还是放在重构部分的内容上。\n重构过程 首先上面的代码，从功能角度来说，是可以工作的代码，但是，很多的重复代码。实际上很容易就可以发现其中可以重用的部分，如公司名称的校验，销帮帮ID的校验，邮箱的校验等。 那么，最简单的实现重用的方式，可以将其中的检验部分抽出来，形成一个一个单独的验证方法，如：\nvalidateEmailXXX() validateCompanyNameXXX() 这样在不同的方法中，就可以重用这些验证的逻辑，原来代码中的isEmailAvailable()方法就是工具方法层面的复用。比如说常见的代码中的很多的工具类，如StringUtils，DateUtils，就是这样的一个思路，实现了一些工具方法层面的重用。(对于Ruby，Kotlin，可以非常优雅的扩展父类方法)。\n不过这部分重构，我并非仅仅是抽取了几个验证的方法。下面会描述，这里先说一下我考虑的两个原则：\n 为使用方提供一致的调用外观 尽可能的代码复用  提供较为一致的调用外观 这部分主要是真的按钮的响应，所以这里统一了方法handleOperation的调用，然后通过type来区分。这部分看个人的习惯了，比如原来的方式，也是不错的，方法名就反映出来该方法的意图。\n开通反洗钱 开通反洗钱邀请账号 批量删除 开通账号 开通邀请账号 删除账号 彻底删除 handleOperation则根据不同的type，分别调用相对于的处理方法。\nhandleOperation(type) { console.log(type); } 尽可能的代码复用 针对代码复用的部分，这边则主要的就是那些验证的部分，验证公司名称不能为空，验证销帮帮ID不能为空等。我这里并没有采用工具方法，而且采用了更加面向对象的方式，比如验证公司名称，创建了相应的验证类CompanyNameValidator.js，实现如下：（我这里的名称其实并不是太好，因为没有表达出该验证类的意图 - 公司名称不能为空，CompanyNameCannotBeNullValidator会更加的合适一点）\n/** * CompanyNameValidator.js * 公司名称不能为空 */ var CompanyNameValidator = { validate: function (index, item) { if (!item.companyName) { return { msg: \"第\" + (index + 1) + \"行数据没有公司名称\", error: true, } } else { return { error: null } } } }; export default CompanyNameValidator; 另外一个验证邮箱的实现，\n/** * EmailValidator .js * 验证Email的格式 */ var EmailValidator = { validate: function (index, item) { if (!isEmailValid(item.email)) { return { msg: \"第\" + (index + 1) + \"行数据的【邮箱格式】有误，公司名称为：\" + item.companyName, error: true } } else { return { error: null } } } }; export default EmailValidator; 然后我可以统一导出这些验证器：\nexport {default as CompanyNameValidator} from './CompanyNameValidator' export {default as XBBIdValidator} from './XBBIdValidator' export {default as EmailValidator} from './EmailValidator' export {default as PhoneNumberValidator} from './PhoneNumberValidator' export {default as NormalOpportunityValidator} from './NormalOpportunityValidator' 这样，这些验证器就可以复用了:\nimport {CompanyNameValidator, XBBIdValidator, EmailValidator, PhoneNumberValidator, NormalOpportunityValidator} from './validators'; 如果需要增加新的功能，需要引入新的验证器，同样的增加一个，然后export导出就可以了。 验证器的使用：\nhandleOperation(type) { console.log(type); let selectedRows = this.selectedRows; let validators = [CompanyNameValidator]; let errors = []; selectedRows.forEach((row, index) = { validators.forEach(validator = { let result = validator.validate(index, row); if (result.error != null) { errors.push(result); } }); }); if (errors.length  0) { errors.forEach(error = { this.$message({ type: 'info', message: error.msg }); }); } else { console.log('--------------------------------------') } } 然后进一步的将验证器使用部分封装起来，\nvar ValidatorUtil = { validate: function(selectedRows, validators) { let errors = []; selectedRows.forEach((row, index) = { validators.forEach(validator = { let result = validator.validate(index, row); if (result.error != null) { errors.push(result); } }); }); return errors; } }; export default ValidatorUtil; 使用部分，只需要调用调用该工具：\nimport ValidatorUtil from './validators/ValidatorUtil'; .... ValidatorUtil.validate(selectedRows, validators); 所以使用部分，则进一步的简化了:\nhandleOperation(type) { ...... let selectedRows = this.selectedRows; let validators = [CompanyNameValidator, XBBIdValidator, EmailValidator]; let errors = ValidatorUtil.validate(selectedRows, validators); if (errors.length  0) { errors.forEach(error = { this.$message({ type: 'info', message: error.msg }); }); } else { console.log('--------------------------------------') } } 接下来就是不同的type的不同实现了，由于验证器部分已经可以达成复用，上述handleOperation已然是一个模板了，不同的方法，只要传入不同的validators 数组就行了。\n重构后的代码 根据上面的重构思路和描述的过程，贴出一部分重构后的代码：\nhandleOperation(type) { let selectedRows = this.selectedRows; switch (type) { case 'openAmlAccount': this.processOpenAmlAccount(selectedRows); break; case 'openAmlInviteAccount': this.processOpenAmlInviteAccount(selectedRows); break; case 'deleteOpportunities': this.processDeleteOpportunities(selectedRows); break; case 'openNormalAccount': this.processOpenNormalAccount(selectedRows); break; case 'openInviteAccount': this.processOpenInviteAccount(selectedRows); break; case 'physicallyDelete': this.processPhysicallyDelete(selectedRows); break; case 'completelyPhysicalDelete': this.processCompletelyPhysicalDelete(selectedRows); break; } } /** * 开通账号 * @param selectedRows */ processOpenNormalAccount(selectedRows) { let validators = [CompanyNameValidator, XBBIdValidator, EmailValidator, PhoneNumberValidator]; this.process('OpenNormalAccount', '开通账号', selectedRows, validators); }, /** * 开通邀请账号 * @param selectedRows */ processOpenInviteAccount(selectedRows) { let validators = [CompanyNameValidator, XBBIdValidator, PhoneNumberValidator]; this.process('OpenInviteAccount', '开通邀请账号', selectedRows, validators); }, /** * 删除账号 * @param selectedRows */ processPhysicallyDelete(selectedRows) { let validators = [NormalOpportunityValidator]; this.process('PhysicallyDelete', '删除账号', selectedRows, validators); }, /** * 批量处理公共执行方法 * * @param type 批量操作类型 * @param processMsg 操作说明，操作成功后提示信息 * @param selectedRows 选中的表格行数据 * @param validators 该操作涉及的验证器集合 */ process(type, processMsg, selectedRows, validators) { let errors = ValidatorUtil.validate(selectedRows, validators); if (errors.length  0) { errors.forEach(error = { this.$message({ type: 'error', message: error.msg }); }); } else { let datas = []; selectedRows.forEach(row = { datas.push( { opportunityId: row.id, companyName: row.companyName, customerId: row.customerId, contactNumber: row.contactNumber, email: row.email } ) }); this.$axios.post('/api/opportunities/batch', { type: type, data: datas }, {}).then(res = { if (res.status === 200) { this.doSearch(); this.$message({ type: 'success', message: processMsg + '操作成功!' }); } }).catch(error = { this.$message({ type: 'error', message: processMsg + '操作失败! ' + error.msg }); }) } } 后记 计划这一篇是前端部分，不过自己接触前端(Javascript, Vue)并没有多久，主要其实还是写后端代码，所以主要还是希望把意图表达清楚。下面则将视角稍微往上一点，首先从功能实现角度，都是工作的，所以这里也还是已技术为主要视角。\n主要的套路(模式)见下面的UML类图，这是个很实用的套路，很多场景下都可以使用，下一篇将写一下后端代码(Java)部分的重构，其实也是基于这个套路。 谢谢阅读。\nWorks，then better.\n2019-02-27 发布于简\n","wordCount":"600","inLanguage":"en","datePublished":"2019-02-27T00:00:00Z","dateModified":"2019-02-27T00:00:00Z","author":{"@type":"Person","name":"TechNotes"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://technotes.guru/posts/2019/refactor-the-frontend/"},"publisher":{"@type":"Organization","name":"TechNotes","logo":{"@type":"ImageObject","url":"https://technotes.guru/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><script>if(localStorage.getItem("pref-theme")==="dark"){document.body.classList.add('dark');}else if(localStorage.getItem("pref-theme")==="light"){document.body.classList.remove('dark')}else if(window.matchMedia('(prefers-color-scheme: dark)').matches){document.body.classList.add('dark');}</script><noscript><style type=text/css>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme: #1d1e20;--entry: #2e2e33;--primary: rgba(255, 255, 255, 0.84);--secondary: rgba(255, 255, 255, 0.56);--tertiary: rgba(255, 255, 255, 0.16);--content: rgba(255, 255, 255, 0.74);--hljs-bg: #2e2e33;--code-bg: #37383e;--border: #333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><header class=header><nav class=nav><div class=logo><a href=https://technotes.guru/ accesskey=h title="TechNotes (Alt + H)">TechNotes</a>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://technotes.guru/categories/ title=categories><span>categories</span></a></li><li><a href=https://technotes.guru/tags/ title=tags><span>tags</span></a></li><li><a href=https://technotes.guru/about/ title=about><span>about</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://technotes.guru/>Home</a>&nbsp;»&nbsp;<a href=https://technotes.guru/posts/>Posts</a></div><h1 class=post-title>代码重构 - 前端部分代码</h1><div class=post-meta>2019-02-02&nbsp;·&nbsp;3 min&nbsp;·&nbsp;TechNotes</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><div class=details>Table of Contents</div></summary><div class=inner><ul><li><a href=#%e7%bc%98%e8%b5%b7 aria-label=缘起>缘起</a></li><li><a href=#%e4%b8%9a%e5%8a%a1%e8%83%8c%e6%99%af aria-label=业务背景>业务背景</a></li><li><a href=#%e4%bb%a3%e7%a0%81%e5%ae%9e%e7%8e%b0 aria-label=代码实现>代码实现</a><ul><li><a href=#%e5%8e%9f%e6%9d%a5%e7%9a%84%e5%ae%9e%e7%8e%b0 aria-label=原来的实现>原来的实现</a></li><li><a href=#%e9%87%8d%e6%9e%84%e8%bf%87%e7%a8%8b aria-label=重构过程>重构过程</a><ul><li><a href=#%e6%8f%90%e4%be%9b%e8%be%83%e4%b8%ba%e4%b8%80%e8%87%b4%e7%9a%84%e8%b0%83%e7%94%a8%e5%a4%96%e8%a7%82 aria-label=提供较为一致的调用外观>提供较为一致的调用外观</a></li><li><a href=#%e5%b0%bd%e5%8f%af%e8%83%bd%e7%9a%84%e4%bb%a3%e7%a0%81%e5%a4%8d%e7%94%a8 aria-label=尽可能的代码复用>尽可能的代码复用</a></li></ul></li><li><a href=#%e9%87%8d%e6%9e%84%e5%90%8e%e7%9a%84%e4%bb%a3%e7%a0%81 aria-label=重构后的代码>重构后的代码</a></li></ul></li><li><a href=#%e5%90%8e%e8%ae%b0 aria-label=后记>后记</a></li></ul></div></details></div><div class=post-content><h2 id=缘起>缘起<a hidden class=anchor aria-hidden=true href=#缘起>#</a></h2><p>由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。</p><p>这里计划用两篇博客记录一下重构中的一些点，一篇为前端部分，一篇为后端部分，这篇为前端部分。
+由于处在不同的职位上，所关心的内容是不同的，比如产品经理更加关心产品的功能、业务的完成度、项目经理更加关注项目的进度等，另外一方面，从代码层面来说，还是比较主观的，不同的开发人员，写出来的代码也会差别很大，所以这里仅是个人的重构记录。下面就闲话少说，“talk is cheap, show me the code”。</p><h2 id=业务背景>业务背景<a hidden class=anchor aria-hidden=true href=#业务背景>#</a></h2><p>这里首先交代下重构部分的业务，如下图所以，这是个比较典型的数据表格，展示了业务数据，以及相关的操作，查看详情，编辑，删除，并且可以多选，并且进行对多条数据进行批量的操作。</p><p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016202825.png alt></p><p>下图是完成了的数据表格部分，隐藏了其中涉及到的业务数据</p><p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016202916.png alt></p><p>其主要的功能为：</p><ol><li>表格右侧的“操作”部分，主要是针对单条记录的操作，如查看，修改，删除</li><li>表格下方的批量操作部分，当选中多条记录之后，执行不同的批量操作，如批量发送邀请，批量创建账号，批量删除等。针对不同的操作，在执行相应的操作时候，需要进行不同的前端验证，如开通邀请，则需要验证所选择的记录的电话号码不能为空，邮箱不能为空，销帮帮ID是否存在，等。</li></ol><h2 id=代码实现>代码实现<a hidden class=anchor aria-hidden=true href=#代码实现>#</a></h2><p>简单介绍完需求之后，逻辑并不复杂，从代码实现角度，主要就是如下几步：
 1、响应按钮点击
 2、在响应的方法中遍历选中的数据
 3、对数据进行校验，如何校验失败，则进行相应的提示
-4、将数据提交到后端</p>
-<p>实现起来也是相当的明了。</p>
-<h3 id=原来的实现>原来的实现<a hidden class=anchor aria-hidden=true href=#原来的实现>#</a></h3>
-<p>这部分主要描述下上述需求的原来的实现部分，这里不会贴出全部的代码，主要还是将意图表达出来。另外，这个项目的前端展示部分是基于JSP+jQuery+Vue的，所以原来页面部分逻辑较为复杂，一部分数据是传统的基于表单的，一部分数据是jQuery Ajax方式的，一部分数据则是Vue（axios）方式。</p>
-<p>下面的三张截图，第一张是按钮部分，针对不同的功能，对应不同的响应方法:
-<img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203036.png alt>
-</p>
-<p>下面两张是其中两个方法的具体实现:</p>
-<p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203139.png alt>
-</p>
-<p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203208.png alt>
-</p>
-<p>由于逻辑不复杂，所以实现上也是比较的明了。基本上完成过程式的代码实现，遍历选择的数据，对数据进行校验，然后调用后台对应的接口。</p>
-<p>过程式的代码，优点是代码清晰明了，基本上完全反映实现的意图。缺点也比较的明显，大量的重复代码，拿贴出来的两段代码来看，基本上都是相同的，复制粘贴一个方法，然后稍微的改一改。这里不去写这些的弊端，重点还是放在重构部分的内容上。</p>
-<h3 id=重构过程>重构过程<a hidden class=anchor aria-hidden=true href=#重构过程>#</a></h3>
-<p>首先上面的代码，从功能角度来说，是可以工作的代码，但是，很多的重复代码。实际上很容易就可以发现其中可以重用的部分，如公司名称的校验，销帮帮ID的校验，邮箱的校验等。
-那么，最简单的实现重用的方式，可以将其中的检验部分抽出来，形成一个一个单独的验证方法，如：</p>
-<pre tabindex=0><code>validateEmailXXX()
+4、将数据提交到后端</p><p>实现起来也是相当的明了。</p><h3 id=原来的实现>原来的实现<a hidden class=anchor aria-hidden=true href=#原来的实现>#</a></h3><p>这部分主要描述下上述需求的原来的实现部分，这里不会贴出全部的代码，主要还是将意图表达出来。另外，这个项目的前端展示部分是基于JSP+jQuery+Vue的，所以原来页面部分逻辑较为复杂，一部分数据是传统的基于表单的，一部分数据是jQuery Ajax方式的，一部分数据则是Vue（axios）方式。</p><p>下面的三张截图，第一张是按钮部分，针对不同的功能，对应不同的响应方法:
+<img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203036.png alt></p><p>下面两张是其中两个方法的具体实现:</p><p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203139.png alt></p><p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203208.png alt></p><p>由于逻辑不复杂，所以实现上也是比较的明了。基本上完成过程式的代码实现，遍历选择的数据，对数据进行校验，然后调用后台对应的接口。</p><p>过程式的代码，优点是代码清晰明了，基本上完全反映实现的意图。缺点也比较的明显，大量的重复代码，拿贴出来的两段代码来看，基本上都是相同的，复制粘贴一个方法，然后稍微的改一改。这里不去写这些的弊端，重点还是放在重构部分的内容上。</p><h3 id=重构过程>重构过程<a hidden class=anchor aria-hidden=true href=#重构过程>#</a></h3><p>首先上面的代码，从功能角度来说，是可以工作的代码，但是，很多的重复代码。实际上很容易就可以发现其中可以重用的部分，如公司名称的校验，销帮帮ID的校验，邮箱的校验等。
+那么，最简单的实现重用的方式，可以将其中的检验部分抽出来，形成一个一个单独的验证方法，如：</p><pre><code>validateEmailXXX()
 validateCompanyNameXXX()
-</code></pre><p>这样在不同的方法中，就可以重用这些验证的逻辑，原来代码中的<code>isEmailAvailable()</code>方法就是工具方法层面的复用。比如说常见的代码中的很多的工具类，如<code>StringUtils</code>，<code>DateUtils</code>，就是这样的一个思路，实现了一些工具方法层面的重用。(对于Ruby，Kotlin，可以非常优雅的扩展父类方法)。</p>
-<p>不过这部分重构，我并非仅仅是抽取了几个验证的方法。下面会描述，这里先说一下我考虑的两个原则：</p>
-<ol>
-<li>为使用方提供一致的调用外观</li>
-<li>尽可能的代码复用</li>
-</ol>
-<h4 id=提供较为一致的调用外观>提供较为一致的调用外观<a hidden class=anchor aria-hidden=true href=#提供较为一致的调用外观>#</a></h4>
-<p>这部分主要是真的按钮的响应，所以这里统一了方法<code>handleOperation</code>的调用，然后通过<code>type</code>来区分。这部分看个人的习惯了，比如原来的方式，也是不错的，方法名就反映出来该方法的意图。</p>
-<pre tabindex=0><code>&lt;el-button type=&quot;primary&quot; :disabled=&quot;totalSelectedRows === 0&quot; @click=&quot;handleOperation('openAmlAccount')&quot;&gt;&lt;span&gt;开通反洗钱&lt;/span&gt;&lt;/el-button&gt;
+</code></pre><p>这样在不同的方法中，就可以重用这些验证的逻辑，原来代码中的<code>isEmailAvailable()</code>方法就是工具方法层面的复用。比如说常见的代码中的很多的工具类，如<code>StringUtils</code>，<code>DateUtils</code>，就是这样的一个思路，实现了一些工具方法层面的重用。(对于Ruby，Kotlin，可以非常优雅的扩展父类方法)。</p><p>不过这部分重构，我并非仅仅是抽取了几个验证的方法。下面会描述，这里先说一下我考虑的两个原则：</p><ol><li>为使用方提供一致的调用外观</li><li>尽可能的代码复用</li></ol><h4 id=提供较为一致的调用外观>提供较为一致的调用外观<a hidden class=anchor aria-hidden=true href=#提供较为一致的调用外观>#</a></h4><p>这部分主要是真的按钮的响应，所以这里统一了方法<code>handleOperation</code>的调用，然后通过<code>type</code>来区分。这部分看个人的习惯了，比如原来的方式，也是不错的，方法名就反映出来该方法的意图。</p><pre><code>&lt;el-button type=&quot;primary&quot; :disabled=&quot;totalSelectedRows === 0&quot; @click=&quot;handleOperation('openAmlAccount')&quot;&gt;&lt;span&gt;开通反洗钱&lt;/span&gt;&lt;/el-button&gt;
 &lt;el-button type=&quot;primary&quot; :disabled=&quot;totalSelectedRows === 0&quot; @click=&quot;handleOperation('openAmlInviteAccount')&quot;&gt;&lt;span&gt;开通反洗钱邀请账号&lt;/span&gt;&lt;/el-button&gt;
 &lt;el-button type=&quot;danger&quot;  :disabled=&quot;totalSelectedRows === 0&quot; @click=&quot;handleOperation('deleteOpportunities')&quot;&gt;&lt;span&gt;批量删除&lt;/span&gt;&lt;/el-button&gt;
 &lt;el-button type=&quot;primary&quot; :disabled=&quot;totalSelectedRows === 0&quot; @click=&quot;handleOperation('openNormalAccount')&quot;&gt;&lt;span&gt;开通账号&lt;/span&gt;&lt;/el-button&gt;
 &lt;el-button type=&quot;primary&quot; :disabled=&quot;totalSelectedRows === 0&quot; @click=&quot;handleOperation('openInviteAccount')&quot;&gt;&lt;span&gt;开通邀请账号&lt;/span&gt;&lt;/el-button&gt;
 &lt;el-button type=&quot;danger&quot; :disabled=&quot;totalSelectedRows === 0&quot; @click=&quot;handleOperation('physicallyDelete')&quot;&gt;&lt;span&gt;删除账号&lt;/span&gt;&lt;/el-button&gt;
 &lt;el-button type=&quot;danger&quot; :disabled=&quot;totalSelectedRows === 0&quot; @click=&quot;handleOperation('completelyPhysicalDelete')&quot;&gt;&lt;span&gt;彻底删除&lt;/span&gt;&lt;/el-button&gt;
-</code></pre><p><code>handleOperation</code>则根据不同的<code>type</code>，分别调用相对于的处理方法。</p>
-<pre tabindex=0><code>handleOperation(type) {
+</code></pre><p><code>handleOperation</code>则根据不同的<code>type</code>，分别调用相对于的处理方法。</p><pre><code>handleOperation(type) {
     console.log(type);
 }
-</code></pre><h4 id=尽可能的代码复用>尽可能的代码复用<a hidden class=anchor aria-hidden=true href=#尽可能的代码复用>#</a></h4>
-<p>针对代码复用的部分，这边则主要的就是那些验证的部分，验证公司名称不能为空，验证销帮帮ID不能为空等。我这里并没有采用工具方法，而且采用了更加面向对象的方式，比如验证公司名称，创建了相应的验证类<code>CompanyNameValidator.js</code>，实现如下：（我这里的名称其实并不是太好，因为没有表达出该验证类的意图 - 公司名称不能为空，<code>CompanyNameCannotBeNullValidator</code>会更加的合适一点）</p>
-<pre tabindex=0><code>/**
+</code></pre><h4 id=尽可能的代码复用>尽可能的代码复用<a hidden class=anchor aria-hidden=true href=#尽可能的代码复用>#</a></h4><p>针对代码复用的部分，这边则主要的就是那些验证的部分，验证公司名称不能为空，验证销帮帮ID不能为空等。我这里并没有采用工具方法，而且采用了更加面向对象的方式，比如验证公司名称，创建了相应的验证类<code>CompanyNameValidator.js</code>，实现如下：（我这里的名称其实并不是太好，因为没有表达出该验证类的意图 - 公司名称不能为空，<code>CompanyNameCannotBeNullValidator</code>会更加的合适一点）</p><pre><code>/**
 *  CompanyNameValidator.js
  * 公司名称不能为空
  */
@@ -233,8 +83,7 @@ var CompanyNameValidator = {
 };
 
 export default CompanyNameValidator;
-</code></pre><p>另外一个验证邮箱的实现，</p>
-<pre tabindex=0><code>/**
+</code></pre><p>另外一个验证邮箱的实现，</p><pre><code>/**
 *  EmailValidator .js
  * 验证Email的格式
  */
@@ -254,19 +103,14 @@ var EmailValidator = {
 };
 
 export default EmailValidator;
-</code></pre><p>然后我可以统一导出这些验证器：</p>
-<pre tabindex=0><code>export {default as CompanyNameValidator} from './CompanyNameValidator'
+</code></pre><p>然后我可以统一导出这些验证器：</p><pre><code>export {default as CompanyNameValidator} from './CompanyNameValidator'
 export {default as XBBIdValidator} from './XBBIdValidator'
 export {default as EmailValidator} from './EmailValidator'
 export {default as PhoneNumberValidator} from './PhoneNumberValidator'
 export {default as NormalOpportunityValidator} from './NormalOpportunityValidator'
-</code></pre><p>这样，这些验证器就可以复用了:</p>
-<pre tabindex=0><code>import {CompanyNameValidator, XBBIdValidator, EmailValidator, PhoneNumberValidator, NormalOpportunityValidator} from './validators';
-</code></pre><p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203239.png alt>
-</p>
-<p>如果需要增加新的功能，需要引入新的验证器，同样的增加一个，然后export导出就可以了。
-验证器的使用：</p>
-<pre tabindex=0><code>handleOperation(type) {
+</code></pre><p>这样，这些验证器就可以复用了:</p><pre><code>import {CompanyNameValidator, XBBIdValidator, EmailValidator, PhoneNumberValidator, NormalOpportunityValidator} from './validators';
+</code></pre><p><img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203239.png alt></p><p>如果需要增加新的功能，需要引入新的验证器，同样的增加一个，然后export导出就可以了。
+验证器的使用：</p><pre><code>handleOperation(type) {
 	console.log(type);
 	let selectedRows = this.selectedRows;
 	let validators = [CompanyNameValidator];
@@ -292,8 +136,7 @@ export {default as NormalOpportunityValidator} from './NormalOpportunityValidato
 		console.log('--------------------------------------')
 	}
 }
-</code></pre><p>然后进一步的将验证器使用部分封装起来，</p>
-<pre tabindex=0><code>var ValidatorUtil = {
+</code></pre><p>然后进一步的将验证器使用部分封装起来，</p><pre><code>var ValidatorUtil = {
     validate: function(selectedRows, validators) {
         let errors = [];
         selectedRows.forEach((row, index) =&gt; {
@@ -310,12 +153,10 @@ export {default as NormalOpportunityValidator} from './NormalOpportunityValidato
 };
 
 export default ValidatorUtil;
-</code></pre><p>使用部分，只需要调用调用该工具：</p>
-<pre tabindex=0><code>import ValidatorUtil from './validators/ValidatorUtil';
+</code></pre><p>使用部分，只需要调用调用该工具：</p><pre><code>import ValidatorUtil from './validators/ValidatorUtil';
 ....
 ValidatorUtil.validate(selectedRows, validators);
-</code></pre><p>所以使用部分，则进一步的简化了:</p>
-<pre tabindex=0><code>handleOperation(type) {
+</code></pre><p>所以使用部分，则进一步的简化了:</p><pre><code>handleOperation(type) {
 	......
 	let selectedRows = this.selectedRows;
 	let validators = [CompanyNameValidator, XBBIdValidator, EmailValidator];
@@ -333,10 +174,7 @@ ValidatorUtil.validate(selectedRows, validators);
 		console.log('--------------------------------------')
 	}
 }
-</code></pre><p>接下来就是不同的<code>type</code>的不同实现了，由于验证器部分已经可以达成复用，上述<code>handleOperation</code>已然是一个模板了，不同的方法，只要传入不同的<code>validators </code>数组就行了。</p>
-<h3 id=重构后的代码>重构后的代码<a hidden class=anchor aria-hidden=true href=#重构后的代码>#</a></h3>
-<p>根据上面的重构思路和描述的过程，贴出一部分重构后的代码：</p>
-<pre tabindex=0><code>handleOperation(type) {
+</code></pre><p>接下来就是不同的<code>type</code>的不同实现了，由于验证器部分已经可以达成复用，上述<code>handleOperation</code>已然是一个模板了，不同的方法，只要传入不同的<code>validators </code>数组就行了。</p><h3 id=重构后的代码>重构后的代码<a hidden class=anchor aria-hidden=true href=#重构后的代码>#</a></h3><p>根据上面的重构思路和描述的过程，贴出一部分重构后的代码：</p><pre><code>handleOperation(type) {
 	let selectedRows = this.selectedRows;
 
 	switch (type) {
@@ -363,7 +201,7 @@ ValidatorUtil.validate(selectedRows, validators);
 			break;
 	}
 }
-</code></pre><pre tabindex=0><code>/**
+</code></pre><pre><code>/**
  * 开通账号
  * @param selectedRows
  */
@@ -441,49 +279,13 @@ process(type, processMsg, selectedRows, validators) {
 		})
 	}
 }
-</code></pre><h2 id=后记>后记<a hidden class=anchor aria-hidden=true href=#后记>#</a></h2>
-<p>计划这一篇是前端部分，不过自己接触前端(Javascript, Vue)并没有多久，主要其实还是写后端代码，所以主要还是希望把意图表达清楚。下面则将视角稍微往上一点，首先从功能实现角度，都是工作的，所以这里也还是已技术为主要视角。</p>
-<p>主要的套路(模式)见下面的UML类图，这是个很实用的套路，很多场景下都可以使用，下一篇将写一下后端代码(Java)部分的重构，其实也是基于这个套路。
-<img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203304.png alt>
-</p>
-<p>谢谢阅读。</p>
-<p><strong>Works，then better.</strong></p>
-<p><em>2019-02-27 发布于简</em></p>
-</div>
-<footer class=post-footer>
-<ul class=post-tags>
-<li><a href=https://technotes.guru/tags/%E9%87%8D%E6%9E%84/>重构</a></li>
-<li><a href=https://technotes.guru/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/>设计模式</a></li>
-</ul>
-<nav class=paginav>
-<a class=prev href=https://technotes.guru/posts/2019/refactor-the-backend/>
-<span class=title>« Prev Page</span>
-<br>
-<span>代码重构 - 后端部分代码</span>
-</a>
-<a class=next href=https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/>
-<span class=title>Next Page »</span>
-<br>
-<span>基于区块链的公益捐赠平台</span>
-</a>
-</nav>
-</footer>
-</article>
-</main>
-<footer class=footer>
-<span>&copy; 2021 <a href=https://technotes.guru/>TechNotes</a></span>
-<span>
-Powered by
+</code></pre><h2 id=后记>后记<a hidden class=anchor aria-hidden=true href=#后记>#</a></h2><p>计划这一篇是前端部分，不过自己接触前端(Javascript, Vue)并没有多久，主要其实还是写后端代码，所以主要还是希望把意图表达清楚。下面则将视角稍微往上一点，首先从功能实现角度，都是工作的，所以这里也还是已技术为主要视角。</p><p>主要的套路(模式)见下面的UML类图，这是个很实用的套路，很多场景下都可以使用，下一篇将写一下后端代码(Java)部分的重构，其实也是基于这个套路。
+<img loading=lazy src=https://raw.githubusercontent.com/cloudhuang/cloudhuang.github.io/pictures/pictures/20201016203304.png alt></p><p>谢谢阅读。</p><p><strong>Works，then better.</strong></p><p><em>2019-02-27 发布于简</em></p></div><footer class=post-footer><ul class=post-tags><li><a href=https://technotes.guru/tags/%E9%87%8D%E6%9E%84/>重构</a></li><li><a href=https://technotes.guru/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/>设计模式</a></li></ul><nav class=paginav><a class=prev href=https://technotes.guru/posts/2019/refactor-the-backend/><span class=title>« Prev Page</span><br><span>代码重构 - 后端部分代码</span></a>
+<a class=next href=https://technotes.guru/posts/2008/blockchain-based-philanthropic-platform/><span class=title>Next Page »</span><br><span>基于区块链的公益捐赠平台</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2021 <a href=https://technotes.guru/>TechNotes</a></span>
+<span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
-</span>
-</footer>
-<a href=#top aria-label="go to top" title="Go to Top (Alt + G)">
-<button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
-</button>
-</a>
-<script>let menu=document.getElementById('menu');menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)},document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
-<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
-<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
-</body>
-</html>
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)"><button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></button></a>
+<script>let menu=document.getElementById('menu')
+menu.scrollLeft=localStorage.getItem("menu-scroll-position");menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft);}
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener("click",function(e){e.preventDefault();var id=this.getAttribute("href").substr(1);if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({behavior:"smooth"});}else{document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();}
+if(id==="top"){history.replaceState(null,null," ");}else{history.pushState(null,null,`#${id}`);}});});</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){if(document.body.scrollTop>800||document.documentElement.scrollTop>800){mybutton.style.visibility="visible";mybutton.style.opacity="1";}else{mybutton.style.visibility="hidden";mybutton.style.opacity="0";}};</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{if(document.body.className.includes("dark")){document.body.classList.remove('dark');localStorage.setItem("pref-theme",'light');}else{document.body.classList.add('dark');localStorage.setItem("pref-theme",'dark');}})</script></body></html>

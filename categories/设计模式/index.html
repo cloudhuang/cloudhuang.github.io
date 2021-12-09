@@ -1,78 +1,5 @@
-<!doctype html><html lang=en dir=auto>
-<head><meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
-<meta name=robots content="index, follow">
-<title>设计模式 | TechNotes</title>
-<meta name=keywords content>
-<meta name=description content="TechNotes">
-<meta name=author content="TechNotes">
-<link rel=canonical href=https://technotes.guru/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/>
-<meta name=google-site-verification content="G-V4HC5K9V2M">
-<meta name=yandex-verification content="XYZabc">
-<meta name=msvalidate.01 content="XYZabc">
-<link crossorigin=anonymous href=/assets/css/stylesheet.min.030f3f25d9f3449b524f810ddd2c31b9d4718215f17a58bacbd906ecaf639910.css integrity="sha256-Aw8/JdnzRJtST4EN3SwxudRxghXxeli6y9kG7K9jmRA=" rel="preload stylesheet" as=style>
-<link rel=icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=icon type=image/png sizes=16x16 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=icon type=image/png sizes=32x32 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=apple-touch-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<meta name=theme-color content="#2e2e33">
-<meta name=msapplication-TileColor content="#2e2e33">
-<meta name=generator content="Hugo 0.89.0">
-<link rel=alternate type=application/rss+xml href=https://technotes.guru/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml>
-<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="设计模式">
-<meta property="og:description" content="TechNotes">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://technotes.guru/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><meta property="og:site_name" content="TechNotes">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="设计模式">
-<meta name=twitter:description content="TechNotes">
-</head>
-<body class=list id=top>
-<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
-<noscript>
-<style type=text/css>#theme-toggle,.top-link{display:none}</style>
-<style>@media(prefers-color-scheme:dark){:root{--theme:#1d1e20;--entry:#2e2e33;--primary:rgba(255, 255, 255, 0.84);--secondary:rgba(255, 255, 255, 0.56);--tertiary:rgba(255, 255, 255, 0.16);--content:rgba(255, 255, 255, 0.74);--hljs-bg:#2e2e33;--code-bg:#37383e;--border:#333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
-</noscript>
-<header class=header>
-<nav class=nav>
-<div class=logo>
-<a href=https://technotes.guru/ accesskey=h title="TechNotes (Alt + H)">TechNotes</a>
-<span class=logo-switches>
-<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-</button>
-</span>
-</div>
-<ul id=menu>
-<li>
-<a href=https://technotes.guru/categories/ title=categories>
-<span>categories</span>
-</a>
-</li>
-<li>
-<a href=https://technotes.guru/tags/ title=tags>
-<span>tags</span>
-</a>
-</li>
-<li>
-<a href=https://technotes.guru/about/ title=about>
-<span>about</span>
-</a>
-</li>
-</ul>
-</nav>
-</header>
-<main class=main>
-<header class=page-header><div class=breadcrumbs><a href=https://technotes.guru/>Home</a>&nbsp;»&nbsp;<a href=https://technotes.guru/categories/>Categories</a></div>
-<h1>设计模式</h1>
-</header>
-<article class="post-entry tag-entry">
-<header class=entry-header>
-<h2>代码重构 - 后端部分代码</h2>
-</header>
-<section class=entry-content>
-<p>前一篇 主要写了一下前端部分的重构，这一篇则主要关注后端部分。
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>设计模式 | TechNotes</title><meta name=keywords content><meta name=description content="TechNotes"><meta name=author content="TechNotes"><link rel=canonical href=https://technotes.guru/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/><meta name=google-site-verification content="G-V4HC5K9V2M"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.min.104dece512238ae351d9387d69c6d37c1f015f96d6f4261722aa2a75b2ddb5a0.css integrity="sha256-EE3s5RIjiuNR2Th9acbTfB8BX5bW9CYXIqoqdbLdtaA=" rel="preload stylesheet" as=style><link rel=icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><meta name=generator content="Hugo 0.76.5"><link rel=alternate type=application/rss+xml href=https://technotes.guru/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-123-45','auto');ga('send','pageview');}</script><meta property="og:title" content="设计模式"><meta property="og:description" content="TechNotes"><meta property="og:type" content="website"><meta property="og:url" content="https://technotes.guru/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"><meta property="og:site_name" content="TechNotes"><meta name=twitter:card content="summary"><meta name=twitter:title content="设计模式"><meta name=twitter:description content="TechNotes"></head><body class=list id=top><script>if(localStorage.getItem("pref-theme")==="dark"){document.body.classList.add('dark');}else if(localStorage.getItem("pref-theme")==="light"){document.body.classList.remove('dark')}else if(window.matchMedia('(prefers-color-scheme: dark)').matches){document.body.classList.add('dark');}</script><noscript><style type=text/css>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme: #1d1e20;--entry: #2e2e33;--primary: rgba(255, 255, 255, 0.84);--secondary: rgba(255, 255, 255, 0.56);--tertiary: rgba(255, 255, 255, 0.16);--content: rgba(255, 255, 255, 0.74);--hljs-bg: #2e2e33;--code-bg: #37383e;--border: #333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><header class=header><nav class=nav><div class=logo><a href=https://technotes.guru/ accesskey=h title="TechNotes (Alt + H)">TechNotes</a>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://technotes.guru/categories/ title=categories><span>categories</span></a></li><li><a href=https://technotes.guru/tags/ title=tags><span>tags</span></a></li><li><a href=https://technotes.guru/about/ title=about><span>about</span></a></li></ul></nav></header><main class=main><header class=page-header><div class=breadcrumbs><a href=https://technotes.guru/>Home</a>&nbsp;»&nbsp;<a href=https://technotes.guru/categories/>Categories</a></div><h1>设计模式</h1></header><article class="post-entry tag-entry"><header class=entry-header><h2>代码重构 - 后端部分代码</h2></header><section class=entry-content><p>前一篇 主要写了一下前端部分的重构，这一篇则主要关注后端部分。
 在前一篇后面说到了一个很实用的套路（模式），其类图如下图所示： 在后端部分，我先将后端Java代码的类图画出来： 可以发现，还是一样的套路。
 代码实现 下面则具体说下实现，首先是说一下原来的系统的实现，然后是重构的实现。
 原来的实现 在上一篇前端部分，拿了两个方法作为示例，在方法体的后面，则都是通过POST请求调用后端的Controller。
@@ -83,17 +10,7 @@
 尽可能的代码复用 为使用方提供一致的调用外观 所以这一部分，还是会基于这两个主要原则，并且主要针对Controller层和Service层。
 由于是前后端分离，所以这部分是Restful风格的，WEB API作为前后端的契约，一是URL尽量的符合REST语义，二是传输的数据(payload)。
 这个是REST Controller的实现：
-@PostMapping("/api/opportunities/batch") public ResponseEntity&lt;?> batchProcess(@RequestBody OpportunityBatchRequest request) { log.info("Process opportunity batch action - type: {}", request.getType()); List&lt;String> emailSendFailedList; try { businessOpportunityProcessorService.process(request); emailSendFailedList = businessOpportunityProcessorService.getAllEmailSendFailed(); } catch (Exception e) { log.error("Process opportunity batch action failed, type: {}, root cause: {}", request....</p>
-</section>
-<footer class=entry-footer>2019-02-02&nbsp;·&nbsp;2 min&nbsp;·&nbsp;TechNotes</footer>
-<a class=entry-link aria-label="post link to 代码重构 - 后端部分代码" href=https://technotes.guru/posts/2019/refactor-the-backend/></a>
-</article>
-<article class="post-entry tag-entry">
-<header class=entry-header>
-<h2>代码重构 - 前端部分代码</h2>
-</header>
-<section class=entry-content>
-<p>缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。
+@PostMapping("/api/opportunities/batch") public ResponseEntity&lt;?> batchProcess(@RequestBody OpportunityBatchRequest request) { log.info("Process opportunity batch action - type: {}", request.getType()); List&lt;String> emailSendFailedList; try { businessOpportunityProcessorService.process(request); emailSendFailedList = businessOpportunityProcessorService.getAllEmailSendFailed(); } catch (Exception e) { log.error("Process opportunity batch action failed, type: {}, root cause: {}", request....</p></section><footer class=entry-footer>2019-02-02&nbsp;·&nbsp;2 min&nbsp;·&nbsp;TechNotes</footer><a class=entry-link aria-label="post link to 代码重构 - 后端部分代码" href=https://technotes.guru/posts/2019/refactor-the-backend/></a></article><article class="post-entry tag-entry"><header class=entry-header><h2>代码重构 - 前端部分代码</h2></header><section class=entry-content><p>缘起 由于工作的变动，转岗到了公司的另外一个项目里，目前的主要工作在编码方面，负责将一个原来标准的J2EE（Spring， SpringMVC，MyBatis)项目，重构成基于Restful的前后端分离的项目，后端采用Spring Boot，前端部分则采用Vue。
 这里计划用两篇博客记录一下重构中的一些点，一篇为前端部分，一篇为后端部分，这篇为前端部分。 由于处在不同的职位上，所关心的内容是不同的，比如产品经理更加关心产品的功能、业务的完成度、项目经理更加关注项目的进度等，另外一方面，从代码层面来说，还是比较主观的，不同的开发人员，写出来的代码也会差别很大，所以这里仅是个人的重构记录。下面就闲话少说，“talk is cheap, show me the code”。
 业务背景 这里首先交代下重构部分的业务，如下图所以，这是个比较典型的数据表格，展示了业务数据，以及相关的操作，查看详情，编辑，删除，并且可以多选，并且进行对多条数据进行批量的操作。
 下图是完成了的数据表格部分，隐藏了其中涉及到的业务数据
@@ -108,26 +25,11 @@
 validateEmailXXX() validateCompanyNameXXX() 这样在不同的方法中，就可以重用这些验证的逻辑，原来代码中的isEmailAvailable()方法就是工具方法层面的复用。比如说常见的代码中的很多的工具类，如StringUtils，DateUtils，就是这样的一个思路，实现了一些工具方法层面的重用。(对于Ruby，Kotlin，可以非常优雅的扩展父类方法)。
 不过这部分重构，我并非仅仅是抽取了几个验证的方法。下面会描述，这里先说一下我考虑的两个原则：
 为使用方提供一致的调用外观 尽可能的代码复用 提供较为一致的调用外观 这部分主要是真的按钮的响应，所以这里统一了方法handleOperation的调用，然后通过type来区分。这部分看个人的习惯了，比如原来的方式，也是不错的，方法名就反映出来该方法的意图。
-&lt;el-button type="primary" :disabled="totalSelectedRows === 0" @click="handleOperation('openAmlAccount')">&lt;span>开通反洗钱&lt;/span>&lt;/el-button> &lt;el-button type="primary" :disabled="totalSelectedRows === 0" @click="handleOperation('openAmlInviteAccount')">&lt;span>开通反洗钱邀请账号&lt;/span>&lt;/el-button> &lt;el-button type="danger" :disabled="totalSelectedRows === 0" @click="handleOperation('deleteOpportunities')">&lt;span>批量删除&lt;/span>&lt;/el-button> &lt;el-button type="primary" :disabled="totalSelectedRows === 0" @click="handleOperation('openNormalAccount')">&lt;span>开通账号&lt;/span>&lt;/el-button> &lt;el-button type="primary" :disabled="totalSelectedRows === 0" @click="handleOperation('openInviteAccount')">&lt;span>开通邀请账号&lt;/span>&lt;/el-button> &lt;el-button type="danger" :disabled="totalSelectedRows === 0" @click="handleOperation('physicallyDelete')">&lt;span>删除账号&lt;/span>&lt;/el-button> &lt;el-button type="danger" :disabled="totalSelectedRows === 0" @click="handleOperation('completelyPhysicalDelete')">&lt;span>彻底删除&lt;/span>&lt;/el-button> handleOperation则根据不同的type，分别调用相对于的处理方法。...</p>
-</section>
-<footer class=entry-footer>2019-02-02&nbsp;·&nbsp;3 min&nbsp;·&nbsp;TechNotes</footer>
-<a class=entry-link aria-label="post link to 代码重构 - 前端部分代码" href=https://technotes.guru/posts/2019/refactor-the-frontend/></a>
-</article>
-</main>
-<footer class=footer>
-<span>&copy; 2021 <a href=https://technotes.guru/>TechNotes</a></span>
-<span>
-Powered by
+&lt;el-button type="primary" :disabled="totalSelectedRows === 0" @click="handleOperation('openAmlAccount')">&lt;span>开通反洗钱&lt;/span>&lt;/el-button> &lt;el-button type="primary" :disabled="totalSelectedRows === 0" @click="handleOperation('openAmlInviteAccount')">&lt;span>开通反洗钱邀请账号&lt;/span>&lt;/el-button> &lt;el-button type="danger" :disabled="totalSelectedRows === 0" @click="handleOperation('deleteOpportunities')">&lt;span>批量删除&lt;/span>&lt;/el-button> &lt;el-button type="primary" :disabled="totalSelectedRows === 0" @click="handleOperation('openNormalAccount')">&lt;span>开通账号&lt;/span>&lt;/el-button> &lt;el-button type="primary" :disabled="totalSelectedRows === 0" @click="handleOperation('openInviteAccount')">&lt;span>开通邀请账号&lt;/span>&lt;/el-button> &lt;el-button type="danger" :disabled="totalSelectedRows === 0" @click="handleOperation('physicallyDelete')">&lt;span>删除账号&lt;/span>&lt;/el-button> &lt;el-button type="danger" :disabled="totalSelectedRows === 0" @click="handleOperation('completelyPhysicalDelete')">&lt;span>彻底删除&lt;/span>&lt;/el-button> handleOperation则根据不同的type，分别调用相对于的处理方法。...</p></section><footer class=entry-footer>2019-02-02&nbsp;·&nbsp;3 min&nbsp;·&nbsp;TechNotes</footer><a class=entry-link aria-label="post link to 代码重构 - 前端部分代码" href=https://technotes.guru/posts/2019/refactor-the-frontend/></a></article></main><footer class=footer><span>&copy; 2021 <a href=https://technotes.guru/>TechNotes</a></span>
+<span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
-</span>
-</footer>
-<a href=#top aria-label="go to top" title="Go to Top (Alt + G)">
-<button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
-</button>
-</a>
-<script>let menu=document.getElementById('menu');menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)},document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
-<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
-<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
-</body>
-</html>
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)"><button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></button></a>
+<script>let menu=document.getElementById('menu')
+menu.scrollLeft=localStorage.getItem("menu-scroll-position");menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft);}
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener("click",function(e){e.preventDefault();var id=this.getAttribute("href").substr(1);if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({behavior:"smooth"});}else{document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();}
+if(id==="top"){history.replaceState(null,null," ");}else{history.pushState(null,null,`#${id}`);}});});</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){if(document.body.scrollTop>800||document.documentElement.scrollTop>800){mybutton.style.visibility="visible";mybutton.style.opacity="1";}else{mybutton.style.visibility="hidden";mybutton.style.opacity="0";}};</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{if(document.body.className.includes("dark")){document.body.classList.remove('dark');localStorage.setItem("pref-theme",'light');}else{document.body.classList.add('dark');localStorage.setItem("pref-theme",'dark');}})</script></body></html>

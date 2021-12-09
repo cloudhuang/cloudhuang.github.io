@@ -1,104 +1,8 @@
-<!doctype html><html lang=en dir=auto>
-<head><meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge">
-<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
-<meta name=robots content="index, follow">
-<title>解决 Spring Boot Process finished with exit code 0的问题 | TechNotes</title>
-<meta name=keywords content="Spring Boot">
-<meta name=description content="问题描述 在启动Spring Boot项目的时候，直接返回Process finished with exit code 0退出了，无法正常启动。
- . ____ _ __ _ _ /\\ / ___'_ __ _ _(_)_ __ __ _ \ \ \ \ ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \ \\/ ___)| |_)| | | | | || (_| | ) ) ) ) ' |____| .__|_| |_|_| |_\__, | / / / / =========|_|==============|___/=/_/_/_/ :: Spring Boot :: (v2.">
-<meta name=author content="TechNotes">
-<link rel=canonical href=https://technotes.guru/posts/2018/spring-boot-process-finished-with-exit-code-0/>
-<meta name=google-site-verification content="G-V4HC5K9V2M">
-<meta name=yandex-verification content="XYZabc">
-<meta name=msvalidate.01 content="XYZabc">
-<link crossorigin=anonymous href=/assets/css/stylesheet.min.030f3f25d9f3449b524f810ddd2c31b9d4718215f17a58bacbd906ecaf639910.css integrity="sha256-Aw8/JdnzRJtST4EN3SwxudRxghXxeli6y9kG7K9jmRA=" rel="preload stylesheet" as=style>
-<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
-<link rel=icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=icon type=image/png sizes=16x16 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=icon type=image/png sizes=32x32 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=apple-touch-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E>
-<meta name=theme-color content="#2e2e33">
-<meta name=msapplication-TileColor content="#2e2e33">
-<meta name=generator content="Hugo 0.89.0">
-<script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-123-45','auto'),ga('send','pageview'))</script><meta property="og:title" content="解决 Spring Boot Process finished with exit code 0的问题">
-<meta property="og:description" content="问题描述 在启动Spring Boot项目的时候，直接返回Process finished with exit code 0退出了，无法正常启动。
- . ____ _ __ _ _ /\\ / ___'_ __ _ _(_)_ __ __ _ \ \ \ \ ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \ \\/ ___)| |_)| | | | | || (_| | ) ) ) ) ' |____| .__|_| |_|_| |_\__, | / / / / =========|_|==============|___/=/_/_/_/ :: Spring Boot :: (v2.">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://technotes.guru/posts/2018/spring-boot-process-finished-with-exit-code-0/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2018-05-07T00:00:00+00:00">
-<meta property="article:modified_time" content="2018-05-07T00:00:00+00:00"><meta property="og:site_name" content="TechNotes">
-<meta name=twitter:card content="summary">
-<meta name=twitter:title content="解决 Spring Boot Process finished with exit code 0的问题">
-<meta name=twitter:description content="问题描述 在启动Spring Boot项目的时候，直接返回Process finished with exit code 0退出了，无法正常启动。
- . ____ _ __ _ _ /\\ / ___'_ __ _ _(_)_ __ __ _ \ \ \ \ ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \ \\/ ___)| |_)| | | | | || (_| | ) ) ) ) ' |____| .__|_| |_|_| |_\__, | / / / / =========|_|==============|___/=/_/_/_/ :: Spring Boot :: (v2.">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://technotes.guru/posts/"},{"@type":"ListItem","position":2,"name":"解决 Spring Boot Process finished with exit code 0的问题","item":"https://technotes.guru/posts/2018/spring-boot-process-finished-with-exit-code-0/"}]}</script>
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"解决 Spring Boot Process finished with exit code 0的问题","name":"解决 Spring Boot Process finished with exit code 0的问题","description":"问题描述 在启动Spring Boot项目的时候，直接返回Process finished with exit code 0退出了，无法正常启动。\n . ____ _ __ _ _ /\\\\ / ___'_ __ _ _(_)_ __ __ _ \\ \\ \\ \\ ( ( )\\___ | '_ | '_| | '_ \\/ _` | \\ \\ \\ \\ \\\\/ ___)| |_)| | | | | || (_| | ) ) ) ) ' |____| .__|_| |_|_| |_\\__, | / / / / =========|_|==============|___/=/_/_/_/ :: Spring Boot :: (v2.","keywords":["Spring Boot"],"articleBody":"问题描述 在启动Spring Boot项目的时候，直接返回Process finished with exit code 0退出了，无法正常启动。\n . ____ _ __ _ _ /\\\\ / ___'_ __ _ _(_)_ __ __ _ \\ \\ \\ \\ ( ( )\\___ | '_ | '_| | '_ \\/ _` | \\ \\ \\ \\ \\\\/ ___)| |_)| | | | | || (_| | ) ) ) ) ' |____| .__|_| |_|_| |_\\__, | / / / / =========|_|==============|___/=/_/_/_/ :: Spring Boot :: (v2.0.2.RELEASE) Process finished with exit code 0 原因 通过debug spring boot的启动过程，在spring boot启动过程中任何的错误，都会通过org.springframework.boot.SpringApplication#handleRunFailure这个方法处理启动过程中的异常，并且通过org.springframework.boot.SpringApplication#reportFailure来报告启动异常的信息。\nprivate void reportFailure(Collection exceptionReporters, Throwable failure) { try { for (SpringBootExceptionReporter reporter : exceptionReporters) { if (reporter.reportException(failure)) { registerLoggedException(failure); return; } } } catch (Throwable ex) { // Continue with normal handling of the original failure } if (logger.isErrorEnabled()) { logger.error(\"Application run failed\", failure); registerLoggedException(failure); } } 该方法的源代码中捕获了catch (Throwable ex)是一个空实现，而后面的logger.isErrorEnabled()由于logger的配置并没有输出错误日志。\n所以在这个方法内部打个断点，通过查看failure变量，就可以找到启动过程中真正的异常。 我的情况则是由于拷贝了一个RestController，而没有配置Spring bean的名称，造成有两个相同名称的bean，造成启动失败。\n解决方法 知道了无法启动的真正原因，为拷贝出来的RestController设置一个其他的名称，就可以正常启动了。\n","wordCount":"139","inLanguage":"en","datePublished":"2018-05-07T00:00:00Z","dateModified":"2018-05-07T00:00:00Z","author":{"@type":"Person","name":"TechNotes"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://technotes.guru/posts/2018/spring-boot-process-finished-with-exit-code-0/"},"publisher":{"@type":"Organization","name":"TechNotes","logo":{"@type":"ImageObject","url":"https://technotes.guru/%3Clink%20/%20abs%20url%3E"}}}</script>
-</head>
-<body id=top>
-<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
-<noscript>
-<style type=text/css>#theme-toggle,.top-link{display:none}</style>
-<style>@media(prefers-color-scheme:dark){:root{--theme:#1d1e20;--entry:#2e2e33;--primary:rgba(255, 255, 255, 0.84);--secondary:rgba(255, 255, 255, 0.56);--tertiary:rgba(255, 255, 255, 0.16);--content:rgba(255, 255, 255, 0.74);--hljs-bg:#2e2e33;--code-bg:#37383e;--border:#333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
-</noscript>
-<header class=header>
-<nav class=nav>
-<div class=logo>
-<a href=https://technotes.guru/ accesskey=h title="TechNotes (Alt + H)">TechNotes</a>
-<span class=logo-switches>
-<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-</button>
-</span>
-</div>
-<ul id=menu>
-<li>
-<a href=https://technotes.guru/categories/ title=categories>
-<span>categories</span>
-</a>
-</li>
-<li>
-<a href=https://technotes.guru/tags/ title=tags>
-<span>tags</span>
-</a>
-</li>
-<li>
-<a href=https://technotes.guru/about/ title=about>
-<span>about</span>
-</a>
-</li>
-</ul>
-</nav>
-</header>
-<main class=main>
-<article class=post-single>
-<header class=post-header>
-<div class=breadcrumbs><a href=https://technotes.guru/>Home</a>&nbsp;»&nbsp;<a href=https://technotes.guru/posts/>Posts</a></div>
-<h1 class=post-title>
-解决 Spring Boot Process finished with exit code 0的问题
-</h1>
-<div class=post-meta>2018-05-05&nbsp;·&nbsp;1 min&nbsp;·&nbsp;TechNotes
-</div>
-</header> <div class=toc>
-<details open>
-<summary accesskey=c title="(Alt + C)">
-<div class=details>Table of Contents</div>
-</summary>
-<div class=inner><ul>
-<li>
-<a href=#%e9%97%ae%e9%a2%98%e6%8f%8f%e8%bf%b0 aria-label=问题描述>问题描述</a></li>
-<li>
-<a href=#%e5%8e%9f%e5%9b%a0 aria-label=原因>原因</a></li>
-<li>
-<a href=#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%b3%95 aria-label=解决方法>解决方法</a>
-</li>
-</ul>
-</div>
-</details>
-</div>
-<div class=post-content><h2 id=问题描述>问题描述<a hidden class=anchor aria-hidden=true href=#问题描述>#</a></h2>
-<p>在启动Spring Boot项目的时候，直接返回<code>Process finished with exit code 0</code>退出了，无法正常启动。</p>
-<pre tabindex=0><code> .   ____          _            __ _ _
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>解决 Spring Boot Process finished with exit code 0的问题 | TechNotes</title><meta name=keywords content="Spring Boot"><meta name=description content="问题描述 在启动Spring Boot项目的时候，直接返回Process finished with exit code 0退出了，无法正常启动。
+ . ____ _ __ _ _ /\\ / ___'_ __ _ _(_)_ __ __ _ \ \ \ \ ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \ \\/ ___)| |_)| | | | | || (_| | ) ) ) ) ' |____| .__|_| |_|_| |_\__, | / / / / =========|_|==============|___/=/_/_/_/ :: Spring Boot :: (v2."><meta name=author content="TechNotes"><link rel=canonical href=https://technotes.guru/posts/2018/spring-boot-process-finished-with-exit-code-0/><meta name=google-site-verification content="G-V4HC5K9V2M"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.min.104dece512238ae351d9387d69c6d37c1f015f96d6f4261722aa2a75b2ddb5a0.css integrity="sha256-EE3s5RIjiuNR2Th9acbTfB8BX5bW9CYXIqoqdbLdtaA=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w=" onload=hljs.initHighlightingOnLoad();></script><link rel=icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><meta name=generator content="Hugo 0.76.5"><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','UA-123-45','auto');ga('send','pageview');}</script><meta property="og:title" content="解决 Spring Boot Process finished with exit code 0的问题"><meta property="og:description" content="问题描述 在启动Spring Boot项目的时候，直接返回Process finished with exit code 0退出了，无法正常启动。
+ . ____ _ __ _ _ /\\ / ___'_ __ _ _(_)_ __ __ _ \ \ \ \ ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \ \\/ ___)| |_)| | | | | || (_| | ) ) ) ) ' |____| .__|_| |_|_| |_\__, | / / / / =========|_|==============|___/=/_/_/_/ :: Spring Boot :: (v2."><meta property="og:type" content="article"><meta property="og:url" content="https://technotes.guru/posts/2018/spring-boot-process-finished-with-exit-code-0/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2018-05-07T00:00:00+00:00"><meta property="article:modified_time" content="2018-05-07T00:00:00+00:00"><meta property="og:site_name" content="TechNotes"><meta name=twitter:card content="summary"><meta name=twitter:title content="解决 Spring Boot Process finished with exit code 0的问题"><meta name=twitter:description content="问题描述 在启动Spring Boot项目的时候，直接返回Process finished with exit code 0退出了，无法正常启动。
+ . ____ _ __ _ _ /\\ / ___'_ __ _ _(_)_ __ __ _ \ \ \ \ ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \ \\/ ___)| |_)| | | | | || (_| | ) ) ) ) ' |____| .__|_| |_|_| |_\__, | / / / / =========|_|==============|___/=/_/_/_/ :: Spring Boot :: (v2."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://technotes.guru/posts/"},{"@type":"ListItem","position":2,"name":"解决 Spring Boot Process finished with exit code 0的问题","item":"https://technotes.guru/posts/2018/spring-boot-process-finished-with-exit-code-0/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"解决 Spring Boot Process finished with exit code 0的问题","name":"解决 Spring Boot Process finished with exit code 0的问题","description":"问题描述 在启动Spring Boot项目的时候，直接返回Process finished with exit code 0退出了，无法正常启动。\n . ____ _ __ _ _ /\\\\ / ___'_ __ _ _(_)_ __ __ _ \\ \\ \\ \\ ( ( )\\___ | '_ | '_| | '_ \\/ _` | \\ \\ \\ \\ \\\\/ ___)| |_)| | | | | || (_| | ) ) ) ) ' |____| .__|_| |_|_| |_\\__, | / / / / =========|_|==============|___/=/_/_/_/ :: Spring Boot :: (v2.","keywords":["Spring Boot"],"articleBody":"问题描述 在启动Spring Boot项目的时候，直接返回Process finished with exit code 0退出了，无法正常启动。\n . ____ _ __ _ _ /\\\\ / ___'_ __ _ _(_)_ __ __ _ \\ \\ \\ \\ ( ( )\\___ | '_ | '_| | '_ \\/ _` | \\ \\ \\ \\ \\\\/ ___)| |_)| | | | | || (_| | ) ) ) ) ' |____| .__|_| |_|_| |_\\__, | / / / / =========|_|==============|___/=/_/_/_/ :: Spring Boot :: (v2.0.2.RELEASE) Process finished with exit code 0 原因 通过debug spring boot的启动过程，在spring boot启动过程中任何的错误，都会通过org.springframework.boot.SpringApplication#handleRunFailure这个方法处理启动过程中的异常，并且通过org.springframework.boot.SpringApplication#reportFailure来报告启动异常的信息。\nprivate void reportFailure(Collection exceptionReporters, Throwable failure) { try { for (SpringBootExceptionReporter reporter : exceptionReporters) { if (reporter.reportException(failure)) { registerLoggedException(failure); return; } } } catch (Throwable ex) { // Continue with normal handling of the original failure } if (logger.isErrorEnabled()) { logger.error(\"Application run failed\", failure); registerLoggedException(failure); } } 该方法的源代码中捕获了catch (Throwable ex)是一个空实现，而后面的logger.isErrorEnabled()由于logger的配置并没有输出错误日志。\n所以在这个方法内部打个断点，通过查看failure变量，就可以找到启动过程中真正的异常。 我的情况则是由于拷贝了一个RestController，而没有配置Spring bean的名称，造成有两个相同名称的bean，造成启动失败。\n解决方法 知道了无法启动的真正原因，为拷贝出来的RestController设置一个其他的名称，就可以正常启动了。\n","wordCount":"139","inLanguage":"en","datePublished":"2018-05-07T00:00:00Z","dateModified":"2018-05-07T00:00:00Z","author":{"@type":"Person","name":"TechNotes"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://technotes.guru/posts/2018/spring-boot-process-finished-with-exit-code-0/"},"publisher":{"@type":"Organization","name":"TechNotes","logo":{"@type":"ImageObject","url":"https://technotes.guru/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><script>if(localStorage.getItem("pref-theme")==="dark"){document.body.classList.add('dark');}else if(localStorage.getItem("pref-theme")==="light"){document.body.classList.remove('dark')}else if(window.matchMedia('(prefers-color-scheme: dark)').matches){document.body.classList.add('dark');}</script><noscript><style type=text/css>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme: #1d1e20;--entry: #2e2e33;--primary: rgba(255, 255, 255, 0.84);--secondary: rgba(255, 255, 255, 0.56);--tertiary: rgba(255, 255, 255, 0.16);--content: rgba(255, 255, 255, 0.74);--hljs-bg: #2e2e33;--code-bg: #37383e;--border: #333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><header class=header><nav class=nav><div class=logo><a href=https://technotes.guru/ accesskey=h title="TechNotes (Alt + H)">TechNotes</a>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://technotes.guru/categories/ title=categories><span>categories</span></a></li><li><a href=https://technotes.guru/tags/ title=tags><span>tags</span></a></li><li><a href=https://technotes.guru/about/ title=about><span>about</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://technotes.guru/>Home</a>&nbsp;»&nbsp;<a href=https://technotes.guru/posts/>Posts</a></div><h1 class=post-title>解决 Spring Boot Process finished with exit code 0的问题</h1><div class=post-meta>2018-05-05&nbsp;·&nbsp;1 min&nbsp;·&nbsp;TechNotes</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><div class=details>Table of Contents</div></summary><div class=inner><ul><li><a href=#%e9%97%ae%e9%a2%98%e6%8f%8f%e8%bf%b0 aria-label=问题描述>问题描述</a></li><li><a href=#%e5%8e%9f%e5%9b%a0 aria-label=原因>原因</a></li><li><a href=#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%b3%95 aria-label=解决方法>解决方法</a></li></ul></div></details></div><div class=post-content><h2 id=问题描述>问题描述<a hidden class=anchor aria-hidden=true href=#问题描述>#</a></h2><p>在启动Spring Boot项目的时候，直接返回<code>Process finished with exit code 0</code>退出了，无法正常启动。</p><pre><code> .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
 ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
@@ -108,9 +12,7 @@
 
 
 Process finished with exit code 0
-</code></pre><h2 id=原因>原因<a hidden class=anchor aria-hidden=true href=#原因>#</a></h2>
-<p>通过debug spring boot的启动过程，在spring boot启动过程中任何的错误，都会通过<code>org.springframework.boot.SpringApplication#handleRunFailure</code>这个方法处理启动过程中的异常，并且通过<code>org.springframework.boot.SpringApplication#reportFailure</code>来报告启动异常的信息。</p>
-<pre tabindex=0><code>private void reportFailure(Collection&lt;SpringBootExceptionReporter&gt; exceptionReporters,
+</code></pre><h2 id=原因>原因<a hidden class=anchor aria-hidden=true href=#原因>#</a></h2><p>通过debug spring boot的启动过程，在spring boot启动过程中任何的错误，都会通过<code>org.springframework.boot.SpringApplication#handleRunFailure</code>这个方法处理启动过程中的异常，并且通过<code>org.springframework.boot.SpringApplication#reportFailure</code>来报告启动异常的信息。</p><pre><code>private void reportFailure(Collection&lt;SpringBootExceptionReporter&gt; exceptionReporters,
 			Throwable failure) {
 		try {
 			for (SpringBootExceptionReporter reporter : exceptionReporters) {
@@ -128,45 +30,13 @@ Process finished with exit code 0
 			registerLoggedException(failure);
 		}
 	}
-</code></pre><p>该方法的源代码中捕获了<code>catch (Throwable ex)</code>是一个空实现，而后面的<code>logger.isErrorEnabled()</code>由于logger的配置并没有输出错误日志。</p>
-<p>所以在这个方法内部打个断点，通过查看<code>failure</code>变量，就可以找到启动过程中真正的异常。
-我的情况则是由于拷贝了一个<code>RestController</code>，而没有配置Spring bean的名称，造成有两个相同名称的bean，造成启动失败。</p>
-<h2 id=解决方法>解决方法<a hidden class=anchor aria-hidden=true href=#解决方法>#</a></h2>
-<p>知道了无法启动的真正原因，为拷贝出来的<code>RestController</code>设置一个其他的名称，就可以正常启动了。</p>
-</div>
-<footer class=post-footer>
-<ul class=post-tags>
-<li><a href=https://technotes.guru/tags/spring-boot/>Spring Boot</a></li>
-</ul>
-<nav class=paginav>
-<a class=prev href=https://technotes.guru/posts/2018/blockchain-eth-chaincode/>
-<span class=title>« Prev Page</span>
-<br>
-<span>以太坊智能合约开发入门</span>
-</a>
-<a class=next href=https://technotes.guru/posts/2017/why-i-hate-ant/>
-<span class=title>Next Page »</span>
-<br>
-<span>Why I hate Ant</span>
-</a>
-</nav>
-</footer>
-</article>
-</main>
-<footer class=footer>
-<span>&copy; 2021 <a href=https://technotes.guru/>TechNotes</a></span>
-<span>
-Powered by
+</code></pre><p>该方法的源代码中捕获了<code>catch (Throwable ex)</code>是一个空实现，而后面的<code>logger.isErrorEnabled()</code>由于logger的配置并没有输出错误日志。</p><p>所以在这个方法内部打个断点，通过查看<code>failure</code>变量，就可以找到启动过程中真正的异常。
+我的情况则是由于拷贝了一个<code>RestController</code>，而没有配置Spring bean的名称，造成有两个相同名称的bean，造成启动失败。</p><h2 id=解决方法>解决方法<a hidden class=anchor aria-hidden=true href=#解决方法>#</a></h2><p>知道了无法启动的真正原因，为拷贝出来的<code>RestController</code>设置一个其他的名称，就可以正常启动了。</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://technotes.guru/tags/spring-boot/>Spring Boot</a></li></ul><nav class=paginav><a class=prev href=https://technotes.guru/posts/2018/blockchain-eth-chaincode/><span class=title>« Prev Page</span><br><span>以太坊智能合约开发入门</span></a>
+<a class=next href=https://technotes.guru/posts/2017/why-i-hate-ant/><span class=title>Next Page »</span><br><span>Why I hate Ant</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2021 <a href=https://technotes.guru/>TechNotes</a></span>
+<span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
-        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
-</span>
-</footer>
-<a href=#top aria-label="go to top" title="Go to Top (Alt + G)">
-<button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
-</button>
-</a>
-<script>let menu=document.getElementById('menu');menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)},document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
-<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
-<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
-</body>
-</html>
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)"><button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg></button></a>
+<script>let menu=document.getElementById('menu')
+menu.scrollLeft=localStorage.getItem("menu-scroll-position");menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft);}
+document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener("click",function(e){e.preventDefault();var id=this.getAttribute("href").substr(1);if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({behavior:"smooth"});}else{document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();}
+if(id==="top"){history.replaceState(null,null," ");}else{history.pushState(null,null,`#${id}`);}});});</script><script>var mybutton=document.getElementById("top-link");window.onscroll=function(){if(document.body.scrollTop>800||document.documentElement.scrollTop>800){mybutton.style.visibility="visible";mybutton.style.opacity="1";}else{mybutton.style.visibility="hidden";mybutton.style.opacity="0";}};</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{if(document.body.className.includes("dark")){document.body.classList.remove('dark');localStorage.setItem("pref-theme",'light');}else{document.body.classList.add('dark');localStorage.setItem("pref-theme",'dark');}})</script></body></html>
