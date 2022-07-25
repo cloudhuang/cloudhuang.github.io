@@ -14,7 +14,7 @@
       <guid>https://technotes.guru/posts/2017/why-i-hate-ant/</guid>
       <description>Apache Ant, yes, this is a great Java build tool I know of. It&amp;rsquo;s free (in all senses of the word), it&amp;rsquo;s a defacto standard in the 20th I think, and it generally works.
 But to working with the plain ant scripts is really painfully
- Write ant scripts are complex and verbose. Ant build files are generally typeless. There is no grand schema or DTD they can validate against. Hardly to maintain the ant scripts It&amp;rsquo;s almost impossible re-use someone else&amp;rsquo;s Ant target out of the box.</description>
+Write ant scripts are complex and verbose. Ant build files are generally typeless. There is no grand schema or DTD they can validate against. Hardly to maintain the ant scripts It&amp;rsquo;s almost impossible re-use someone else&amp;rsquo;s Ant target out of the box.</description>
     </item>
     
   </channel>
