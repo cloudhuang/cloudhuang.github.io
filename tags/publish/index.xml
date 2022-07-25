@@ -12,7 +12,7 @@
       <pubDate>Mon, 25 Jul 2022 00:00:00 +0000</pubDate>
       
       <guid>https://technotes.guru/posts/2022/%E4%BD%BF%E7%94%A8kind%E5%88%9B%E5%BB%BA%E6%9C%AC%E5%9C%B0kubernetes%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83/</guid>
-      <description>Kind 介绍[Kind][kind] (Kubernetes IN Docker) 让你能够快速在本地计算机上运行 Kubernetes集群。 kind 要求你安装并配置好 Docker。下面是使用kind创建一个多worker的Kubernetes集群，将下面的内容保存为kind-config.yaml:kind: Cluster apiVersion: kind.x-k8s.io/v1alpha4 nodes: - role: control-plane - role: worker - role: worker - role: worker networking: disableDefaultCNI: false这里不使用默认的CNI，然后通过kind的命令行程序创建Kubernetes集群:kind create cluster --name k8s --config kind-config.yaml[kind][kind] 会自动的pull需要的docker镜像(镜像比较大)，并创建由一个控制节点，3个工作节点组成的Kubernetes集群。shell$ kind create cluster --name k8s --config kind-config.yamlCreating cluster &amp;quot;k8s&amp;quot; ...• Ensuring node image (kindest/node:v1.20.2) � ...✓ Ensuring node image (kindest/node:v1.</description>
+      <description>Kind 介绍[Kind][kind] (Kubernetes IN Docker) 让你能够快速在本地计算机上运行 Kubernetes集群。 kind 要求你安装并配置好 Docker。下面是使用kind创建一个多worker的Kubernetes集群，将下面的内容保存为kind-config.yaml:kind: Cluster apiVersion: kind.x-k8s.io/v1alpha4 nodes: - role: control-plane - role: worker - role: worker - role: worker networking: disableDefaultCNI: false这里不使用默认的CNI，然后通过kind的命令行程序创建Kubernetes集群:kind create cluster --name k8s --config kind-config.yaml[kind][kind] 会自动的pull需要的docker镜像(镜像比较大)，并创建由一个控制节点，3个工作节点组成的Kubernetes集群。shell$ kind create cluster --name k8s --config kind-config.yamlCreating cluster &amp;quot;k8s&amp;quot; ...• Ensuring node image (kindest/node:v1.20.2) � ...✓ Ensuring node image (kindest/node:v1.20.2) �• Preparing nodes � � � � .</description>
     </item>
     
     <item>
@@ -21,7 +21,7 @@
       <pubDate>Fri, 29 Oct 2021 00:00:00 +0000</pubDate>
       
       <guid>https://technotes.guru/posts/2021/%E4%BD%BF%E7%94%A8-apache-spark-pyspark-minio-%E5%88%86%E6%9E%90-movielens-%E6%95%B0%E6%8D%AE%E9%9B%86/</guid>
-      <description>使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集## MinIOMinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。MinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。MinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。## Apache Spark / PySparkApache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。Apache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。## Jupyter NotebookJupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。## MovieLens 数据集GroupLens Research从MovieLens网站 (https://movielens.org) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。## 准备环境这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理version: &#39;3.7&#39;# Settings and configurations that are common for all containersx-minio-common: &amp;amp;minio-commonimage: minio/miniocommand: server --console-address &amp;quot;:9001&amp;quot; http://minio{1.</description>
+      <description>使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集## MinIOMinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。MinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。MinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。## Apache Spark / PySparkApache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。Apache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。## Jupyter NotebookJupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。## MovieLens 数据集GroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip 下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。## 准备环境这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理version: &#39;3.7&#39;# Settings and configurations that are common for all containersx-minio-common: &amp;amp;minio-commonimage: minio/miniocommand: server --console-address &amp;quot;:9001&amp;quot; http://minio{1.</description>
     </item>
     
     <item>
@@ -34,12 +34,12 @@
 数据仓库、数据湖、数据中台 数据仓库 数据湖 数据中台 数据中台的核心，是避免数据的重复计算，通过数据服务化，提高数据的共享能力，赋能数据应用。数据中台吸收了传统数据仓库、数据湖、大数据平台的优势，同时又解决了数据共享的难题，通过数据应用，实现数据价值的落地。
 效率、质量和成本是决定数据能否支撑好业务的关键，构建数据中台的目标就是要实现高效率、高质量、低成本。
 目前数据中台的主要应用领域还是数据智能领域，所以我们就先不延申到机器学习，深度学习，安全、推荐等领域。
- 实时数据中台，实现批流一体。 云上数据中台，全面拥抱K8S，实现在线、离线混合部署，进一步提高资源利用率。 智能元数据管理+增强分析，降低数据分析的门槛，进一步释放数据智能 自动化代码构建，通过拖拉拽，自动化生成ETL代码的构建，进一步释放数据研发的效能，甚至让我们的非技术人员都可以完成简单的数据加工。 数据产品的时代，面向各种行业的数据产品全面涌现，并且和中台系统联动，比如基于指标的可分析维度，自动进行指标的业务诊断等等。  数据治理  数据地图 Source of truth  数据建模   恩门建模因为是从数据源开始构建，构建成本比较高，适用于应用场景比较固定的业务，比如金融领域，冗余数据少是它的优势。
-  金博尔建模由于是从分析场景出发，适用于变化速度比较快的业务，比如互联网业务。由于现在的业务变化都比较快，所以我更推荐金博尔的建模设计方法。
-  元数据管理 开源框架
- Metacat Apache Atlas  数据指标 数据服务 Data as Service
+实时数据中台，实现批流一体。 云上数据中台，全面拥抱K8S，实现在线、离线混合部署，进一步提高资源利用率。 智能元数据管理+增强分析，降低数据分析的门槛，进一步释放数据智能 自动化代码构建，通过拖拉拽，自动化生成ETL代码的构建，进一步释放数据研发的效能，甚至让我们的非技术人员都可以完成简单的数据加工。 数据产品的时代，面向各种行业的数据产品全面涌现，并且和中台系统联动，比如基于指标的可分析维度，自动进行指标的业务诊断等等。 数据治理 数据地图 Source of truth 数据建模 恩门建模因为是从数据源开始构建，构建成本比较高，适用于应用场景比较固定的业务，比如金融领域，冗余数据少是它的优势。
+金博尔建模由于是从分析场景出发，适用于变化速度比较快的业务，比如互联网业务。由于现在的业务变化都比较快，所以我更推荐金博尔的建模设计方法。
+元数据管理 开源框架
+Metacat Apache Atlas 数据指标 数据服务 Data as Service
 数据安全 如何解决数据误删除问题？ 如何解决敏感数据泄露问题？ 如何解决开发和生产物理隔离问题？
- 数据备份、恢复 热备，开启HDFS的垃圾回收站的功能 冷备 精细化权限管理 OpenLDAP + Kerberos + Ranger 实现的一体化用户、认证、权限管理体系 操作审计 数据垃圾箱设计 生产、测试开发集群物理隔离  大数据平台  大数据一体化平台  </description>
+数据备份、恢复 热备，开启HDFS的垃圾回收站的功能 冷备 精细化权限管理 OpenLDAP + Kerberos + Ranger 实现的一体化用户、认证、权限管理体系 操作审计 数据垃圾箱设计 生产、测试开发集群物理隔离 大数据平台 大数据一体化平台 </description>
     </item>
     
     <item>
