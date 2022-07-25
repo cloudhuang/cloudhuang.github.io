@@ -14,11 +14,11 @@
       <guid>https://technotes.guru/posts/2018/blockchain-eth-chaincode/</guid>
       <description>搭建智能合约开发环境 智能合约的开发环境依赖于node/npm，所以在构建开发环境之前需要确保开发机器已经安装好了node/npm的环境了。
 如何还没有安装，那么在mac下面可以通过brew命令非常快速的安装 brew install node 或者自己下载node的安装包安装。 然后分别安装下面的几个开发智能合约需要用到的工具:
-Web3 JS - 开发以太坊客户端的javascript框架 npm install web3 truffle - 以太坊开发框架 npm install -g truffle Metamask - 以太坊钱包，基于Chrome的插件 Ganache - 用于本地的虚拟以太坊区块链， 并且自动创建了用于测试的10个本地的区块链账号 Remix - https://remix.ethereum.org/ 以太坊官方推荐的智能合约开发IDE,可以在浏览器中快速部署测试智能合约。 配置Metamask连接Ganache本地环境，Ganache默认的监听端口为7545，所以需要设置Metamask，如下，点击 “Custom RPC”，然后设置本地虚拟区块链的地址
+ Web3 JS - 开发以太坊客户端的javascript框架 npm install web3 truffle - 以太坊开发框架 npm install -g truffle Metamask - 以太坊钱包，基于Chrome的插件 Ganache - 用于本地的虚拟以太坊区块链， 并且自动创建了用于测试的10个本地的区块链账号  Remix - https://remix.ethereum.org/  以太坊官方推荐的智能合约开发IDE,可以在浏览器中快速部署测试智能合约。   配置Metamask连接Ganache本地环境，Ganache默认的监听端口为7545，所以需要设置Metamask，如下，点击 “Custom RPC”，然后设置本地虚拟区块链的地址
 配置完之后，就可以导入Ganache默认创建的账号，
 点击右侧的钥匙(show key), 从弹出的界面中拷贝账号的token，然后通过点击Metamask右上角的头像，通过&amp;quot;Import Account&amp;quot;，粘贴刚才复制的token，导入，就可以看到新导入的账号，并且该账号已经默认的有了100个ETH了。
 创建智能合约 在Remix编辑器中编写一个简单的智能合约 - HelloWorld
-pragma solidity ^0.4.0; contract HelloWorld { string public name; function HelloWorld() public { name = &amp;#34;Liping&amp;#34;; } function setName(string _name) public { name = _name; } } 合约编好之后，点击 &amp;ldquo;Run&amp;rdquo; 标签，在“Environment”中选择&amp;quot;Web3 Provider&amp;quot;</description>
+pragma solidity ^0.4.0; contract HelloWorld { string public name; function HelloWorld() public { name = &amp;quot;Liping&amp;quot;; } function setName(string _name) public { name = _name; } } 合约编好之后，点击 &amp;ldquo;Run&amp;rdquo; 标签，在“Environment”中选择&amp;quot;Web3 Provider&amp;quot;</description>
     </item>
     
   </channel>
