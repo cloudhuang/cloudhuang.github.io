@@ -1,259 +1,289 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集 | TechNotes</title><meta name=keywords content="publish,大数据,Spark,PySpark"><meta name=description content="使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集## MinIOMinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。MinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。MinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。## Apache Spark / PySparkApache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。Apache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。## Jupyter NotebookJupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。## MovieLens 数据集GroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip 下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。## 准备环境这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理version: '3.7'# Settings and configurations that are common for all containersx-minio-common: &minio-commonimage: minio/miniocommand: server --console-address &#34;:9001&#34; http://minio{1."><meta name=author content="TechNotes"><link rel=canonical href=https://technotes.guru/posts/2021/%E4%BD%BF%E7%94%A8-apache-spark-pyspark-minio-%E5%88%86%E6%9E%90-movielens-%E6%95%B0%E6%8D%AE%E9%9B%86/><meta name=google-site-verification content="G-V4HC5K9V2M"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.min.030f3f25d9f3449b524f810ddd2c31b9d4718215f17a58bacbd906ecaf639910.css integrity="sha256-Aw8/JdnzRJtST4EN3SwxudRxghXxeli6y9kG7K9jmRA=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.min.e85ad0406048e8176e1c7661b25d5c69297ddfe41dc4124cf75ecb99a4f7b3d1.js integrity="sha256-6FrQQGBI6BduHHZhsl1caSl93+QdxBJM917LmaT3s9E=" onload=hljs.initHighlightingOnLoad()></script>
-<link rel=icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><meta name=generator content="Hugo 0.101.0"><script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-123-45","auto"),ga("send","pageview"))</script><meta property="og:title" content="使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集"><meta property="og:description" content="使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集## MinIOMinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。MinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。MinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。## Apache Spark / PySparkApache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。Apache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。## Jupyter NotebookJupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。## MovieLens 数据集GroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip 下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。## 准备环境这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理version: '3.7'# Settings and configurations that are common for all containersx-minio-common: &minio-commonimage: minio/miniocommand: server --console-address &#34;:9001&#34; http://minio{1."><meta property="og:type" content="article"><meta property="og:url" content="https://technotes.guru/posts/2021/%E4%BD%BF%E7%94%A8-apache-spark-pyspark-minio-%E5%88%86%E6%9E%90-movielens-%E6%95%B0%E6%8D%AE%E9%9B%86/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-10-29T00:00:00+00:00"><meta property="article:modified_time" content="2022-07-25T00:00:00+00:00"><meta property="og:site_name" content="TechNotes"><meta name=twitter:card content="summary"><meta name=twitter:title content="使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集"><meta name=twitter:description content="使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集## MinIOMinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。MinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。MinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。## Apache Spark / PySparkApache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。Apache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。## Jupyter NotebookJupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。## MovieLens 数据集GroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip 下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。## 准备环境这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理version: '3.7'# Settings and configurations that are common for all containersx-minio-common: &minio-commonimage: minio/miniocommand: server --console-address &#34;:9001&#34; http://minio{1."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://technotes.guru/posts/"},{"@type":"ListItem","position":2,"name":"使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集","item":"https://technotes.guru/posts/2021/%E4%BD%BF%E7%94%A8-apache-spark-pyspark-minio-%E5%88%86%E6%9E%90-movielens-%E6%95%B0%E6%8D%AE%E9%9B%86/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集","name":"使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集","description":"使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集\r## MinIO\rMinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。\rMinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。\rMinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。\r## Apache Spark / PySpark\rApache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。\rApache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。\r## Jupyter Notebook\rJupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。\r## MovieLens 数据集\rGroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。\r数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip 下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。\r## 准备环境\r这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理\rversion: '3.7'\r# Settings and configurations that are common for all containers\rx-minio-common: \u0026amp;minio-common\rimage: minio/minio\rcommand: server --console-address \u0026quot;:9001\u0026quot; http://minio{1.","keywords":["publish","大数据","Spark","PySpark"],"articleBody":"使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集\r## MinIO\rMinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。\rMinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。\rMinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。\r## Apache Spark / PySpark\rApache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。\rApache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。\r## Jupyter Notebook\rJupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。\r## MovieLens 数据集\rGroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。\r数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip 下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。\r## 准备环境\r这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理\rversion: '3.7'\r# Settings and configurations that are common for all containers\rx-minio-common: \u0026minio-common\rimage: minio/minio\rcommand: server --console-address \":9001\" http://minio{1...4}/data{1...2}\rexpose:\r- \"9000\"\r- \"9001\"\renvironment:\rMINIO_ROOT_USER: minio\rMINIO_ROOT_PASSWORD: minio123\rhealthcheck:\rtest: [\"CMD\", \"curl\", \"-f\", \"http://localhost:9000/minio/health/live\"]\rinterval: 30s\rtimeout: 20s\rretries: 3\r# starts 4 docker containers running minio server instances.\r# using nginx reverse proxy, load balancing, you can access\r# it through port 9000.\rservices:\rminio1:\r\u003c\u003c: *minio-common\rhostname: minio1\rvolumes:\r- ./minio/data/data1-1:/data1\r- ./minio/data/data1-2:/data2\rminio2:\r\u003c\u003c: *minio-common\rhostname: minio2\rvolumes:\r- ./minio/data/data2-1:/data1\r- ./minio/data/data2-2:/data2\rminio3:\r\u003c\u003c: *minio-common\rhostname: minio3\rvolumes:\r- ./minio/data/data3-1:/data1\r- ./minio/data/data3-2:/data2\rminio4:\r\u003c\u003c: *minio-common\rhostname: minio4\rvolumes:\r- ./minio/data/data4-1:/data1\r- ./minio/data/data4-2:/data2\rnginx:\rimage: nginx:1.19.2-alpine\rhostname: nginx\rvolumes:\r- ./nginx.conf:/etc/nginx/nginx.conf:ro\rports:\r- \"9000:9000\"\r- \"9001:9001\"\rdepends_on:\r- minio1\r- minio2\r- minio3\r- minio4\r# jupyter/all-spark-notebook\rnotebook:\rcontainer_name: jupyter_notebook\rimage: jupyter/all-spark-notebook\rports:\r- 8888:8888\r- 4040:4040\renvironment:\r- PYSPARK_SUBMIT_ARGS=--packages com.amazonaws:aws-java-sdk:1.12.95,org.apache.hadoop:hadoop-client:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.95,org.apache.hadoop:hadoop-aws:3.3.1 pyspark-shell\rvolumes:\r- ./work:/home/jovyan/work\r# Databases\rpgdb:\rcontainer_name: pg_container\rimage: postgres\rrestart: always\renvironment:\rPOSTGRES_USER: admin\rPOSTGRES_PASSWORD: admin\rPOSTGRES_DB: test_db\rports:\r- \"5432:5432\"\rpgadmin:\rcontainer_name: pgadmin4_container\rimage: dpage/pgadmin4:6.1\rrestart: always\renvironment:\rPGADMIN_DEFAULT_EMAIL: admin@admin.com\rPGADMIN_DEFAULT_PASSWORD: admin\rports:\r- \"5050:80\"\rnginx.conf配置文件:\ruser nginx;\rworker_processes auto;\rerror_log /var/log/nginx/error.log warn;\rpid /var/run/nginx.pid;\revents {\rworker_connections 4096;\r}\rhttp {\rinclude /etc/nginx/mime.types;\rdefault_type application/octet-stream;\rlog_format main '$remote_addr - $remote_user [$time_local] \"$request\" '\r'$status $body_bytes_sent \"$http_referer\" '\r'\"$http_user_agent\" \"$http_x_forwarded_for\"';\raccess_log /var/log/nginx/access.log main;\rsendfile on;\rkeepalive_timeout 65;\r# include /etc/nginx/conf.d/*.conf;\rupstream minio {\rserver minio1:9000;\rserver minio2:9000;\rserver minio3:9000;\rserver minio4:9000;\r}\rupstream console {\rip_hash;\rserver minio1:9001;\rserver minio2:9001;\rserver minio3:9001;\rserver minio4:9001;\r}\rserver {\rlisten 9000;\rlisten [::]:9000;\rserver_name localhost;\r# To allow special characters in headers\rignore_invalid_headers off;\r# Allow any size file to be uploaded.\r# Set to a value such as 1000m; to restrict file size to a specific value\rclient_max_body_size 0;\r# To disable buffering\rproxy_buffering off;\rlocation / {\rproxy_set_header Host $http_host;\rproxy_set_header X-Real-IP $remote_addr;\rproxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\rproxy_set_header X-Forwarded-Proto $scheme;\rproxy_connect_timeout 300;\r# Default is HTTP/1, keepalive is only enabled in HTTP/1.1\rproxy_http_version 1.1;\rproxy_set_header Connection \"\";\rchunked_transfer_encoding off;\rproxy_pass http://minio;\r}\r}\rserver {\rlisten 9001;\rlisten [::]:9001;\rserver_name localhost;\r# To allow special characters in headers\rignore_invalid_headers off;\r# Allow any size file to be uploaded.\r# Set to a value such as 1000m; to restrict file size to a specific value\rclient_max_body_size 0;\r# To disable buffering\rproxy_buffering off;\rlocation / {\rproxy_set_header Host $http_host;\rproxy_set_header X-Real-IP $remote_addr;\rproxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\rproxy_set_header X-Forwarded-Proto $scheme;\rproxy_set_header X-NginX-Proxy true;\r# This is necessary to pass the correct IP to be hashed\rreal_ip_header X-Real-IP;\rproxy_connect_timeout 300;\r# To support websocket\rproxy_http_version 1.1;\rproxy_set_header Upgrade $http_upgrade;\rproxy_set_header Connection \"upgrade\";\rchunked_transfer_encoding off;\rproxy_pass http://console;\r}\r}\r}\r然后通过docker compose up -d启动集群. 在这个 docker compose 文件中同时化部署了PostgreSQL数据库以及PostgreSQL Admin 管理UI。\r### MinIO GUI\r通过上面的 docker compose 命令启动了启动了4个实例的MinIO集群，并通过Nginx进行反向代理, 可以通过 http://localhost:9000 来访问 MinIO 的控制台。\r### Jupyter Notebook\r通过 http://localhost:8888 访问 Jupyter Notebook。\r由于访问Nupyter Dashboard首先需要一个token，这里首先需要从 docker logs 中获取该 token\rdocker logs $(docker ps | grep jupyter_notebook | awk '{print $NF}')\r从 log 中可以看到 ?token=93bc05d6549e689c3409a0ac60b58883c13236aa94245306 的内容，就可以使用这个 token 来登录了:\r### PostgreSQL Admin\r通过 http://localhost:5050 来访问 PostgreSQL admin dashboard, 通过 “Add New Server” 将 PostgreSQL 添加进来，然后就可以通过 PostgreSQL Admin 来管理数据库了。 ## 导入测试数据集\r下载上面的电影评分数据集，并在 MinIO 中创建 bucket1 Bucket，并将解压后的 csv 文件上传到该 bucket 中。\r总共数据大小在1GB左右。\r## 创建 Jupyter Notebook\r直接通过JupyterLab创建Notebook, 然后直接在notebook中直接编写python代码来调用Spark进行数据的分析操作。\r比如这里调用 Spark 来计算从1加到100的值：\r在 docker compose的 yaml 配置中， notebook 通过 environment 属性配置了 PYSPARK_SUBMIT_ARGS 参数，初次运行 Spark 的时候，会检查并下载指定的 packages。\r这里主要使用了AWS的 JAVA SDK，通过Amazon S3 API 同 MinIO 进行通信。\ryaml\renvironment:\r- PYSPARK_SUBMIT_ARGS=--packages com.amazonaws:aws-java-sdk:1.12.95,org.apache.hadoop:hadoop-client:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.95,org.apache.hadoop:hadoop-aws:3.3.1 pyspark-shell\r相应的Spark的Job可以通过 http://localhost:4040 页面查看:\r## 分析 MovieLens 数据集\r下面就通过Spark来分析MovidLens的数据集。\r主要是从MinIO读取数据集中的CSV文件，注册成为table，通过SQL查询出top 100的电影，然后将分析结果保存到MinIO以及PostgreSQL数据库。\r### 初始化 SparkSession\r在读取CSV文件之前，首先需要创建 SparkSession 的实例 spark，由于Spark主要是内存计算，这里通过spark.driver.memory配置参数配置两个内存，否则运行过程中会产生OOM的问题。\rfrom pyspark.sql import SparkSession\rspark = SparkSession.builder.config(\"spark.driver.memory\", \"5g\").getOrCreate()\r### 配置S3/MinIO连接信息\rpython\rspark.sparkContext._jsc\\\r.hadoopConfiguration().set(\"fs.s3a.access.key\", \"minio\")\rspark.sparkContext._jsc\\\r.hadoopConfiguration().set(\"fs.s3a.secret.key\", \"minio123\")\rspark.sparkContext._jsc\\\r.hadoopConfiguration().set(\"fs.s3a.endpoint\", \"http://192.168.0.9:9000\")\rspark.sparkContext._jsc\\\r.hadoopConfiguration().set(\"spark.hadoop.fs.s3a.impl\", \"org.apache.hadoop.fs.s3a.S3AFileSystem\")\rspark.sparkContext._jsc\\\r.hadoopConfiguration().set(\"spark.hadoop.fs.s3a.path.style.access\", \"true\")\rspark.sparkContext._jsc\\\r.hadoopConfiguration().set(\"fs.s3a.multipart.size\", \"104857600\")\r### 读取 MinIO CSV 文件\rpython\rratings = spark.read\\\r.option(\"header\", \"true\")\\\r.option(\"inferSchema\", \"true\")\\\r.csv(\"s3a://bucket1/ratings.csv\")\rratings.createOrReplaceTempView(\"ratings\")\rratings.show()\rCSV中的内容则以表格的形式显示如下：\r+------+-------+------+----------+\r|userId|movieId|rating| timestamp|\r+------+-------+------+----------+\r| 1| 307| 3.5|1256677221|\r| 1| 481| 3.5|1256677456|\r| 1| 1091| 1.5|1256677471|\r| 1| 1257| 4.5|1256677460|\r| 1| 1449| 4.5|1256677264|\r| 1| 1590| 2.5|1256677236|\r| 1| 1591| 1.5|1256677475|\r| 1| 2134| 4.5|1256677464|\r| 1| 2478| 4.0|1256677239|\r| 1| 2840| 3.0|1256677500|\r| 1| 2986| 2.5|1256677496|\r| 1| 3020| 4.0|1256677260|\r| 1| 3424| 4.5|1256677444|\r| 1| 3698| 3.5|1256677243|\r| 1| 3826| 2.0|1256677210|\r| 1| 3893| 3.5|1256677486|\r| 2| 170| 3.5|1192913581|\r| 2| 849| 3.5|1192913537|\r| 2| 1186| 3.5|1192913611|\r| 2| 1235| 3.0|1192913585|\r+------+-------+------+----------+\ronly showing top 20 rows\r再次读取moviesCSV\rpython\rmovies = spark.read\\\r.option(\"header\", \"true\")\\\r.option(\"inferSchema\", \"true\")\\\r.csv(\"s3a://bucket1/movies.csv\")\rmovies.registerTempTable(\"movies\")\rmovies.show()\r+-------+--------------------+--------------------+\r|movieId| title| genres|\r+-------+--------------------+--------------------+\r| 1| Toy Story (1995)|Adventure|Animati...|\r| 2| Jumanji (1995)|Adventure|Childre...|\r| 3|Grumpier Old Men ...| Comedy|Romance|\r| 4|Waiting to Exhale...|Comedy|Drama|Romance|\r| 5|Father of the Bri...| Comedy|\r| 6| Heat (1995)|Action|Crime|Thri...|\r| 7| Sabrina (1995)| Comedy|Romance|\r| 8| Tom and Huck (1995)| Adventure|Children|\r| 9| Sudden Death (1995)| Action|\r| 10| GoldenEye (1995)|Action|Adventure|...|\r| 11|American Presiden...|Comedy|Drama|Romance|\r| 12|Dracula: Dead and...| Comedy|Horror|\r| 13| Balto (1995)|Adventure|Animati...|\r| 14| Nixon (1995)| Drama|\r| 15|Cutthroat Island ...|Action|Adventure|...|\r| 16| Casino (1995)| Crime|Drama|\r| 17|Sense and Sensibi...| Drama|Romance|\r| 18| Four Rooms (1995)| Comedy|\r| 19|Ace Ventura: When...| Comedy|\r| 20| Money Train (1995)|Action|Comedy|Cri...|\r+-------+--------------------+--------------------+\ronly showing top 20 rows\r### 计算 top 100\rpython\rtop_100_movies = spark.sql(\"\"\"\rSELECT title, AVG(rating) as avg_rating\rFROM movies m\rLEFT JOIN ratings r ON m.movieId = r.movieID\rGROUP BY title\rHAVING COUNT(*) \u003e 100\rORDER BY avg_rating DESC\rLIMIT 100\r\"\"\")\rtop_100_movies.show()\r# Spark Processing\r+--------------------+------------------+\r| title| avg_rating|\r+--------------------+------------------+\r|Planet Earth II (...|4.4865181711606095|\r| Planet Earth (2006)| 4.458092485549133|\r|Shawshank Redempt...| 4.424188001918387|\r|Band of Brothers ...| 4.399898373983739|\r|Black Mirror: Whi...| 4.350558659217877|\r| Cosmos| 4.343949044585988|\r|The Godfather Tri...| 4.339667458432304|\r|Godfather, The (1...| 4.332892749244713|\r|Usual Suspects, T...| 4.291958829205532|\r| Black Mirror| 4.263888888888889|\r|Godfather: Part I...|4.2630353697749195|\r|Last Year's Snow ...| 4.261904761904762|\r|Schindler's List ...| 4.257501817775044|\r|Seven Samurai (Sh...|4.2541157909178215|\r|Over the Garden W...| 4.244031830238727|\r|Sherlock - A Stud...| 4.23943661971831|\r| 12 Angry Men (1957)| 4.237075455914338|\r|Blue Planet II (2...| 4.236389684813753|\r| Rear Window (1954)| 4.230798598634567|\r| Fight Club (1999)| 4.230663235786717|\r+--------------------+------------------+\ronly showing top 20 rows\r### 保存 top 100 到 MinIO\rpython\rtop_100_movies.write.parquet(\"s3a://bucket1/results/top_100_movies\")\r当运行结束后，可以通过MinIO控制台查看，对应的top 100的数据，已经保存到了MinIO中了。\r### 从MinIO读取Parquet\rpython\rspark.read.parquet(\"s3a://bucket1/results/top_100_movies\").show()\r+--------------------+------------------+\r| title| avg_rating|\r+--------------------+------------------+\r|Planet Earth II (...|4.4865181711606095|\r| Planet Earth (2006)| 4.458092485549133|\r|Shawshank Redempt...| 4.424188001918387|\r|Band of Brothers ...| 4.399898373983739|\r|Black Mirror: Whi...| 4.350558659217877|\r| Cosmos| 4.343949044585988|\r|The Godfather Tri...| 4.339667458432304|\r|Godfather, The (1...| 4.332892749244713|\r|Usual Suspects, T...| 4.291958829205532|\r| Black Mirror| 4.263888888888889|\r|Godfather: Part I...|4.2630353697749195|\r|Last Year's Snow ...| 4.261904761904762|\r|Schindler's List ...| 4.257501817775044|\r|Seven Samurai (Sh...|4.2541157909178215|\r|Over the Garden W...| 4.244031830238727|\r|Sherlock - A Stud...| 4.23943661971831|\r| 12 Angry Men (1957)| 4.237075455914338|\r|Blue Planet II (2...| 4.236389684813753|\r| Rear Window (1954)| 4.230798598634567|\r| Fight Club (1999)| 4.230663235786717|\r+--------------------+------------------+\ronly showing top 20 rows\r### 保存数据到PostgreSQL数据库\r上面将分析的数据保存到了MinIO文件系统，下面则将 top 100 的电影数据保存到 PostgreSQL 数据库。\r#### 安装pipy包\r为了访问PostgreSQL数据库，首先需要安装相应的psycopg2-binary和sqlalchemypython包。\rpython\rpip install -i https://pypi.doubanio.com/simple/ --trusted-host pypi.doubanio.com psycopg2-binary sqlalchemy\r#### 保存到数据库\rpython\rimport psycopg2\rimport pandas as pd\rfrom sqlalchemy import create_engine\rtop_100_df = top_100_movies.toPandas()\r# Create SQLAlchemy engine\rengine = create_engine(\"postgresql+psycopg2://root:root@192.168.0.9:5432/test_db?client_encoding=utf8\")\r# Save result to the database via engine\rtop_100_df.to_sql('test_table', engine, index=False, if_exists='replace')\r执行完成之后，就可以在PGAdmin中查看结果了。\r#### 读取PostgreSQL数据\r上面是保存到数据库，同样的也可以读取数据库中的表数据，然后加载到Spark中进行分析\rpython\rimport psycopg2\rimport pandas as pd\rfrom pyspark.sql import SparkSession\rfrom sqlalchemy import create_engine\rengine = create_engine(\"postgresql+psycopg2://admin:admin@192.168.0.9:5432/test_db?client_encoding=utf8\")\rpdf = pd.read_sql('select index.md from test_table', engine)\r# Convert Pandas dataframe to spark DataFrame\rdf = spark.createDataFrame(pdf)\rprint(df.schema)\rdf.show()\rStructType(List(StructField(title,StringType,true),StructField(avg_rating,DoubleType,true)))\r+--------------------+------------------+\r| title| avg_rating|\r+--------------------+------------------+\r|Planet Earth II (...|4.4865181711606095|\r| Planet Earth (2006)| 4.458092485549133|\r|Shawshank Redempt...| 4.424188001918387|\r|Band of Brothers ...| 4.399898373983739|\r|Black Mirror: Whi...| 4.350558659217877|\r| Cosmos| 4.343949044585988|\r|The Godfather Tri...| 4.339667458432304|\r|Godfather, The (1...| 4.332892749244713|\r|Usual Suspects, T...| 4.291958829205532|\r| Black Mirror| 4.263888888888889|\r|Godfather: Part I...|4.2630353697749195|\r|Last Year's Snow ...| 4.261904761904762|\r|Schindler's List ...| 4.257501817775044|\r|Seven Samurai (Sh...|4.2541157909178215|\r|Over the Garden W...| 4.244031830238727|\r|Sherlock - A Stud...| 4.23943661971831|\r| 12 Angry Men (1957)| 4.237075455914338|\r|Blue Planet II (2...| 4.236389684813753|\r| Rear Window (1954)| 4.230798598634567|\r| Fight Club (1999)| 4.230663235786717|\r+--------------------+------------------+\ronly showing top 20 rows\r## 总结\r上面显示了通过 Apache Spark/PySpark, MinIO来分析MovieLens数据集，得益于Docker, Jupyter Docker Stacks等基础工具，从构建环境，到使用Jupyter笔记本、Python、Spark和PySpark开始学习和执行数据分析相当的容易，并且还可以在堆栈中添加额外的容器，如MySQL、MongoDB、RabbitMQ、Apache Kafka和Apache Cassandra。构建一个更为完备的分析平台。\n","wordCount":"1358","inLanguage":"en","datePublished":"2021-10-29T00:00:00Z","dateModified":"2022-07-25T00:00:00Z","author":{"@type":"Person","name":"TechNotes"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://technotes.guru/posts/2021/%E4%BD%BF%E7%94%A8-apache-spark-pyspark-minio-%E5%88%86%E6%9E%90-movielens-%E6%95%B0%E6%8D%AE%E9%9B%86/"},"publisher":{"@type":"Organization","name":"TechNotes","logo":{"@type":"ImageObject","url":"https://technotes.guru/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><noscript><style type=text/css>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:#1d1e20;--entry:#2e2e33;--primary:rgba(255, 255, 255, 0.84);--secondary:rgba(255, 255, 255, 0.56);--tertiary:rgba(255, 255, 255, 0.16);--content:rgba(255, 255, 255, 0.74);--hljs-bg:#2e2e33;--code-bg:#37383e;--border:#333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><header class=header><nav class=nav><div class=logo><a href=https://technotes.guru/ accesskey=h title="TechNotes (Alt + H)">TechNotes</a>
-<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://technotes.guru/categories/ title=categories><span>categories</span></a></li><li><a href=https://technotes.guru/tags/ title=tags><span>tags</span></a></li><li><a href=https://technotes.guru/about/ title=about><span>about</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://technotes.guru/>Home</a>&nbsp;»&nbsp;<a href=https://technotes.guru/posts/>Posts</a></div><h1 class=post-title>使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集</h1><div class=post-meta>2021-10-10&nbsp;·&nbsp;7 min&nbsp;·&nbsp;TechNotes</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><div class=details>Table of Contents</div></summary><div class=inner></div></details></div><div class=post-content><p>使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集
-## MinIO
-MinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。
+<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集 | TechNotes</title><meta name=keywords content="publish,大数据,Spark,PySpark"><meta name=description content="使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集
+MinIO MinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。
 MinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。
 MinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。
-## Apache Spark / PySpark
-Apache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。
+Apache Spark / PySpark Apache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。
 Apache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。
-<img loading=lazy src=https://ae05.alicdn.com/kf/Hbd09a67a761b449fa201263911aec493y.png alt=PySpark-1024x164.png>
-## Jupyter Notebook
-Jupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。
-## MovieLens 数据集
-GroupLens Research从MovieLens网站 (
+Jupyter Notebook Jupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。
+MovieLens 数据集 GroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。
+数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip 下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。
+准备环境 这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理
+version: '3.7'# Settings and configurations that are common for all containersx-minio-common: &minio-commonimage: minio/miniocommand: server --console-address &#34;:9001&#34; http://minio{1."><meta name=author content="TechNotes"><link rel=canonical href=https://technotes.guru/posts/2021/%E4%BD%BF%E7%94%A8-apache-spark-pyspark-minio-%E5%88%86%E6%9E%90-movielens-%E6%95%B0%E6%8D%AE%E9%9B%86/><meta name=google-site-verification content="G-V4HC5K9V2M"><meta name=yandex-verification content="XYZabc"><meta name=msvalidate.01 content="XYZabc"><link crossorigin=anonymous href=/assets/css/stylesheet.min.030f3f25d9f3449b524f810ddd2c31b9d4718215f17a58bacbd906ecaf639910.css integrity="sha256-Aw8/JdnzRJtST4EN3SwxudRxghXxeli6y9kG7K9jmRA=" rel="preload stylesheet" as=style><script defer crossorigin=anonymous src=/assets/js/highlight.min.e85ad0406048e8176e1c7661b25d5c69297ddfe41dc4124cf75ecb99a4f7b3d1.js integrity="sha256-6FrQQGBI6BduHHZhsl1caSl93+QdxBJM917LmaT3s9E=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=16x16 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=icon type=image/png sizes=32x32 href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=apple-touch-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><link rel=mask-icon href=https://technotes.guru/%3Clink%20/%20abs%20url%3E><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><meta name=generator content="Hugo 0.101.0"><script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(e,t,n,s,o,i,a){e.GoogleAnalyticsObject=o,e[o]=e[o]||function(){(e[o].q=e[o].q||[]).push(arguments)},e[o].l=1*new Date,i=t.createElement(n),a=t.getElementsByTagName(n)[0],i.async=1,i.src=s,a.parentNode.insertBefore(i,a)}(window,document,"script","https://www.google-analytics.com/analytics.js","ga"),ga("create","UA-123-45","auto"),ga("send","pageview"))</script><meta property="og:title" content="使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集"><meta property="og:description" content="使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集
+MinIO MinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。
+MinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。
+MinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。
+Apache Spark / PySpark Apache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。
+Apache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。
+Jupyter Notebook Jupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。
+MovieLens 数据集 GroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。
+数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip 下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。
+准备环境 这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理
+version: '3.7'# Settings and configurations that are common for all containersx-minio-common: &minio-commonimage: minio/miniocommand: server --console-address &#34;:9001&#34; http://minio{1."><meta property="og:type" content="article"><meta property="og:url" content="https://technotes.guru/posts/2021/%E4%BD%BF%E7%94%A8-apache-spark-pyspark-minio-%E5%88%86%E6%9E%90-movielens-%E6%95%B0%E6%8D%AE%E9%9B%86/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-10-29T00:00:00+00:00"><meta property="article:modified_time" content="2022-07-25T00:00:00+00:00"><meta property="og:site_name" content="TechNotes"><meta name=twitter:card content="summary"><meta name=twitter:title content="使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集"><meta name=twitter:description content="使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集
+MinIO MinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。
+MinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。
+MinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。
+Apache Spark / PySpark Apache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。
+Apache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。
+Jupyter Notebook Jupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。
+MovieLens 数据集 GroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。
+数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip 下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。
+准备环境 这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理
+version: '3.7'# Settings and configurations that are common for all containersx-minio-common: &minio-commonimage: minio/miniocommand: server --console-address &#34;:9001&#34; http://minio{1."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://technotes.guru/posts/"},{"@type":"ListItem","position":2,"name":"使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集","item":"https://technotes.guru/posts/2021/%E4%BD%BF%E7%94%A8-apache-spark-pyspark-minio-%E5%88%86%E6%9E%90-movielens-%E6%95%B0%E6%8D%AE%E9%9B%86/"}]}</script><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集","name":"使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集","description":"使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集\nMinIO MinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。\nMinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。\nMinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。\nApache Spark / PySpark Apache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。\nApache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。\nJupyter Notebook Jupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。\nMovieLens 数据集 GroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。\n数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip 下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。\n准备环境 这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理\nversion: \u0026#39;3.7\u0026#39;\r# Settings and configurations that are common for all containers\rx-minio-common: \u0026amp;minio-common\rimage: minio/minio\rcommand: server --console-address \u0026#34;:9001\u0026#34; http://minio{1.","keywords":["publish","大数据","Spark","PySpark"],"articleBody":"使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集\nMinIO MinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。\nMinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。\nMinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。\nApache Spark / PySpark Apache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。\nApache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。\nJupyter Notebook Jupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。\nMovieLens 数据集 GroupLens Research从MovieLens网站 ( https://movielens.org ) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。\n数据集下载地址： http://files.grouplens.org/datasets/movielens/ml-latest.zip 下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。\n准备环境 这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理\nversion: '3.7'\r# Settings and configurations that are common for all containers\rx-minio-common: \u0026minio-common\rimage: minio/minio\rcommand: server --console-address \":9001\" http://minio{1...4}/data{1...2}\rexpose:\r- \"9000\"\r- \"9001\"\renvironment:\rMINIO_ROOT_USER: minio\rMINIO_ROOT_PASSWORD: minio123\rhealthcheck:\rtest: [\"CMD\", \"curl\", \"-f\", \"http://localhost:9000/minio/health/live\"]\rinterval: 30s\rtimeout: 20s\rretries: 3\r# starts 4 docker containers running minio server instances.\r# using nginx reverse proxy, load balancing, you can access\r# it through port 9000.\rservices:\rminio1:\r\u003c\u003c: *minio-common\rhostname: minio1\rvolumes:\r- ./minio/data/data1-1:/data1\r- ./minio/data/data1-2:/data2\rminio2:\r\u003c\u003c: *minio-common\rhostname: minio2\rvolumes:\r- ./minio/data/data2-1:/data1\r- ./minio/data/data2-2:/data2\rminio3:\r\u003c\u003c: *minio-common\rhostname: minio3\rvolumes:\r- ./minio/data/data3-1:/data1\r- ./minio/data/data3-2:/data2\rminio4:\r\u003c\u003c: *minio-common\rhostname: minio4\rvolumes:\r- ./minio/data/data4-1:/data1\r- ./minio/data/data4-2:/data2\rnginx:\rimage: nginx:1.19.2-alpine\rhostname: nginx\rvolumes:\r- ./nginx.conf:/etc/nginx/nginx.conf:ro\rports:\r- \"9000:9000\"\r- \"9001:9001\"\rdepends_on:\r- minio1\r- minio2\r- minio3\r- minio4\r# jupyter/all-spark-notebook\rnotebook:\rcontainer_name: jupyter_notebook\rimage: jupyter/all-spark-notebook\rports:\r- 8888:8888\r- 4040:4040\renvironment:\r- PYSPARK_SUBMIT_ARGS=--packages com.amazonaws:aws-java-sdk:1.12.95,org.apache.hadoop:hadoop-client:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.95,org.apache.hadoop:hadoop-aws:3.3.1 pyspark-shell\rvolumes:\r- ./work:/home/jovyan/work\r# Databases\rpgdb:\rcontainer_name: pg_container\rimage: postgres\rrestart: always\renvironment:\rPOSTGRES_USER: admin\rPOSTGRES_PASSWORD: admin\rPOSTGRES_DB: test_db\rports:\r- \"5432:5432\"\rpgadmin:\rcontainer_name: pgadmin4_container\rimage: dpage/pgadmin4:6.1\rrestart: always\renvironment:\rPGADMIN_DEFAULT_EMAIL: admin@admin.com\rPGADMIN_DEFAULT_PASSWORD: admin\rports:\r- \"5050:80\" nginx.conf配置文件:\nuser nginx;\rworker_processes auto;\rerror_log /var/log/nginx/error.log warn;\rpid /var/run/nginx.pid;\revents {\rworker_connections 4096;\r}\rhttp {\rinclude /etc/nginx/mime.types;\rdefault_type application/octet-stream;\rlog_format main '$remote_addr - $remote_user [$time_local] \"$request\" '\r'$status $body_bytes_sent \"$http_referer\" '\r'\"$http_user_agent\" \"$http_x_forwarded_for\"';\raccess_log /var/log/nginx/access.log main;\rsendfile on;\rkeepalive_timeout 65;\r# include /etc/nginx/conf.d/*.conf;\rupstream minio {\rserver minio1:9000;\rserver minio2:9000;\rserver minio3:9000;\rserver minio4:9000;\r}\rupstream console {\rip_hash;\rserver minio1:9001;\rserver minio2:9001;\rserver minio3:9001;\rserver minio4:9001;\r}\rserver {\rlisten 9000;\rlisten [::]:9000;\rserver_name localhost;\r# To allow special characters in headers\rignore_invalid_headers off;\r# Allow any size file to be uploaded.\r# Set to a value such as 1000m; to restrict file size to a specific value\rclient_max_body_size 0;\r# To disable buffering\rproxy_buffering off;\rlocation / {\rproxy_set_header Host $http_host;\rproxy_set_header X-Real-IP $remote_addr;\rproxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\rproxy_set_header X-Forwarded-Proto $scheme;\rproxy_connect_timeout 300;\r# Default is HTTP/1, keepalive is only enabled in HTTP/1.1\rproxy_http_version 1.1;\rproxy_set_header Connection \"\";\rchunked_transfer_encoding off;\rproxy_pass http://minio;\r}\r}\rserver {\rlisten 9001;\rlisten [::]:9001;\rserver_name localhost;\r# To allow special characters in headers\rignore_invalid_headers off;\r# Allow any size file to be uploaded.\r# Set to a value such as 1000m; to restrict file size to a specific value\rclient_max_body_size 0;\r# To disable buffering\rproxy_buffering off;\rlocation / {\rproxy_set_header Host $http_host;\rproxy_set_header X-Real-IP $remote_addr;\rproxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\rproxy_set_header X-Forwarded-Proto $scheme;\rproxy_set_header X-NginX-Proxy true;\r# This is necessary to pass the correct IP to be hashed\rreal_ip_header X-Real-IP;\rproxy_connect_timeout 300;\r# To support websocket\rproxy_http_version 1.1;\rproxy_set_header Upgrade $http_upgrade;\rproxy_set_header Connection \"upgrade\";\rchunked_transfer_encoding off;\rproxy_pass http://console;\r}\r}\r} 然后通过docker compose up -d启动集群. 在这个 docker compose 文件中同时化部署了PostgreSQL数据库以及PostgreSQL Admin 管理UI。\nMinIO GUI 通过上面的 docker compose 命令启动了启动了4个实例的MinIO集群，并通过Nginx进行反向代理, 可以通过 http://localhost:9000 来访问 MinIO 的控制台。\nJupyter Notebook 通过 http://localhost:8888 访问 Jupyter Notebook。 由于访问Nupyter Dashboard首先需要一个token，这里首先需要从 docker logs 中获取该 token\ndocker logs $(docker ps | grep jupyter_notebook | awk '{print $NF}') 从 log 中可以看到 ?token=93bc05d6549e689c3409a0ac60b58883c13236aa94245306 的内容，就可以使用这个 token 来登录了:\nPostgreSQL Admin 通过 http://localhost:5050 来访问 PostgreSQL admin dashboard, 通过 “Add New Server” 将 PostgreSQL 添加进来，然后就可以通过 PostgreSQL Admin 来管理数据库了。 导入测试数据集 下载上面的电影评分数据集，并在 MinIO 中创建 bucket1 Bucket，并将解压后的 csv 文件上传到该 bucket 中。 总共数据大小在1GB左右。\n创建 Jupyter Notebook 直接通过JupyterLab创建Notebook, 然后直接在notebook中直接编写python代码来调用Spark进行数据的分析操作。 比如这里调用 Spark 来计算从1加到100的值： 在 docker compose的 yaml 配置中， notebook 通过 environment 属性配置了 PYSPARK_SUBMIT_ARGS 参数，初次运行 Spark 的时候，会检查并下载指定的 packages。 这里主要使用了AWS的 JAVA SDK，通过Amazon S3 API 同 MinIO 进行通信。\n1 2 environment: - PYSPARK_SUBMIT_ARGS=--packages com.amazonaws:aws-java-sdk:1.12.95,org.apache.hadoop:hadoop-client:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.95,org.apache.hadoop:hadoop-aws:3.3.1 pyspark-shell 相应的Spark的Job可以通过 http://localhost:4040 页面查看: 分析 MovieLens 数据集 下面就通过Spark来分析MovidLens的数据集。\n主要是从MinIO读取数据集中的CSV文件，注册成为table，通过SQL查询出top 100的电影，然后将分析结果保存到MinIO以及PostgreSQL数据库。\n初始化 SparkSession 在读取CSV文件之前，首先需要创建 SparkSession 的实例 spark，由于Spark主要是内存计算，这里通过spark.driver.memory配置参数配置两个内存，否则运行过程中会产生OOM的问题。\nfrom pyspark.sql import SparkSession\rspark = SparkSession.builder.config(\"spark.driver.memory\", \"5g\").getOrCreate() 配置S3/MinIO连接信息 1 2 3 4 5 6 7 8 9 10 11 12 spark.sparkContext._jsc\\ .hadoopConfiguration().set(\"fs.s3a.access.key\", \"minio\") spark.sparkContext._jsc\\ .hadoopConfiguration().set(\"fs.s3a.secret.key\", \"minio123\") spark.sparkContext._jsc\\ .hadoopConfiguration().set(\"fs.s3a.endpoint\", \"http://192.168.0.9:9000\") spark.sparkContext._jsc\\ .hadoopConfiguration().set(\"spark.hadoop.fs.s3a.impl\", \"org.apache.hadoop.fs.s3a.S3AFileSystem\") spark.sparkContext._jsc\\ .hadoopConfiguration().set(\"spark.hadoop.fs.s3a.path.style.access\", \"true\") spark.sparkContext._jsc\\ .hadoopConfiguration().set(\"fs.s3a.multipart.size\", \"104857600\") 读取 MinIO CSV 文件 1 2 3 4 5 6 ratings = spark.read\\ .option(\"header\", \"true\")\\ .option(\"inferSchema\", \"true\")\\ .csv(\"s3a://bucket1/ratings.csv\") ratings.createOrReplaceTempView(\"ratings\") ratings.show() CSV中的内容则以表格的形式显示如下：\n+------+-------+------+----------+\r|userId|movieId|rating| timestamp|\r+------+-------+------+----------+\r| 1| 307| 3.5|1256677221|\r| 1| 481| 3.5|1256677456|\r| 1| 1091| 1.5|1256677471|\r| 1| 1257| 4.5|1256677460|\r| 1| 1449| 4.5|1256677264|\r| 1| 1590| 2.5|1256677236|\r| 1| 1591| 1.5|1256677475|\r| 1| 2134| 4.5|1256677464|\r| 1| 2478| 4.0|1256677239|\r| 1| 2840| 3.0|1256677500|\r| 1| 2986| 2.5|1256677496|\r| 1| 3020| 4.0|1256677260|\r| 1| 3424| 4.5|1256677444|\r| 1| 3698| 3.5|1256677243|\r| 1| 3826| 2.0|1256677210|\r| 1| 3893| 3.5|1256677486|\r| 2| 170| 3.5|1192913581|\r| 2| 849| 3.5|1192913537|\r| 2| 1186| 3.5|1192913611|\r| 2| 1235| 3.0|1192913585|\r+------+-------+------+----------+\ronly showing top 20 rows 再次读取moviesCSV\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 movies = spark.read\\ .option(\"header\", \"true\")\\ .option(\"inferSchema\", \"true\")\\ .csv(\"s3a://bucket1/movies.csv\") movies.registerTempTable(\"movies\") movies.show() +-------+--------------------+--------------------+ |movieId| title| genres| +-------+--------------------+--------------------+ | 1| Toy Story (1995)|Adventure|Animati...| | 2| Jumanji (1995)|Adventure|Childre...| | 3|Grumpier Old Men ...| Comedy|Romance| | 4|Waiting to Exhale...|Comedy|Drama|Romance| | 5|Father of the Bri...| Comedy| | 6| Heat (1995)|Action|Crime|Thri...| | 7| Sabrina (1995)| Comedy|Romance| | 8| Tom and Huck (1995)| Adventure|Children| | 9| Sudden Death (1995)| Action| | 10| GoldenEye (1995)|Action|Adventure|...| | 11|American Presiden...|Comedy|Drama|Romance| | 12|Dracula: Dead and...| Comedy|Horror| | 13| Balto (1995)|Adventure|Animati...| | 14| Nixon (1995)| Drama| | 15|Cutthroat Island ...|Action|Adventure|...| | 16| Casino (1995)| Crime|Drama| | 17|Sense and Sensibi...| Drama|Romance| | 18| Four Rooms (1995)| Comedy| | 19|Ace Ventura: When...| Comedy| | 20| Money Train (1995)|Action|Comedy|Cri...| +-------+--------------------+--------------------+ only showing top 20 rows 计算 top 100 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 top_100_movies = spark.sql(\"\"\" SELECT title, AVG(rating) as avg_rating FROM movies m LEFT JOIN ratings r ON m.movieId = r.movieID GROUP BY title HAVING COUNT(*) \u003e 100 ORDER BY avg_rating DESC LIMIT 100 \"\"\") top_100_movies.show() # Spark Processing +--------------------+------------------+ | title| avg_rating| +--------------------+------------------+ |Planet Earth II (...|4.4865181711606095| | Planet Earth (2006)| 4.458092485549133| |Shawshank Redempt...| 4.424188001918387| |Band of Brothers ...| 4.399898373983739| |Black Mirror: Whi...| 4.350558659217877| | Cosmos| 4.343949044585988| |The Godfather Tri...| 4.339667458432304| |Godfather, The (1...| 4.332892749244713| |Usual Suspects, T...| 4.291958829205532| | Black Mirror| 4.263888888888889| |Godfather: Part I...|4.2630353697749195| |Last Year's Snow ...| 4.261904761904762| |Schindler's List ...| 4.257501817775044| |Seven Samurai (Sh...|4.2541157909178215| |Over the Garden W...| 4.244031830238727| |Sherlock - A Stud...| 4.23943661971831| | 12 Angry Men (1957)| 4.237075455914338| |Blue Planet II (2...| 4.236389684813753| | Rear Window (1954)| 4.230798598634567| | Fight Club (1999)| 4.230663235786717| +--------------------+------------------+ only showing top 20 rows 保存 top 100 到 MinIO 1 top_100_movies.write.parquet(\"s3a://bucket1/results/top_100_movies\") 当运行结束后，可以通过MinIO控制台查看，对应的top 100的数据，已经保存到了MinIO中了。\n从MinIO读取Parquet 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 spark.read.parquet(\"s3a://bucket1/results/top_100_movies\").show() +--------------------+------------------+ | title| avg_rating| +--------------------+------------------+ |Planet Earth II (...|4.4865181711606095| | Planet Earth (2006)| 4.458092485549133| |Shawshank Redempt...| 4.424188001918387| |Band of Brothers ...| 4.399898373983739| |Black Mirror: Whi...| 4.350558659217877| | Cosmos| 4.343949044585988| |The Godfather Tri...| 4.339667458432304| |Godfather, The (1...| 4.332892749244713| |Usual Suspects, T...| 4.291958829205532| | Black Mirror| 4.263888888888889| |Godfather: Part I...|4.2630353697749195| |Last Year's Snow ...| 4.261904761904762| |Schindler's List ...| 4.257501817775044| |Seven Samurai (Sh...|4.2541157909178215| |Over the Garden W...| 4.244031830238727| |Sherlock - A Stud...| 4.23943661971831| | 12 Angry Men (1957)| 4.237075455914338| |Blue Planet II (2...| 4.236389684813753| | Rear Window (1954)| 4.230798598634567| | Fight Club (1999)| 4.230663235786717| +--------------------+------------------+ only showing top 20 rows 保存数据到PostgreSQL数据库 上面将分析的数据保存到了MinIO文件系统，下面则将 top 100 的电影数据保存到 PostgreSQL 数据库。\n安装pipy包 为了访问PostgreSQL数据库，首先需要安装相应的psycopg2-binary和sqlalchemypython包。\n1 pip install -i https://pypi.doubanio.com/simple/ --trusted-host pypi.doubanio.com psycopg2-binary sqlalchemy 保存到数据库 1 2 3 4 5 6 7 8 9 10 import psycopg2 import pandas as pd from sqlalchemy import create_engine top_100_df = top_100_movies.toPandas() # Create SQLAlchemy engine engine = create_engine(\"postgresql+psycopg2://root:root@192.168.0.9:5432/test_db?client_encoding=utf8\") # Save result to the database via engine top_100_df.to_sql('test_table', engine, index=False, if_exists='replace') 执行完成之后，就可以在PGAdmin中查看结果了。\n读取PostgreSQL数据 上面是保存到数据库，同样的也可以读取数据库中的表数据，然后加载到Spark中进行分析\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 import psycopg2 import pandas as pd from pyspark.sql import SparkSession from sqlalchemy import create_engine engine = create_engine(\"postgresql+psycopg2://admin:admin@192.168.0.9:5432/test_db?client_encoding=utf8\") pdf = pd.read_sql('select * from test_table', engine) # Convert Pandas dataframe to spark DataFrame df = spark.createDataFrame(pdf) print(df.schema) df.show() StructType(List(StructField(title,StringType,true),StructField(avg_rating,DoubleType,true))) +--------------------+------------------+ | title| avg_rating| +--------------------+------------------+ |Planet Earth II (...|4.4865181711606095| | Planet Earth (2006)| 4.458092485549133| |Shawshank Redempt...| 4.424188001918387| |Band of Brothers ...| 4.399898373983739| |Black Mirror: Whi...| 4.350558659217877| | Cosmos| 4.343949044585988| |The Godfather Tri...| 4.339667458432304| |Godfather, The (1...| 4.332892749244713| |Usual Suspects, T...| 4.291958829205532| | Black Mirror| 4.263888888888889| |Godfather: Part I...|4.2630353697749195| |Last Year's Snow ...| 4.261904761904762| |Schindler's List ...| 4.257501817775044| |Seven Samurai (Sh...|4.2541157909178215| |Over the Garden W...| 4.244031830238727| |Sherlock - A Stud...| 4.23943661971831| | 12 Angry Men (1957)| 4.237075455914338| |Blue Planet II (2...| 4.236389684813753| | Rear Window (1954)| 4.230798598634567| | Fight Club (1999)| 4.230663235786717| +--------------------+------------------+ only showing top 20 rows 总结 上面显示了通过 Apache Spark/PySpark, MinIO来分析MovieLens数据集，得益于Docker, Jupyter Docker Stacks等基础工具，从构建环境，到使用Jupyter笔记本、Python、Spark和PySpark开始学习和执行数据分析相当的容易，并且还可以在堆栈中添加额外的容器，如MySQL、MongoDB、RabbitMQ、Apache Kafka和Apache Cassandra。构建一个更为完备的分析平台。\n","wordCount":"1493","inLanguage":"en","datePublished":"2021-10-29T00:00:00Z","dateModified":"2022-07-25T00:00:00Z","author":{"@type":"Person","name":"TechNotes"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://technotes.guru/posts/2021/%E4%BD%BF%E7%94%A8-apache-spark-pyspark-minio-%E5%88%86%E6%9E%90-movielens-%E6%95%B0%E6%8D%AE%E9%9B%86/"},"publisher":{"@type":"Organization","name":"TechNotes","logo":{"@type":"ImageObject","url":"https://technotes.guru/%3Clink%20/%20abs%20url%3E"}}}</script></head><body id=top><script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add("dark"):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove("dark"):window.matchMedia("(prefers-color-scheme: dark)").matches&&document.body.classList.add("dark")</script><noscript><style type=text/css>#theme-toggle,.top-link{display:none}</style><style>@media(prefers-color-scheme:dark){:root{--theme:#1d1e20;--entry:#2e2e33;--primary:rgba(255, 255, 255, 0.84);--secondary:rgba(255, 255, 255, 0.56);--tertiary:rgba(255, 255, 255, 0.16);--content:rgba(255, 255, 255, 0.74);--hljs-bg:#2e2e33;--code-bg:#37383e;--border:#333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style></noscript><header class=header><nav class=nav><div class=logo><a href=https://technotes.guru/ accesskey=h title="TechNotes (Alt + H)">TechNotes</a>
+<span class=logo-switches><button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></button></span></div><ul id=menu><li><a href=https://technotes.guru/categories/ title=categories><span>categories</span></a></li><li><a href=https://technotes.guru/tags/ title=tags><span>tags</span></a></li><li><a href=https://technotes.guru/about/ title=about><span>about</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><div class=breadcrumbs><a href=https://technotes.guru/>Home</a>&nbsp;»&nbsp;<a href=https://technotes.guru/posts/>Posts</a></div><h1 class=post-title>使用 Apache Spark, PySpark MinIO 分析 MovieLens 数据集</h1><div class=post-meta>2021-10-10&nbsp;·&nbsp;8 min&nbsp;·&nbsp;TechNotes</div></header><div class=toc><details open><summary accesskey=c title="(Alt + C)"><div class=details>Table of Contents</div></summary><div class=inner><ul><li><a href=#minio aria-label=MinIO>MinIO</a></li><li><a href=#apache-spark--pyspark aria-label="Apache Spark / PySpark">Apache Spark / PySpark</a></li><li><a href=#jupyter-notebook aria-label="Jupyter Notebook">Jupyter Notebook</a></li><li><a href=#movielens-%e6%95%b0%e6%8d%ae%e9%9b%86 aria-label="MovieLens 数据集">MovieLens 数据集</a></li><li><a href=#%e5%87%86%e5%a4%87%e7%8e%af%e5%a2%83 aria-label=准备环境>准备环境</a><ul><li><a href=#minio-gui aria-label="MinIO GUI">MinIO GUI</a></li><li><a href=#jupyter-notebook-1 aria-label="Jupyter Notebook">Jupyter Notebook</a></li><li><a href=#postgresql-admin aria-label="PostgreSQL Admin">PostgreSQL Admin</a></li></ul></li><li><a href=#%e5%af%bc%e5%85%a5%e6%b5%8b%e8%af%95%e6%95%b0%e6%8d%ae%e9%9b%86 aria-label=导入测试数据集>导入测试数据集</a></li><li><a href=#%e5%88%9b%e5%bb%ba-jupyter-notebook aria-label="创建 Jupyter Notebook">创建 Jupyter Notebook</a></li><li><a href=#%e5%88%86%e6%9e%90-movielens-%e6%95%b0%e6%8d%ae%e9%9b%86 aria-label="分析 MovieLens 数据集">分析 MovieLens 数据集</a><ul><li><a href=#%e5%88%9d%e5%a7%8b%e5%8c%96-sparksession aria-label="初始化 SparkSession">初始化 SparkSession</a></li><li><a href=#%e9%85%8d%e7%bd%aes3minio%e8%bf%9e%e6%8e%a5%e4%bf%a1%e6%81%af aria-label=配置S3/MinIO连接信息>配置S3/MinIO连接信息</a></li><li><a href=#%e8%af%bb%e5%8f%96-minio-csv-%e6%96%87%e4%bb%b6 aria-label="读取 MinIO CSV 文件">读取 MinIO CSV 文件</a></li><li><a href=#%e8%ae%a1%e7%ae%97-top-100 aria-label="计算 top 100">计算 top 100</a></li><li><a href=#%e4%bf%9d%e5%ad%98-top-100-%e5%88%b0-minio aria-label="保存 top 100 到 MinIO">保存 top 100 到 MinIO</a></li><li><a href=#%e4%bb%8eminio%e8%af%bb%e5%8f%96parquet aria-label=从MinIO读取Parquet>从MinIO读取Parquet</a></li><li><a href=#%e4%bf%9d%e5%ad%98%e6%95%b0%e6%8d%ae%e5%88%b0postgresql%e6%95%b0%e6%8d%ae%e5%ba%93 aria-label=保存数据到PostgreSQL数据库>保存数据到PostgreSQL数据库</a><ul><li><a href=#%e5%ae%89%e8%a3%85pipy%e5%8c%85 aria-label=安装pipy包>安装pipy包</a></li><li><a href=#%e4%bf%9d%e5%ad%98%e5%88%b0%e6%95%b0%e6%8d%ae%e5%ba%93 aria-label=保存到数据库>保存到数据库</a></li><li><a href=#%e8%af%bb%e5%8f%96postgresql%e6%95%b0%e6%8d%ae aria-label=读取PostgreSQL数据>读取PostgreSQL数据</a></li></ul></li></ul></li><li><a href=#%e6%80%bb%e7%bb%93 aria-label=总结>总结</a></li></ul></div></details></div><div class=post-content><p>使用 Apache Spark/PySpark MinIO 分析 MovieLens 数据集</p><h2 id=minio>MinIO<a hidden class=anchor aria-hidden=true href=#minio>#</a></h2><p>MinIO是一个用Golang开发的基于GNU Affero General Public License v3.0开源协议的高性能对象存储服务。</p><p>MinIO兼容亚马逊S3云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等。它可以部署在企业的内部环境中，为机器学习、分析和应用数据工作负载建立高性能的存储基础设施。</p><p>MinIO用作云原生应用程序的主要存储解决方案，可以与Kubernetes相结合，成为Hadoop生态系统中存储部分的一个有趣的替代品。</p><h2 id=apache-spark--pyspark>Apache Spark / PySpark<a hidden class=anchor aria-hidden=true href=#apache-spark--pyspark>#</a></h2><p>Apache Spark 是一种用于大数据工作负载的分布式开源处理系统。它使用内存中缓存和优化的查询执行方式，可针对任何规模的数据进行快速分析查询。它提供使用 Java、Scala、Python 和 R 语言的开发 API，支持跨多个工作负载重用代码—批处理、交互式查询、实时分析、机器学习和图形处理等。</p><p>Apache Spark是用Scala编程语言编写的。PySpark的发布是为了支持Apache Spark和Python的协作，它实际上是Spark的一个Python API。此外，PySpark帮助你在Apache Spark和Python编程语言中与弹性分布式数据集（RDDs）对接。这是通过利用Py4J库实现的。Py4J是一个流行的库，它集成在PySpark中，允许python动态地与JVM对象对接。</p><p><img loading=lazy src=https://ae05.alicdn.com/kf/Hbd09a67a761b449fa201263911aec493y.png alt=PySpark-1024x164.png></p><h2 id=jupyter-notebook>Jupyter Notebook<a hidden class=anchor aria-hidden=true href=#jupyter-notebook>#</a></h2><p>Jupyter Notebook是一个开源的WEB应用，允许用户创建和分享包含实时代码、方程式、可视化和叙述性文本的文档。其用途包括数据分析、统计建模、数据可视化、机器学习等等。Jupyter这个词是Julia、Python和R的松散缩写，不过现在Jupyter已经可以支持许多其他的编程语言。</p><h2 id=movielens-数据集>MovieLens 数据集<a hidden class=anchor aria-hidden=true href=#movielens-数据集>#</a></h2><p>GroupLens Research从MovieLens网站 (
 <a href=https://movielens.org target=_blank>https://movielens.org
-</a>) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。
-数据集下载地址：
-<a href=http://files.grouplens.org/datasets/movielens/ml-latest.zip target=_blank>http://files.grouplens.org/datasets/movielens/ml-latest.zip</a>
-下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。
-## 准备环境
-这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理
-<code>version: '3.7'
+</a>) 收集并提供了电影评分数据集，总共58098个电影，包含了27753444个评价和1108997个标签。</p><p>数据集下载地址：
+<a href=http://files.grouplens.org/datasets/movielens/ml-latest.zip target=_blank>http://files.grouplens.org/datasets/movielens/ml-latest.zip</a></p><p>下面就主要使用这几个技术来对数据集进行简单的分析，并最终将分析结果保存的数据库中。</p><h2 id=准备环境>准备环境<a hidden class=anchor aria-hidden=true href=#准备环境>#</a></h2><p>这里使用 docker compose 部署 4 个节点的 MinIO 集群，然后通过 Nginx 进行反向代理</p><pre tabindex=0><code>version: &#39;3.7&#39;
+
 # Settings and configurations that are common for all containers
-x-minio-common: &minio-common
-image: minio/minio
-command: server --console-address ":9001" http://minio{1...4}/data{1...2}
-expose:
-- "9000"
-- "9001"
-environment:
-MINIO_ROOT_USER: minio
-MINIO_ROOT_PASSWORD: minio123
-healthcheck:
-test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-interval: 30s
-timeout: 20s
-retries: 3
+x-minio-common: &amp;minio-common
+  image: minio/minio
+  command: server --console-address &#34;:9001&#34; http://minio{1...4}/data{1...2}
+  expose:
+    - &#34;9000&#34;
+    - &#34;9001&#34;
+  environment:
+    MINIO_ROOT_USER: minio
+    MINIO_ROOT_PASSWORD: minio123
+  healthcheck:
+    test: [&#34;CMD&#34;, &#34;curl&#34;, &#34;-f&#34;, &#34;http://localhost:9000/minio/health/live&#34;]
+    interval: 30s
+    timeout: 20s
+    retries: 3
+
 # starts 4 docker containers running minio server instances.
 # using nginx reverse proxy, load balancing, you can access
 # it through port 9000.
 services:
-minio1:
-&lt;&lt;: *minio-common
-hostname: minio1
-volumes:
-- ./minio/data/data1-1:/data1
-- ./minio/data/data1-2:/data2
-minio2:
-&lt;&lt;: *minio-common
-hostname: minio2
-volumes:
-- ./minio/data/data2-1:/data1
-- ./minio/data/data2-2:/data2
-minio3:
-&lt;&lt;: *minio-common
-hostname: minio3
-volumes:
-- ./minio/data/data3-1:/data1
-- ./minio/data/data3-2:/data2
-minio4:
-&lt;&lt;: *minio-common
-hostname: minio4
-volumes:
-- ./minio/data/data4-1:/data1
-- ./minio/data/data4-2:/data2
-nginx:
-image: nginx:1.19.2-alpine
-hostname: nginx
-volumes:
-- ./nginx.conf:/etc/nginx/nginx.conf:ro
-ports:
-- "9000:9000"
-- "9001:9001"
-depends_on:
-- minio1
-- minio2
-- minio3
-- minio4
-# jupyter/all-spark-notebook
-notebook:
-container_name: jupyter_notebook
-image: jupyter/all-spark-notebook
-ports:
-- 8888:8888
-- 4040:4040
-environment:
-- PYSPARK_SUBMIT_ARGS=--packages com.amazonaws:aws-java-sdk:1.12.95,org.apache.hadoop:hadoop-client:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.95,org.apache.hadoop:hadoop-aws:3.3.1 pyspark-shell
-volumes:
-- ./work:/home/jovyan/work
-# Databases
-pgdb:
-container_name: pg_container
-image: postgres
-restart: always
-environment:
-POSTGRES_USER: admin
-POSTGRES_PASSWORD: admin
-POSTGRES_DB: test_db
-ports:
-- "5432:5432"
-pgadmin:
-container_name: pgadmin4_container
-image: dpage/pgadmin4:6.1
-restart: always
-environment:
-PGADMIN_DEFAULT_EMAIL: admin@admin.com
-PGADMIN_DEFAULT_PASSWORD: admin
-ports:
-- "5050:80"</code>
-<code>nginx.conf</code>配置文件:
-<code>user nginx;
-worker_processes auto;
-error_log /var/log/nginx/error.log warn;
-pid /var/run/nginx.pid;
+  minio1:
+    &lt;&lt;: *minio-common
+    hostname: minio1
+    volumes:
+      - ./minio/data/data1-1:/data1
+      - ./minio/data/data1-2:/data2
+
+  minio2:
+    &lt;&lt;: *minio-common
+    hostname: minio2
+    volumes:
+      - ./minio/data/data2-1:/data1
+      - ./minio/data/data2-2:/data2
+
+  minio3:
+    &lt;&lt;: *minio-common
+    hostname: minio3
+    volumes:
+      - ./minio/data/data3-1:/data1
+      - ./minio/data/data3-2:/data2
+
+  minio4:
+    &lt;&lt;: *minio-common
+    hostname: minio4
+    volumes:
+      - ./minio/data/data4-1:/data1
+      - ./minio/data/data4-2:/data2
+
+  nginx:
+    image: nginx:1.19.2-alpine
+    hostname: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - &#34;9000:9000&#34;
+      - &#34;9001:9001&#34;
+    depends_on:
+      - minio1
+      - minio2
+      - minio3
+      - minio4
+
+  #  jupyter/all-spark-notebook
+  notebook:
+    container_name: jupyter_notebook
+    image: jupyter/all-spark-notebook
+    ports:
+      - 8888:8888
+      - 4040:4040
+    environment:
+      - PYSPARK_SUBMIT_ARGS=--packages com.amazonaws:aws-java-sdk:1.12.95,org.apache.hadoop:hadoop-client:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.95,org.apache.hadoop:hadoop-aws:3.3.1 pyspark-shell
+    volumes:
+      - ./work:/home/jovyan/work
+  # Databases
+  pgdb:
+    container_name: pg_container
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: test_db
+    ports:
+      - &#34;5432:5432&#34;
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4:6.1
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - &#34;5050:80&#34;
+</code></pre><p><code>nginx.conf</code>配置文件:</p><pre tabindex=0><code>user  nginx;
+worker_processes  auto;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
 events {
-worker_connections 4096;
+    worker_connections  4096;
 }
+
 http {
-include /etc/nginx/mime.types;
-default_type application/octet-stream;
-log_format main '$remote_addr - $remote_user [$time_local] "$request" '
-'$status $body_bytes_sent "$http_referer" '
-'"$http_user_agent" "$http_x_forwarded_for"';
-access_log /var/log/nginx/access.log main;
-sendfile on;
-keepalive_timeout 65;
-# include /etc/nginx/conf.d/*.conf;
-upstream minio {
-server minio1:9000;
-server minio2:9000;
-server minio3:9000;
-server minio4:9000;
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &#34;$request&#34; &#39;
+                      &#39;$status $body_bytes_sent &#34;$http_referer&#34; &#39;
+                      &#39;&#34;$http_user_agent&#34; &#34;$http_x_forwarded_for&#34;&#39;;
+
+    access_log  /var/log/nginx/access.log  main;
+    sendfile        on;
+    keepalive_timeout  65;
+
+    # include /etc/nginx/conf.d/*.conf;
+
+    upstream minio {
+        server minio1:9000;
+        server minio2:9000;
+        server minio3:9000;
+        server minio4:9000;
+    }
+
+    upstream console {
+        ip_hash;
+        server minio1:9001;
+        server minio2:9001;
+        server minio3:9001;
+        server minio4:9001;
+    }
+
+    server {
+        listen       9000;
+        listen  [::]:9000;
+        server_name  localhost;
+
+        # To allow special characters in headers
+        ignore_invalid_headers off;
+        # Allow any size file to be uploaded.
+        # Set to a value such as 1000m; to restrict file size to a specific value
+        client_max_body_size 0;
+        # To disable buffering
+        proxy_buffering off;
+
+        location / {
+            proxy_set_header Host $http_host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+
+            proxy_connect_timeout 300;
+            # Default is HTTP/1, keepalive is only enabled in HTTP/1.1
+            proxy_http_version 1.1;
+            proxy_set_header Connection &#34;&#34;;
+            chunked_transfer_encoding off;
+
+            proxy_pass http://minio;
+        }
+    }
+
+    server {
+        listen       9001;
+        listen  [::]:9001;
+        server_name  localhost;
+
+        # To allow special characters in headers
+        ignore_invalid_headers off;
+        # Allow any size file to be uploaded.
+        # Set to a value such as 1000m; to restrict file size to a specific value
+        client_max_body_size 0;
+        # To disable buffering
+        proxy_buffering off;
+
+        location / {
+            proxy_set_header Host $http_host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header X-NginX-Proxy true;
+
+            # This is necessary to pass the correct IP to be hashed
+            real_ip_header X-Real-IP;
+
+            proxy_connect_timeout 300;
+            
+            # To support websocket
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection &#34;upgrade&#34;;
+            
+            chunked_transfer_encoding off;
+
+            proxy_pass http://console;
+        }
+    }
 }
-upstream console {
-ip_hash;
-server minio1:9001;
-server minio2:9001;
-server minio3:9001;
-server minio4:9001;
-}
-server {
-listen 9000;
-listen [::]:9000;
-server_name localhost;
-# To allow special characters in headers
-ignore_invalid_headers off;
-# Allow any size file to be uploaded.
-# Set to a value such as 1000m; to restrict file size to a specific value
-client_max_body_size 0;
-# To disable buffering
-proxy_buffering off;
-location / {
-proxy_set_header Host $http_host;
-proxy_set_header X-Real-IP $remote_addr;
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_set_header X-Forwarded-Proto $scheme;
-proxy_connect_timeout 300;
-# Default is HTTP/1, keepalive is only enabled in HTTP/1.1
-proxy_http_version 1.1;
-proxy_set_header Connection "";
-chunked_transfer_encoding off;
-proxy_pass http://minio;
-}
-}
-server {
-listen 9001;
-listen [::]:9001;
-server_name localhost;
-# To allow special characters in headers
-ignore_invalid_headers off;
-# Allow any size file to be uploaded.
-# Set to a value such as 1000m; to restrict file size to a specific value
-client_max_body_size 0;
-# To disable buffering
-proxy_buffering off;
-location / {
-proxy_set_header Host $http_host;
-proxy_set_header X-Real-IP $remote_addr;
-proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-proxy_set_header X-Forwarded-Proto $scheme;
-proxy_set_header X-NginX-Proxy true;
-# This is necessary to pass the correct IP to be hashed
-real_ip_header X-Real-IP;
-proxy_connect_timeout 300;
-# To support websocket
-proxy_http_version 1.1;
-proxy_set_header Upgrade $http_upgrade;
-proxy_set_header Connection "upgrade";
-chunked_transfer_encoding off;
-proxy_pass http://console;
-}
-}
-}</code>
-然后通过<code>docker compose up -d</code>启动集群. 在这个 docker compose 文件中同时化部署了PostgreSQL数据库以及PostgreSQL Admin 管理UI。
-### MinIO GUI
-通过上面的 <code>docker compose</code> 命令启动了启动了4个实例的MinIO集群，并通过Nginx进行反向代理, 可以通过 http://localhost:9000 来访问 MinIO 的控制台。
-<img loading=lazy src=https://ae05.alicdn.com/kf/H369e1419546e449c8af79251e88defc5e.png alt=image.png>
-### Jupyter Notebook
-通过 http://localhost:8888 访问 Jupyter Notebook。
-由于访问Nupyter Dashboard首先需要一个token，这里首先需要从 docker logs 中获取该 token
-<code>docker logs $(docker ps | grep jupyter_notebook | awk '{print $NF}')</code>
-<img loading=lazy src=https://ae03.alicdn.com/kf/H536184483fbe48fb8f77d5d8757b2b83G.png alt=image.png>
-从 log 中可以看到 <code>?token=93bc05d6549e689c3409a0ac60b58883c13236aa94245306</code> 的内容，就可以使用这个 token 来登录了:
-<img loading=lazy src=https://ae05.alicdn.com/kf/Hcb3d4fd18c0d4d44be3e0b35b564d34fb.png alt=image.png>
-### PostgreSQL Admin
-通过 http://localhost:5050 来访问 PostgreSQL admin dashboard, 通过 &ldquo;Add New Server&rdquo; 将 PostgreSQL 添加进来，然后就可以通过 PostgreSQL Admin 来管理数据库了。
-<img loading=lazy src=https://ae04.alicdn.com/kf/H2a8168b1e50c42208cb3100cf14fca36P.png alt=image.png>
-<img loading=lazy src=https://ae04.alicdn.com/kf/Hecd346ff66d14323877385de6bb99ecbb.png alt=image.png>
-## 导入测试数据集
-下载上面的电影评分数据集，并在 MinIO 中创建 <code>bucket1</code> Bucket，并将解压后的 csv 文件上传到该 bucket 中。
+</code></pre><p>然后通过<code>docker compose up -d</code>启动集群. 在这个 docker compose 文件中同时化部署了PostgreSQL数据库以及PostgreSQL Admin 管理UI。</p><h3 id=minio-gui>MinIO GUI<a hidden class=anchor aria-hidden=true href=#minio-gui>#</a></h3><p>通过上面的 <code>docker compose</code> 命令启动了启动了4个实例的MinIO集群，并通过Nginx进行反向代理, 可以通过 http://localhost:9000 来访问 MinIO 的控制台。</p><p><img loading=lazy src=https://ae05.alicdn.com/kf/H369e1419546e449c8af79251e88defc5e.png alt=image.png></p><h3 id=jupyter-notebook-1>Jupyter Notebook<a hidden class=anchor aria-hidden=true href=#jupyter-notebook-1>#</a></h3><p>通过 http://localhost:8888 访问 Jupyter Notebook。
+由于访问Nupyter Dashboard首先需要一个token，这里首先需要从 docker logs 中获取该 token</p><pre tabindex=0><code>docker logs $(docker ps | grep jupyter_notebook | awk &#39;{print $NF}&#39;)
+</code></pre><p><img loading=lazy src=https://ae03.alicdn.com/kf/H536184483fbe48fb8f77d5d8757b2b83G.png alt=image.png></p><p>从 log 中可以看到 <code>?token=93bc05d6549e689c3409a0ac60b58883c13236aa94245306</code> 的内容，就可以使用这个 token 来登录了:</p><p><img loading=lazy src=https://ae05.alicdn.com/kf/Hcb3d4fd18c0d4d44be3e0b35b564d34fb.png alt=image.png></p><h3 id=postgresql-admin>PostgreSQL Admin<a hidden class=anchor aria-hidden=true href=#postgresql-admin>#</a></h3><p>通过 http://localhost:5050 来访问 PostgreSQL admin dashboard, 通过 &ldquo;Add New Server&rdquo; 将 PostgreSQL 添加进来，然后就可以通过 PostgreSQL Admin 来管理数据库了。
+<img loading=lazy src=https://ae04.alicdn.com/kf/H2a8168b1e50c42208cb3100cf14fca36P.png alt=image.png></p><p><img loading=lazy src=https://ae04.alicdn.com/kf/Hecd346ff66d14323877385de6bb99ecbb.png alt=image.png></p><h2 id=导入测试数据集>导入测试数据集<a hidden class=anchor aria-hidden=true href=#导入测试数据集>#</a></h2><p>下载上面的电影评分数据集，并在 MinIO 中创建 <code>bucket1</code> Bucket，并将解压后的 csv 文件上传到该 bucket 中。
 <img loading=lazy src=https://ae01.alicdn.com/kf/H1d60933a57634f1bae001fe561acbb4bn.png alt=image.png>
-总共数据大小在1GB左右。
-## 创建 Jupyter Notebook
-直接通过JupyterLab创建Notebook, 然后直接在notebook中直接编写python代码来调用Spark进行数据的分析操作。
-<img loading=lazy src=https://ae02.alicdn.com/kf/Hb2558ddfcdc54965a33a5c9dd98411cbY.png alt=image.png>
-比如这里调用 Spark 来计算从1加到100的值：
-<img loading=lazy src=https://ae03.alicdn.com/kf/H6c038af6480b4d489dace42ea753fbc87.png alt=image.png>
-在 docker compose的 <code>yaml</code> 配置中， <code>notebook</code> 通过 <code>environment</code> 属性配置了 <code>PYSPARK_SUBMIT_ARGS</code> 参数，初次运行 Spark 的时候，会检查并下载指定的 packages。
-这里主要使用了AWS的 JAVA SDK，通过Amazon S3 API 同 MinIO 进行通信。
-<code>yaml
-environment:
-- PYSPARK_SUBMIT_ARGS=--packages com.amazonaws:aws-java-sdk:1.12.95,org.apache.hadoop:hadoop-client:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.95,org.apache.hadoop:hadoop-aws:3.3.1 pyspark-shell</code>
-相应的Spark的Job可以通过 http://localhost:4040 页面查看:
-<img loading=lazy src=https://ae05.alicdn.com/kf/H5c11c45d97784f638e016c135943e1bfT.png alt=image.png>
-## 分析 MovieLens 数据集
-下面就通过Spark来分析MovidLens的数据集。
-主要是从MinIO读取数据集中的CSV文件，注册成为table，通过SQL查询出top 100的电影，然后将分析结果保存到MinIO以及PostgreSQL数据库。
-### 初始化 SparkSession
-在读取CSV文件之前，首先需要创建 <code>SparkSession</code> 的实例 <code>spark</code>，由于Spark主要是内存计算，这里通过<code>spark.driver.memory</code>配置参数配置两个内存，否则运行过程中会产生OOM的问题。
-<code>from pyspark.sql import SparkSession
-spark = SparkSession.builder.config("spark.driver.memory", "5g").getOrCreate()</code>
-### 配置S3/MinIO连接信息
-<code>python
-spark.sparkContext._jsc\
-.hadoopConfiguration().set("fs.s3a.access.key", "minio")
-spark.sparkContext._jsc\
-.hadoopConfiguration().set("fs.s3a.secret.key", "minio123")
-spark.sparkContext._jsc\
-.hadoopConfiguration().set("fs.s3a.endpoint", "http://192.168.0.9:9000")
-spark.sparkContext._jsc\
-.hadoopConfiguration().set("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
-spark.sparkContext._jsc\
-.hadoopConfiguration().set("spark.hadoop.fs.s3a.path.style.access", "true")
-spark.sparkContext._jsc\
-.hadoopConfiguration().set("fs.s3a.multipart.size", "104857600")</code>
-### 读取 MinIO CSV 文件
-<code>python
-ratings = spark.read\
-.option("header", "true")\
-.option("inferSchema", "true")\
-.csv("s3a://bucket1/ratings.csv")
-ratings.createOrReplaceTempView("ratings")
-ratings.show()</code>
-CSV中的内容则以表格的形式显示如下：
-<code>+------+-------+------+----------+
+总共数据大小在1GB左右。</p><h2 id=创建-jupyter-notebook>创建 Jupyter Notebook<a hidden class=anchor aria-hidden=true href=#创建-jupyter-notebook>#</a></h2><p>直接通过JupyterLab创建Notebook, 然后直接在notebook中直接编写python代码来调用Spark进行数据的分析操作。
+<img loading=lazy src=https://ae02.alicdn.com/kf/Hb2558ddfcdc54965a33a5c9dd98411cbY.png alt=image.png></p><p>比如这里调用 Spark 来计算从1加到100的值：
+<img loading=lazy src=https://ae03.alicdn.com/kf/H6c038af6480b4d489dace42ea753fbc87.png alt=image.png></p><p>在 docker compose的 <code>yaml</code> 配置中， <code>notebook</code> 通过 <code>environment</code> 属性配置了 <code>PYSPARK_SUBMIT_ARGS</code> 参数，初次运行 Spark 的时候，会检查并下载指定的 packages。
+这里主要使用了AWS的 JAVA SDK，通过Amazon S3 API 同 MinIO 进行通信。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>environment</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span>- <span class=l>PYSPARK_SUBMIT_ARGS=--packages com.amazonaws:aws-java-sdk:1.12.95,org.apache.hadoop:hadoop-client:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.95,org.apache.hadoop:hadoop-aws:3.3.1 pyspark-shell</span><span class=w>
+</span></span></span></code></pre></td></tr></table></div></div><p>相应的Spark的Job可以通过 http://localhost:4040 页面查看:
+<img loading=lazy src=https://ae05.alicdn.com/kf/H5c11c45d97784f638e016c135943e1bfT.png alt=image.png></p><h2 id=分析-movielens-数据集>分析 MovieLens 数据集<a hidden class=anchor aria-hidden=true href=#分析-movielens-数据集>#</a></h2><p>下面就通过Spark来分析MovidLens的数据集。</p><p>主要是从MinIO读取数据集中的CSV文件，注册成为table，通过SQL查询出top 100的电影，然后将分析结果保存到MinIO以及PostgreSQL数据库。</p><h3 id=初始化-sparksession>初始化 SparkSession<a hidden class=anchor aria-hidden=true href=#初始化-sparksession>#</a></h3><p>在读取CSV文件之前，首先需要创建 <code>SparkSession</code> 的实例 <code>spark</code>，由于Spark主要是内存计算，这里通过<code>spark.driver.memory</code>配置参数配置两个内存，否则运行过程中会产生OOM的问题。</p><pre tabindex=0><code>from pyspark.sql import SparkSession
+spark = SparkSession.builder.config(&#34;spark.driver.memory&#34;, &#34;5g&#34;).getOrCreate()
+</code></pre><h3 id=配置s3minio连接信息>配置S3/MinIO连接信息<a hidden class=anchor aria-hidden=true href=#配置s3minio连接信息>#</a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>spark</span><span class=o>.</span><span class=n>sparkContext</span><span class=o>.</span><span class=n>_jsc</span>\
+</span></span><span class=line><span class=cl><span class=o>.</span><span class=n>hadoopConfiguration</span><span class=p>()</span><span class=o>.</span><span class=n>set</span><span class=p>(</span><span class=s2>&#34;fs.s3a.access.key&#34;</span><span class=p>,</span> <span class=s2>&#34;minio&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>spark</span><span class=o>.</span><span class=n>sparkContext</span><span class=o>.</span><span class=n>_jsc</span>\
+</span></span><span class=line><span class=cl><span class=o>.</span><span class=n>hadoopConfiguration</span><span class=p>()</span><span class=o>.</span><span class=n>set</span><span class=p>(</span><span class=s2>&#34;fs.s3a.secret.key&#34;</span><span class=p>,</span> <span class=s2>&#34;minio123&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>spark</span><span class=o>.</span><span class=n>sparkContext</span><span class=o>.</span><span class=n>_jsc</span>\
+</span></span><span class=line><span class=cl><span class=o>.</span><span class=n>hadoopConfiguration</span><span class=p>()</span><span class=o>.</span><span class=n>set</span><span class=p>(</span><span class=s2>&#34;fs.s3a.endpoint&#34;</span><span class=p>,</span> <span class=s2>&#34;http://192.168.0.9:9000&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>spark</span><span class=o>.</span><span class=n>sparkContext</span><span class=o>.</span><span class=n>_jsc</span>\
+</span></span><span class=line><span class=cl><span class=o>.</span><span class=n>hadoopConfiguration</span><span class=p>()</span><span class=o>.</span><span class=n>set</span><span class=p>(</span><span class=s2>&#34;spark.hadoop.fs.s3a.impl&#34;</span><span class=p>,</span> <span class=s2>&#34;org.apache.hadoop.fs.s3a.S3AFileSystem&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>spark</span><span class=o>.</span><span class=n>sparkContext</span><span class=o>.</span><span class=n>_jsc</span>\
+</span></span><span class=line><span class=cl><span class=o>.</span><span class=n>hadoopConfiguration</span><span class=p>()</span><span class=o>.</span><span class=n>set</span><span class=p>(</span><span class=s2>&#34;spark.hadoop.fs.s3a.path.style.access&#34;</span><span class=p>,</span> <span class=s2>&#34;true&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>spark</span><span class=o>.</span><span class=n>sparkContext</span><span class=o>.</span><span class=n>_jsc</span>\
+</span></span><span class=line><span class=cl><span class=o>.</span><span class=n>hadoopConfiguration</span><span class=p>()</span><span class=o>.</span><span class=n>set</span><span class=p>(</span><span class=s2>&#34;fs.s3a.multipart.size&#34;</span><span class=p>,</span> <span class=s2>&#34;104857600&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=读取-minio-csv-文件>读取 MinIO CSV 文件<a hidden class=anchor aria-hidden=true href=#读取-minio-csv-文件>#</a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>ratings</span> <span class=o>=</span> <span class=n>spark</span><span class=o>.</span><span class=n>read</span>\
+</span></span><span class=line><span class=cl><span class=o>.</span><span class=n>option</span><span class=p>(</span><span class=s2>&#34;header&#34;</span><span class=p>,</span> <span class=s2>&#34;true&#34;</span><span class=p>)</span>\
+</span></span><span class=line><span class=cl><span class=o>.</span><span class=n>option</span><span class=p>(</span><span class=s2>&#34;inferSchema&#34;</span><span class=p>,</span> <span class=s2>&#34;true&#34;</span><span class=p>)</span>\
+</span></span><span class=line><span class=cl><span class=o>.</span><span class=n>csv</span><span class=p>(</span><span class=s2>&#34;s3a://bucket1/ratings.csv&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>ratings</span><span class=o>.</span><span class=n>createOrReplaceTempView</span><span class=p>(</span><span class=s2>&#34;ratings&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>ratings</span><span class=o>.</span><span class=n>show</span><span class=p>()</span>
+</span></span></code></pre></td></tr></table></div></div><p>CSV中的内容则以表格的形式显示如下：</p><pre tabindex=0><code>+------+-------+------+----------+
 |userId|movieId|rating| timestamp|
 +------+-------+------+----------+
 | 1| 307| 3.5|1256677221|
@@ -277,171 +307,302 @@ CSV中的内容则以表格的形式显示如下：
 | 2| 1186| 3.5|1192913611|
 | 2| 1235| 3.0|1192913585|
 +------+-------+------+----------+
-only showing top 20 rows</code>
-再次读取<code>movies</code>CSV
-<code>python
-movies = spark.read\
-.option("header", "true")\
-.option("inferSchema", "true")\
-.csv("s3a://bucket1/movies.csv")
-movies.registerTempTable("movies")
-movies.show()
-+-------+--------------------+--------------------+
-|movieId| title| genres|
-+-------+--------------------+--------------------+
-| 1| Toy Story (1995)|Adventure|Animati...|
-| 2| Jumanji (1995)|Adventure|Childre...|
-| 3|Grumpier Old Men ...| Comedy|Romance|
-| 4|Waiting to Exhale...|Comedy|Drama|Romance|
-| 5|Father of the Bri...| Comedy|
-| 6| Heat (1995)|Action|Crime|Thri...|
-| 7| Sabrina (1995)| Comedy|Romance|
-| 8| Tom and Huck (1995)| Adventure|Children|
-| 9| Sudden Death (1995)| Action|
-| 10| GoldenEye (1995)|Action|Adventure|...|
-| 11|American Presiden...|Comedy|Drama|Romance|
-| 12|Dracula: Dead and...| Comedy|Horror|
-| 13| Balto (1995)|Adventure|Animati...|
-| 14| Nixon (1995)| Drama|
-| 15|Cutthroat Island ...|Action|Adventure|...|
-| 16| Casino (1995)| Crime|Drama|
-| 17|Sense and Sensibi...| Drama|Romance|
-| 18| Four Rooms (1995)| Comedy|
-| 19|Ace Ventura: When...| Comedy|
-| 20| Money Train (1995)|Action|Comedy|Cri...|
-+-------+--------------------+--------------------+
-only showing top 20 rows</code>
-### 计算 top 100
-<code>python
-top_100_movies = spark.sql("""
-SELECT title, AVG(rating) as avg_rating
-FROM movies m
-LEFT JOIN ratings r ON m.movieId = r.movieID
-GROUP BY title
-HAVING COUNT(*) > 100
-ORDER BY avg_rating DESC
-LIMIT 100
-""")
-top_100_movies.show()
-# Spark Processing
-+--------------------+------------------+
-| title| avg_rating|
-+--------------------+------------------+
-|Planet Earth II (...|4.4865181711606095|
-| Planet Earth (2006)| 4.458092485549133|
-|Shawshank Redempt...| 4.424188001918387|
-|Band of Brothers ...| 4.399898373983739|
-|Black Mirror: Whi...| 4.350558659217877|
-| Cosmos| 4.343949044585988|
-|The Godfather Tri...| 4.339667458432304|
-|Godfather, The (1...| 4.332892749244713|
-|Usual Suspects, T...| 4.291958829205532|
-| Black Mirror| 4.263888888888889|
-|Godfather: Part I...|4.2630353697749195|
-|Last Year's Snow ...| 4.261904761904762|
-|Schindler's List ...| 4.257501817775044|
-|Seven Samurai (Sh...|4.2541157909178215|
-|Over the Garden W...| 4.244031830238727|
-|Sherlock - A Stud...| 4.23943661971831|
-| 12 Angry Men (1957)| 4.237075455914338|
-|Blue Planet II (2...| 4.236389684813753|
-| Rear Window (1954)| 4.230798598634567|
-| Fight Club (1999)| 4.230663235786717|
-+--------------------+------------------+
-only showing top 20 rows</code>
-### 保存 top 100 到 MinIO
-<code>python
-top_100_movies.write.parquet("s3a://bucket1/results/top_100_movies")</code>
-<img loading=lazy src=https://ae02.alicdn.com/kf/H37b38c345b8e4eaea4059fcef2b38b860.png alt=image.png>
-当运行结束后，可以通过MinIO控制台查看，对应的top 100的数据，已经保存到了MinIO中了。
-<img loading=lazy src=https://ae02.alicdn.com/kf/H5de33ed814854ae5a7e942e6307f4d28r.png alt=image-20211029152355877.png>
-### 从MinIO读取Parquet
-<code>python
-spark.read.parquet("s3a://bucket1/results/top_100_movies").show()
-+--------------------+------------------+
-| title| avg_rating|
-+--------------------+------------------+
-|Planet Earth II (...|4.4865181711606095|
-| Planet Earth (2006)| 4.458092485549133|
-|Shawshank Redempt...| 4.424188001918387|
-|Band of Brothers ...| 4.399898373983739|
-|Black Mirror: Whi...| 4.350558659217877|
-| Cosmos| 4.343949044585988|
-|The Godfather Tri...| 4.339667458432304|
-|Godfather, The (1...| 4.332892749244713|
-|Usual Suspects, T...| 4.291958829205532|
-| Black Mirror| 4.263888888888889|
-|Godfather: Part I...|4.2630353697749195|
-|Last Year's Snow ...| 4.261904761904762|
-|Schindler's List ...| 4.257501817775044|
-|Seven Samurai (Sh...|4.2541157909178215|
-|Over the Garden W...| 4.244031830238727|
-|Sherlock - A Stud...| 4.23943661971831|
-| 12 Angry Men (1957)| 4.237075455914338|
-|Blue Planet II (2...| 4.236389684813753|
-| Rear Window (1954)| 4.230798598634567|
-| Fight Club (1999)| 4.230663235786717|
-+--------------------+------------------+
-only showing top 20 rows</code>
-### 保存数据到PostgreSQL数据库
-上面将分析的数据保存到了MinIO文件系统，下面则将 top 100 的电影数据保存到 PostgreSQL 数据库。
-#### 安装pipy包
-为了访问PostgreSQL数据库，首先需要安装相应的<code>psycopg2-binary</code>和<code>sqlalchemy</code>python包。
-<code>python
-pip install -i https://pypi.doubanio.com/simple/ --trusted-host pypi.doubanio.com psycopg2-binary sqlalchemy</code>
-#### 保存到数据库
-<code>python
-import psycopg2
-import pandas as pd
-from sqlalchemy import create_engine
-top_100_df = top_100_movies.toPandas()
-# Create SQLAlchemy engine
-engine = create_engine("postgresql+psycopg2://root:root@192.168.0.9:5432/test_db?client_encoding=utf8")
-# Save result to the database via engine
-top_100_df.to_sql('test_table', engine, index=False, if_exists='replace')</code>
-执行完成之后，就可以在PGAdmin中查看结果了。
-<img loading=lazy src=https://ae04.alicdn.com/kf/H72781a0906b349eea27a31001a9a16b3A.png alt=image.png>
-#### 读取PostgreSQL数据
-上面是保存到数据库，同样的也可以读取数据库中的表数据，然后加载到Spark中进行分析
-<code>python
-import psycopg2
-import pandas as pd
-from pyspark.sql import SparkSession
-from sqlalchemy import create_engine
-engine = create_engine("postgresql+psycopg2://admin:admin@192.168.0.9:5432/test_db?client_encoding=utf8")
-pdf = pd.read_sql('select index.md from test_table', engine)
-# Convert Pandas dataframe to spark DataFrame
-df = spark.createDataFrame(pdf)
-print(df.schema)
-df.show()
-StructType(List(StructField(title,StringType,true),StructField(avg_rating,DoubleType,true)))
-+--------------------+------------------+
-| title| avg_rating|
-+--------------------+------------------+
-|Planet Earth II (...|4.4865181711606095|
-| Planet Earth (2006)| 4.458092485549133|
-|Shawshank Redempt...| 4.424188001918387|
-|Band of Brothers ...| 4.399898373983739|
-|Black Mirror: Whi...| 4.350558659217877|
-| Cosmos| 4.343949044585988|
-|The Godfather Tri...| 4.339667458432304|
-|Godfather, The (1...| 4.332892749244713|
-|Usual Suspects, T...| 4.291958829205532|
-| Black Mirror| 4.263888888888889|
-|Godfather: Part I...|4.2630353697749195|
-|Last Year's Snow ...| 4.261904761904762|
-|Schindler's List ...| 4.257501817775044|
-|Seven Samurai (Sh...|4.2541157909178215|
-|Over the Garden W...| 4.244031830238727|
-|Sherlock - A Stud...| 4.23943661971831|
-| 12 Angry Men (1957)| 4.237075455914338|
-|Blue Planet II (2...| 4.236389684813753|
-| Rear Window (1954)| 4.230798598634567|
-| Fight Club (1999)| 4.230663235786717|
-+--------------------+------------------+
-only showing top 20 rows</code>
-## 总结
-上面显示了通过 Apache Spark/PySpark, MinIO来分析MovieLens数据集，得益于Docker, Jupyter Docker Stacks等基础工具，从构建环境，到使用Jupyter笔记本、Python、Spark和PySpark开始学习和执行数据分析相当的容易，并且还可以在堆栈中添加额外的容器，如MySQL、MongoDB、RabbitMQ、Apache Kafka和Apache Cassandra。构建一个更为完备的分析平台。</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://technotes.guru/tags/publish/>publish</a></li><li><a href=https://technotes.guru/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/>大数据</a></li><li><a href=https://technotes.guru/tags/spark/>Spark</a></li><li><a href=https://technotes.guru/tags/pyspark/>PySpark</a></li></ul><nav class=paginav><a class=prev href=https://technotes.guru/posts/2022/%E4%BD%BF%E7%94%A8kind%E5%88%9B%E5%BB%BA%E6%9C%AC%E5%9C%B0kubernetes%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83/><span class=title>« Prev Page</span><br><span>使用Kind创建本地Kubernetes集群环境</span></a>
+only showing top 20 rows
+</code></pre><p>再次读取<code>movies</code>CSV</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>movies</span> <span class=o>=</span> <span class=n>spark</span><span class=o>.</span><span class=n>read</span>\
+</span></span><span class=line><span class=cl><span class=o>.</span><span class=n>option</span><span class=p>(</span><span class=s2>&#34;header&#34;</span><span class=p>,</span> <span class=s2>&#34;true&#34;</span><span class=p>)</span>\
+</span></span><span class=line><span class=cl><span class=o>.</span><span class=n>option</span><span class=p>(</span><span class=s2>&#34;inferSchema&#34;</span><span class=p>,</span> <span class=s2>&#34;true&#34;</span><span class=p>)</span>\
+</span></span><span class=line><span class=cl><span class=o>.</span><span class=n>csv</span><span class=p>(</span><span class=s2>&#34;s3a://bucket1/movies.csv&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>movies</span><span class=o>.</span><span class=n>registerTempTable</span><span class=p>(</span><span class=s2>&#34;movies&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>movies</span><span class=o>.</span><span class=n>show</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>+-------+--------------------+--------------------+</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>movieId</span><span class=o>|</span> <span class=n>title</span><span class=o>|</span> <span class=n>genres</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>+-------+--------------------+--------------------+</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>1</span><span class=o>|</span> <span class=n>Toy</span> <span class=n>Story</span> <span class=p>(</span><span class=mi>1995</span><span class=p>)</span><span class=o>|</span><span class=n>Adventure</span><span class=o>|</span><span class=n>Animati</span><span class=o>...|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>2</span><span class=o>|</span> <span class=n>Jumanji</span> <span class=p>(</span><span class=mi>1995</span><span class=p>)</span><span class=o>|</span><span class=n>Adventure</span><span class=o>|</span><span class=n>Childre</span><span class=o>...|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>3</span><span class=o>|</span><span class=n>Grumpier</span> <span class=n>Old</span> <span class=n>Men</span> <span class=o>...|</span> <span class=n>Comedy</span><span class=o>|</span><span class=n>Romance</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>4</span><span class=o>|</span><span class=n>Waiting</span> <span class=n>to</span> <span class=n>Exhale</span><span class=o>...|</span><span class=n>Comedy</span><span class=o>|</span><span class=n>Drama</span><span class=o>|</span><span class=n>Romance</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>5</span><span class=o>|</span><span class=n>Father</span> <span class=n>of</span> <span class=n>the</span> <span class=n>Bri</span><span class=o>...|</span> <span class=n>Comedy</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>6</span><span class=o>|</span> <span class=n>Heat</span> <span class=p>(</span><span class=mi>1995</span><span class=p>)</span><span class=o>|</span><span class=n>Action</span><span class=o>|</span><span class=n>Crime</span><span class=o>|</span><span class=n>Thri</span><span class=o>...|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>7</span><span class=o>|</span> <span class=n>Sabrina</span> <span class=p>(</span><span class=mi>1995</span><span class=p>)</span><span class=o>|</span> <span class=n>Comedy</span><span class=o>|</span><span class=n>Romance</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>8</span><span class=o>|</span> <span class=n>Tom</span> <span class=ow>and</span> <span class=n>Huck</span> <span class=p>(</span><span class=mi>1995</span><span class=p>)</span><span class=o>|</span> <span class=n>Adventure</span><span class=o>|</span><span class=n>Children</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>9</span><span class=o>|</span> <span class=n>Sudden</span> <span class=n>Death</span> <span class=p>(</span><span class=mi>1995</span><span class=p>)</span><span class=o>|</span> <span class=n>Action</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>10</span><span class=o>|</span> <span class=n>GoldenEye</span> <span class=p>(</span><span class=mi>1995</span><span class=p>)</span><span class=o>|</span><span class=n>Action</span><span class=o>|</span><span class=n>Adventure</span><span class=o>|...|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>11</span><span class=o>|</span><span class=n>American</span> <span class=n>Presiden</span><span class=o>...|</span><span class=n>Comedy</span><span class=o>|</span><span class=n>Drama</span><span class=o>|</span><span class=n>Romance</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>12</span><span class=o>|</span><span class=n>Dracula</span><span class=p>:</span> <span class=n>Dead</span> <span class=ow>and</span><span class=o>...|</span> <span class=n>Comedy</span><span class=o>|</span><span class=n>Horror</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>13</span><span class=o>|</span> <span class=n>Balto</span> <span class=p>(</span><span class=mi>1995</span><span class=p>)</span><span class=o>|</span><span class=n>Adventure</span><span class=o>|</span><span class=n>Animati</span><span class=o>...|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>14</span><span class=o>|</span> <span class=n>Nixon</span> <span class=p>(</span><span class=mi>1995</span><span class=p>)</span><span class=o>|</span> <span class=n>Drama</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>15</span><span class=o>|</span><span class=n>Cutthroat</span> <span class=n>Island</span> <span class=o>...|</span><span class=n>Action</span><span class=o>|</span><span class=n>Adventure</span><span class=o>|...|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>16</span><span class=o>|</span> <span class=n>Casino</span> <span class=p>(</span><span class=mi>1995</span><span class=p>)</span><span class=o>|</span> <span class=n>Crime</span><span class=o>|</span><span class=n>Drama</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>17</span><span class=o>|</span><span class=n>Sense</span> <span class=ow>and</span> <span class=n>Sensibi</span><span class=o>...|</span> <span class=n>Drama</span><span class=o>|</span><span class=n>Romance</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>18</span><span class=o>|</span> <span class=n>Four</span> <span class=n>Rooms</span> <span class=p>(</span><span class=mi>1995</span><span class=p>)</span><span class=o>|</span> <span class=n>Comedy</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>19</span><span class=o>|</span><span class=n>Ace</span> <span class=n>Ventura</span><span class=p>:</span> <span class=n>When</span><span class=o>...|</span> <span class=n>Comedy</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>20</span><span class=o>|</span> <span class=n>Money</span> <span class=n>Train</span> <span class=p>(</span><span class=mi>1995</span><span class=p>)</span><span class=o>|</span><span class=n>Action</span><span class=o>|</span><span class=n>Comedy</span><span class=o>|</span><span class=n>Cri</span><span class=o>...|</span>
+</span></span><span class=line><span class=cl><span class=o>+-------+--------------------+--------------------+</span>
+</span></span><span class=line><span class=cl><span class=n>only</span> <span class=n>showing</span> <span class=n>top</span> <span class=mi>20</span> <span class=n>rows</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=计算-top-100>计算 top 100<a hidden class=anchor aria-hidden=true href=#计算-top-100>#</a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>top_100_movies</span> <span class=o>=</span> <span class=n>spark</span><span class=o>.</span><span class=n>sql</span><span class=p>(</span><span class=s2>&#34;&#34;&#34;
+</span></span></span><span class=line><span class=cl><span class=s2>SELECT title, AVG(rating) as avg_rating
+</span></span></span><span class=line><span class=cl><span class=s2>FROM movies m
+</span></span></span><span class=line><span class=cl><span class=s2>LEFT JOIN ratings r ON m.movieId = r.movieID
+</span></span></span><span class=line><span class=cl><span class=s2>GROUP BY title
+</span></span></span><span class=line><span class=cl><span class=s2>HAVING COUNT(*) &gt; 100
+</span></span></span><span class=line><span class=cl><span class=s2>ORDER BY avg_rating DESC
+</span></span></span><span class=line><span class=cl><span class=s2>LIMIT 100
+</span></span></span><span class=line><span class=cl><span class=s2>&#34;&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>top_100_movies</span><span class=o>.</span><span class=n>show</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=c1># Spark Processing</span>
+</span></span><span class=line><span class=cl><span class=o>+--------------------+------------------+</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>title</span><span class=o>|</span> <span class=n>avg_rating</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>+--------------------+------------------+</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Planet</span> <span class=n>Earth</span> <span class=n>II</span> <span class=p>(</span><span class=o>...|</span><span class=mf>4.4865181711606095</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Planet</span> <span class=n>Earth</span> <span class=p>(</span><span class=mi>2006</span><span class=p>)</span><span class=o>|</span> <span class=mf>4.458092485549133</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Shawshank</span> <span class=n>Redempt</span><span class=o>...|</span> <span class=mf>4.424188001918387</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Band</span> <span class=n>of</span> <span class=n>Brothers</span> <span class=o>...|</span> <span class=mf>4.399898373983739</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Black</span> <span class=n>Mirror</span><span class=p>:</span> <span class=n>Whi</span><span class=o>...|</span> <span class=mf>4.350558659217877</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Cosmos</span><span class=o>|</span> <span class=mf>4.343949044585988</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>The</span> <span class=n>Godfather</span> <span class=n>Tri</span><span class=o>...|</span> <span class=mf>4.339667458432304</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Godfather</span><span class=p>,</span> <span class=n>The</span> <span class=p>(</span><span class=mf>1.</span><span class=o>..|</span> <span class=mf>4.332892749244713</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Usual</span> <span class=n>Suspects</span><span class=p>,</span> <span class=n>T</span><span class=o>...|</span> <span class=mf>4.291958829205532</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Black</span> <span class=n>Mirror</span><span class=o>|</span> <span class=mf>4.263888888888889</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Godfather</span><span class=p>:</span> <span class=n>Part</span> <span class=n>I</span><span class=o>...|</span><span class=mf>4.2630353697749195</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Last</span> <span class=n>Year</span><span class=s1>&#39;s Snow ...| 4.261904761904762|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Schindler</span><span class=s1>&#39;s List ...| 4.257501817775044|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Seven</span> <span class=n>Samurai</span> <span class=p>(</span><span class=n>Sh</span><span class=o>...|</span><span class=mf>4.2541157909178215</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Over</span> <span class=n>the</span> <span class=n>Garden</span> <span class=n>W</span><span class=o>...|</span> <span class=mf>4.244031830238727</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Sherlock</span> <span class=o>-</span> <span class=n>A</span> <span class=n>Stud</span><span class=o>...|</span> <span class=mf>4.23943661971831</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>12</span> <span class=n>Angry</span> <span class=n>Men</span> <span class=p>(</span><span class=mi>1957</span><span class=p>)</span><span class=o>|</span> <span class=mf>4.237075455914338</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Blue</span> <span class=n>Planet</span> <span class=n>II</span> <span class=p>(</span><span class=mf>2.</span><span class=o>..|</span> <span class=mf>4.236389684813753</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Rear</span> <span class=n>Window</span> <span class=p>(</span><span class=mi>1954</span><span class=p>)</span><span class=o>|</span> <span class=mf>4.230798598634567</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Fight</span> <span class=n>Club</span> <span class=p>(</span><span class=mi>1999</span><span class=p>)</span><span class=o>|</span> <span class=mf>4.230663235786717</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>+--------------------+------------------+</span>
+</span></span><span class=line><span class=cl><span class=n>only</span> <span class=n>showing</span> <span class=n>top</span> <span class=mi>20</span> <span class=n>rows</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=保存-top-100-到-minio>保存 top 100 到 MinIO<a hidden class=anchor aria-hidden=true href=#保存-top-100-到-minio>#</a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>top_100_movies</span><span class=o>.</span><span class=n>write</span><span class=o>.</span><span class=n>parquet</span><span class=p>(</span><span class=s2>&#34;s3a://bucket1/results/top_100_movies&#34;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p><img loading=lazy src=https://ae02.alicdn.com/kf/H37b38c345b8e4eaea4059fcef2b38b860.png alt=image.png></p><p>当运行结束后，可以通过MinIO控制台查看，对应的top 100的数据，已经保存到了MinIO中了。</p><p><img loading=lazy src=https://ae02.alicdn.com/kf/H5de33ed814854ae5a7e942e6307f4d28r.png alt=image-20211029152355877.png></p><h3 id=从minio读取parquet>从MinIO读取Parquet<a hidden class=anchor aria-hidden=true href=#从minio读取parquet>#</a></h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>spark</span><span class=o>.</span><span class=n>read</span><span class=o>.</span><span class=n>parquet</span><span class=p>(</span><span class=s2>&#34;s3a://bucket1/results/top_100_movies&#34;</span><span class=p>)</span><span class=o>.</span><span class=n>show</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>+--------------------+------------------+</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>title</span><span class=o>|</span> <span class=n>avg_rating</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>+--------------------+------------------+</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Planet</span> <span class=n>Earth</span> <span class=n>II</span> <span class=p>(</span><span class=o>...|</span><span class=mf>4.4865181711606095</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Planet</span> <span class=n>Earth</span> <span class=p>(</span><span class=mi>2006</span><span class=p>)</span><span class=o>|</span> <span class=mf>4.458092485549133</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Shawshank</span> <span class=n>Redempt</span><span class=o>...|</span> <span class=mf>4.424188001918387</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Band</span> <span class=n>of</span> <span class=n>Brothers</span> <span class=o>...|</span> <span class=mf>4.399898373983739</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Black</span> <span class=n>Mirror</span><span class=p>:</span> <span class=n>Whi</span><span class=o>...|</span> <span class=mf>4.350558659217877</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Cosmos</span><span class=o>|</span> <span class=mf>4.343949044585988</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>The</span> <span class=n>Godfather</span> <span class=n>Tri</span><span class=o>...|</span> <span class=mf>4.339667458432304</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Godfather</span><span class=p>,</span> <span class=n>The</span> <span class=p>(</span><span class=mf>1.</span><span class=o>..|</span> <span class=mf>4.332892749244713</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Usual</span> <span class=n>Suspects</span><span class=p>,</span> <span class=n>T</span><span class=o>...|</span> <span class=mf>4.291958829205532</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Black</span> <span class=n>Mirror</span><span class=o>|</span> <span class=mf>4.263888888888889</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Godfather</span><span class=p>:</span> <span class=n>Part</span> <span class=n>I</span><span class=o>...|</span><span class=mf>4.2630353697749195</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Last</span> <span class=n>Year</span><span class=s1>&#39;s Snow ...| 4.261904761904762|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Schindler</span><span class=s1>&#39;s List ...| 4.257501817775044|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Seven</span> <span class=n>Samurai</span> <span class=p>(</span><span class=n>Sh</span><span class=o>...|</span><span class=mf>4.2541157909178215</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Over</span> <span class=n>the</span> <span class=n>Garden</span> <span class=n>W</span><span class=o>...|</span> <span class=mf>4.244031830238727</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Sherlock</span> <span class=o>-</span> <span class=n>A</span> <span class=n>Stud</span><span class=o>...|</span> <span class=mf>4.23943661971831</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>12</span> <span class=n>Angry</span> <span class=n>Men</span> <span class=p>(</span><span class=mi>1957</span><span class=p>)</span><span class=o>|</span> <span class=mf>4.237075455914338</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Blue</span> <span class=n>Planet</span> <span class=n>II</span> <span class=p>(</span><span class=mf>2.</span><span class=o>..|</span> <span class=mf>4.236389684813753</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Rear</span> <span class=n>Window</span> <span class=p>(</span><span class=mi>1954</span><span class=p>)</span><span class=o>|</span> <span class=mf>4.230798598634567</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Fight</span> <span class=n>Club</span> <span class=p>(</span><span class=mi>1999</span><span class=p>)</span><span class=o>|</span> <span class=mf>4.230663235786717</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>+--------------------+------------------+</span>
+</span></span><span class=line><span class=cl><span class=n>only</span> <span class=n>showing</span> <span class=n>top</span> <span class=mi>20</span> <span class=n>rows</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=保存数据到postgresql数据库>保存数据到PostgreSQL数据库<a hidden class=anchor aria-hidden=true href=#保存数据到postgresql数据库>#</a></h3><p>上面将分析的数据保存到了MinIO文件系统，下面则将 top 100 的电影数据保存到 PostgreSQL 数据库。</p><h4 id=安装pipy包>安装pipy包<a hidden class=anchor aria-hidden=true href=#安装pipy包>#</a></h4><p>为了访问PostgreSQL数据库，首先需要安装相应的<code>psycopg2-binary</code>和<code>sqlalchemy</code>python包。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=n>pip</span> <span class=n>install</span> <span class=o>-</span><span class=n>i</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>pypi</span><span class=o>.</span><span class=n>doubanio</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>simple</span><span class=o>/</span> <span class=o>--</span><span class=n>trusted</span><span class=o>-</span><span class=n>host</span> <span class=n>pypi</span><span class=o>.</span><span class=n>doubanio</span><span class=o>.</span><span class=n>com</span> <span class=n>psycopg2</span><span class=o>-</span><span class=n>binary</span> <span class=n>sqlalchemy</span>
+</span></span></code></pre></td></tr></table></div></div><h4 id=保存到数据库>保存到数据库<a hidden class=anchor aria-hidden=true href=#保存到数据库>#</a></h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>psycopg2</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>pandas</span> <span class=k>as</span> <span class=nn>pd</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sqlalchemy</span> <span class=kn>import</span> <span class=n>create_engine</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>top_100_df</span> <span class=o>=</span> <span class=n>top_100_movies</span><span class=o>.</span><span class=n>toPandas</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Create SQLAlchemy engine</span>
+</span></span><span class=line><span class=cl><span class=n>engine</span> <span class=o>=</span> <span class=n>create_engine</span><span class=p>(</span><span class=s2>&#34;postgresql+psycopg2://root:root@192.168.0.9:5432/test_db?client_encoding=utf8&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=c1># Save result to the database via engine</span>
+</span></span><span class=line><span class=cl><span class=n>top_100_df</span><span class=o>.</span><span class=n>to_sql</span><span class=p>(</span><span class=s1>&#39;test_table&#39;</span><span class=p>,</span> <span class=n>engine</span><span class=p>,</span> <span class=n>index</span><span class=o>=</span><span class=kc>False</span><span class=p>,</span> <span class=n>if_exists</span><span class=o>=</span><span class=s1>&#39;replace&#39;</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>执行完成之后，就可以在PGAdmin中查看结果了。</p><p><img loading=lazy src=https://ae04.alicdn.com/kf/H72781a0906b349eea27a31001a9a16b3A.png alt=image.png></p><h4 id=读取postgresql数据>读取PostgreSQL数据<a hidden class=anchor aria-hidden=true href=#读取postgresql数据>#</a></h4><p>上面是保存到数据库，同样的也可以读取数据库中的表数据，然后加载到Spark中进行分析</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-python data-lang=python><span class=line><span class=cl><span class=kn>import</span> <span class=nn>psycopg2</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nn>pandas</span> <span class=k>as</span> <span class=nn>pd</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>pyspark.sql</span> <span class=kn>import</span> <span class=n>SparkSession</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>sqlalchemy</span> <span class=kn>import</span> <span class=n>create_engine</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>engine</span> <span class=o>=</span> <span class=n>create_engine</span><span class=p>(</span><span class=s2>&#34;postgresql+psycopg2://admin:admin@192.168.0.9:5432/test_db?client_encoding=utf8&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>pdf</span> <span class=o>=</span> <span class=n>pd</span><span class=o>.</span><span class=n>read_sql</span><span class=p>(</span><span class=s1>&#39;select * from test_table&#39;</span><span class=p>,</span> <span class=n>engine</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># Convert Pandas dataframe to spark DataFrame</span>
+</span></span><span class=line><span class=cl><span class=n>df</span> <span class=o>=</span> <span class=n>spark</span><span class=o>.</span><span class=n>createDataFrame</span><span class=p>(</span><span class=n>pdf</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>df</span><span class=o>.</span><span class=n>schema</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>df</span><span class=o>.</span><span class=n>show</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>StructType</span><span class=p>(</span><span class=n>List</span><span class=p>(</span><span class=n>StructField</span><span class=p>(</span><span class=n>title</span><span class=p>,</span><span class=n>StringType</span><span class=p>,</span><span class=n>true</span><span class=p>),</span><span class=n>StructField</span><span class=p>(</span><span class=n>avg_rating</span><span class=p>,</span><span class=n>DoubleType</span><span class=p>,</span><span class=n>true</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl><span class=o>+--------------------+------------------+</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>title</span><span class=o>|</span> <span class=n>avg_rating</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>+--------------------+------------------+</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Planet</span> <span class=n>Earth</span> <span class=n>II</span> <span class=p>(</span><span class=o>...|</span><span class=mf>4.4865181711606095</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Planet</span> <span class=n>Earth</span> <span class=p>(</span><span class=mi>2006</span><span class=p>)</span><span class=o>|</span> <span class=mf>4.458092485549133</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Shawshank</span> <span class=n>Redempt</span><span class=o>...|</span> <span class=mf>4.424188001918387</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Band</span> <span class=n>of</span> <span class=n>Brothers</span> <span class=o>...|</span> <span class=mf>4.399898373983739</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Black</span> <span class=n>Mirror</span><span class=p>:</span> <span class=n>Whi</span><span class=o>...|</span> <span class=mf>4.350558659217877</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Cosmos</span><span class=o>|</span> <span class=mf>4.343949044585988</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>The</span> <span class=n>Godfather</span> <span class=n>Tri</span><span class=o>...|</span> <span class=mf>4.339667458432304</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Godfather</span><span class=p>,</span> <span class=n>The</span> <span class=p>(</span><span class=mf>1.</span><span class=o>..|</span> <span class=mf>4.332892749244713</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Usual</span> <span class=n>Suspects</span><span class=p>,</span> <span class=n>T</span><span class=o>...|</span> <span class=mf>4.291958829205532</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Black</span> <span class=n>Mirror</span><span class=o>|</span> <span class=mf>4.263888888888889</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Godfather</span><span class=p>:</span> <span class=n>Part</span> <span class=n>I</span><span class=o>...|</span><span class=mf>4.2630353697749195</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Last</span> <span class=n>Year</span><span class=s1>&#39;s Snow ...| 4.261904761904762|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Schindler</span><span class=s1>&#39;s List ...| 4.257501817775044|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Seven</span> <span class=n>Samurai</span> <span class=p>(</span><span class=n>Sh</span><span class=o>...|</span><span class=mf>4.2541157909178215</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Over</span> <span class=n>the</span> <span class=n>Garden</span> <span class=n>W</span><span class=o>...|</span> <span class=mf>4.244031830238727</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Sherlock</span> <span class=o>-</span> <span class=n>A</span> <span class=n>Stud</span><span class=o>...|</span> <span class=mf>4.23943661971831</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=mi>12</span> <span class=n>Angry</span> <span class=n>Men</span> <span class=p>(</span><span class=mi>1957</span><span class=p>)</span><span class=o>|</span> <span class=mf>4.237075455914338</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span><span class=n>Blue</span> <span class=n>Planet</span> <span class=n>II</span> <span class=p>(</span><span class=mf>2.</span><span class=o>..|</span> <span class=mf>4.236389684813753</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Rear</span> <span class=n>Window</span> <span class=p>(</span><span class=mi>1954</span><span class=p>)</span><span class=o>|</span> <span class=mf>4.230798598634567</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>|</span> <span class=n>Fight</span> <span class=n>Club</span> <span class=p>(</span><span class=mi>1999</span><span class=p>)</span><span class=o>|</span> <span class=mf>4.230663235786717</span><span class=o>|</span>
+</span></span><span class=line><span class=cl><span class=o>+--------------------+------------------+</span>
+</span></span><span class=line><span class=cl><span class=n>only</span> <span class=n>showing</span> <span class=n>top</span> <span class=mi>20</span> <span class=n>rows</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=总结>总结<a hidden class=anchor aria-hidden=true href=#总结>#</a></h2><p>上面显示了通过 Apache Spark/PySpark, MinIO来分析MovieLens数据集，得益于Docker, Jupyter Docker Stacks等基础工具，从构建环境，到使用Jupyter笔记本、Python、Spark和PySpark开始学习和执行数据分析相当的容易，并且还可以在堆栈中添加额外的容器，如MySQL、MongoDB、RabbitMQ、Apache Kafka和Apache Cassandra。构建一个更为完备的分析平台。</p></div><footer class=post-footer><ul class=post-tags><li><a href=https://technotes.guru/tags/publish/>publish</a></li><li><a href=https://technotes.guru/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/>大数据</a></li><li><a href=https://technotes.guru/tags/spark/>Spark</a></li><li><a href=https://technotes.guru/tags/pyspark/>PySpark</a></li></ul><nav class=paginav><a class=prev href=https://technotes.guru/posts/2022/%E4%BD%BF%E7%94%A8kind%E5%88%9B%E5%BB%BA%E6%9C%AC%E5%9C%B0kubernetes%E9%9B%86%E7%BE%A4%E7%8E%AF%E5%A2%83/><span class=title>« Prev Page</span><br><span>使用Kind创建本地Kubernetes集群环境</span></a>
 <a class=next href=https://technotes.guru/posts/2021/%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%8F%B0%E7%AC%94%E8%AE%B0/><span class=title>Next Page »</span><br><span>数据中台笔记</span></a></nav></footer></article></main><footer class=footer><span>&copy; 2022 <a href=https://technotes.guru/>TechNotes</a></span>
 <span>Powered by
 <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
